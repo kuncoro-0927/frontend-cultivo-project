@@ -1,15 +1,25 @@
 import CardAktivitas from "../component/card/CardAktivitas";
 import CardDaerah from "../component/card/CardDaerah";
 import CardRekomendasi from "../component/card/CardRekomendasi";
-import { daerahList } from "../data_sementara/Daerah";
+//import { daerahList } from "../data_sementara/Daerah";
 import { aktivitasList } from "../data_sementara/DataWisata";
 import { rekomendasiList } from "../data_sementara/DataWisata";
 import SwiperCardReview from "../component/SwiperCardReview";
 import { CiSearch } from "react-icons/ci";
 import { Link } from "react-router-dom";
 import { LuArrowUpRight } from "react-icons/lu";
-
+import axios from "axios";
+import { useState, useEffect } from "react";
 const Home = () => {
+  const [daerah, setDaerah] = useState([]);
+
+  useEffect(() => {
+    getDaerah();
+  }, []);
+  const getDaerah = async () => {
+    const response = await axios.get("http://localhost:5000/daerah");
+    setDaerah(response.data);
+  };
   return (
     <>
       <section
@@ -135,13 +145,12 @@ const Home = () => {
         <div className="mt-7 md:mx-0 gap-3 flex flex-wrap lg:gap-10 lg:p-1 lg:mt-16">
           {/* Kartu yang muncul secara horizontal di layar besar */}
           <div className="hidden md:hidden lg:flex lg:justify-between lg:w-full lg:gap-3">
-            {daerahList.slice(0, 4).map((daerah, index) => (
+            {daerah.slice(0, 4).map((daerahItem) => (
               <CardDaerah
-                key={index}
-                title={daerah.title}
-                description={daerah.description}
-                image={daerah.image}
-                path={daerah.path} // Pastikan untuk menambahkan properti ini
+                key={daerahItem.id}
+                title={daerahItem.name}
+                image={daerahItem.url}
+                path={daerahItem.path}
               />
             ))}
           </div>
@@ -149,13 +158,12 @@ const Home = () => {
 
         <div className="carousel carousel-center max-w-full space-x-3 px-8 py-1 lg:hidden ">
           <div className="carousel-item gap-3">
-            {daerahList.map((daerah, index) => (
+            {daerah.map((daerahItem) => (
               <CardDaerah
-                key={index}
-                title={daerah.title}
-                description={daerah.description}
-                image={daerah.image}
-                path={daerah.path} // Pastikan path ini ada
+                key={daerahItem.id}
+                title={daerahItem.name}
+                image={daerahItem.url}
+                path={daerahItem.path}
               />
             ))}
           </div>

@@ -7,6 +7,7 @@ import DaerahWisata from "./pages/DaerahWisata";
 import DaerahDetail from "./pages/DaerahDetail";
 import WisataDetail from "./pages/WisataDetail";
 import Footer from "./component/Footer";
+import AddDaerah from "./admin/daerah/addDaerah";
 import { Routes, Route } from "react-router-dom";
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route path="/daerah/:daerahName" element={<DaerahDetail />} />
         <Route path="/wisata/:wisataName" element={<WisataDetail />} />
         <Route path="/wisata/:wisataName" element={<DaerahDetail />} />
+        <Route path="/adddaerah" element={<AddDaerah />} />
       </Routes>
       <Footer />
     </>
