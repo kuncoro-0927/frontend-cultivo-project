@@ -1,0 +1,22 @@
+/* styles.css */
+
+/* Custom styles for Swiper pagination bullets */
+.swiper-pagination-bullet {
+  background-color: #2b2b2b; /* Your desired green color */
+}
+
+.swiper-pagination-bullet-active {
+  background-color: #2b2b2b; /* Lighter shade for active bullet */
+}
+
+/* Custom styles for navigation buttons */
+.swiper-button-next,
+.swiper-button-prev {
+  color: #4caf50; /* Your desired green color */
+}
+
+/* Change the hover color for navigation buttons */
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+  color: #81c784; /* Lighter shade on hover */
+}
