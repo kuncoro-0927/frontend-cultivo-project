@@ -1,7 +1,6 @@
 import CardAktivitas from "../component/card/CardAktivitas";
 import CardDaerah from "../component/card/CardDaerah";
 import CardRekomendasi from "../component/card/CardRekomendasi";
-//import { daerahList } from "../data_sementara/Daerah";
 import { aktivitasList } from "../data_sementara/DataWisata";
 import { rekomendasiList } from "../data_sementara/DataWisata";
 import SwiperCardReview from "../component/SwiperCardReview";

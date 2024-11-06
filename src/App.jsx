@@ -8,6 +8,8 @@ import DaerahDetail from "./pages/DaerahDetail";
 import WisataDetail from "./pages/WisataDetail";
 import Footer from "./component/Footer";
 import AddDaerah from "./admin/daerah/addDaerah";
+import EditDaerah from "./admin/daerah/EditDaerah";
+import DaerahList from "./admin/daerah/DaerahList";
 import { Routes, Route } from "react-router-dom";
 function App() {
   return (
@@ -23,6 +25,8 @@ function App() {
         <Route path="/wisata/:wisataName" element={<WisataDetail />} />
         <Route path="/wisata/:wisataName" element={<DaerahDetail />} />
         <Route path="/adddaerah" element={<AddDaerah />} />
+        <Route path="/daerahlist" element={<DaerahList />} />
+        <Route path="/editdaerah/:id" element={<EditDaerah />} />
       </Routes>
       <Footer />
     </>
