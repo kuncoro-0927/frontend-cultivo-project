@@ -19,10 +19,11 @@ const Home = () => {
     const response = await axios.get("http://localhost:5000/daerah");
     setDaerah(response.data);
   };
+
   return (
     <>
       <section
-        className="mx-5 px-7 lg:h-[600px] xl:h-screen h-96 bg-cover bg-center lg:mx-10 rounded-2xl md:rounded-3xl flex items-center justify-center lg:px-12 mt-[75px] sm:mt-[80px]  lg:mt-[75px]"
+        className="mx-7 px-7 lg:h-[600px] xl:h-screen h-96 bg-cover bg-center lg:mx-10 rounded-2xl md:rounded-3xl flex items-center justify-center lg:px-12 mt-[75px] sm:mt-[80px]  lg:mt-[75px]"
         style={{ backgroundImage: "url('images/header.svg')" }}
       >
         <div className="text-center max-w-5xl">
@@ -34,13 +35,13 @@ const Home = () => {
           {/* Input di bawah teks */}
           <div className="lg:mt-20 mt-7 flex justify-center">
             <div className="relative">
-              <span className="ml-2 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none">
+              <span className="ml-1 sm:ml-2 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none">
                 <CiSearch className="text-2xl font-bold" />
               </span>
               <input
                 type="text"
                 placeholder="Wisata, atraksi, atau aktivitas"
-                className="pl-14 text-xs lg:text-base px-6 py-3 md:py-3 text-hitam border border-gray-300 rounded-full w-[280px] md:w-[400px] lg:w-[500px] focus:outline-none focus:border-gray-500 "
+                className="pl-11 sm:pl-14 text-xs lg:text-base px-6 py-3 md:py-3 text-hitam border border-gray-300 rounded-full w-[250px] md:w-[400px] lg:w-[500px] focus:outline-none focus:border-gray-500 "
               />
             </div>
           </div>
@@ -145,17 +146,21 @@ const Home = () => {
           {/* Kartu yang muncul secara horizontal di layar besar */}
           <div className="hidden md:hidden lg:flex lg:justify-between lg:w-full lg:gap-3">
             {daerah.slice(0, 4).map((daerahItem) => (
-              <CardDaerah
+              <Link
                 key={daerahItem.id}
-                title={daerahItem.name}
-                image={daerahItem.url}
-                path={daerahItem.path}
-              />
+                to={`/wisata/daerah/${daerahItem.id}`} // Menambahkan path dinamis
+              >
+                <CardDaerah
+                  title={daerahItem.name}
+                  image={daerahItem.url}
+                  path={daerahItem.path} // Bisa digunakan untuk kebutuhan lain, seperti link dalam card
+                />
+              </Link>
             ))}
           </div>
         </div>
 
-        <div className="carousel carousel-center max-w-full space-x-3 px-8 py-1 lg:hidden ">
+        <div className="carousel carousel-center max-w-full space-x-3 px-8 py-3 lg:hidden ">
           <div className="carousel-item gap-3">
             {daerah.map((daerahItem) => (
               <CardDaerah
@@ -168,7 +173,7 @@ const Home = () => {
           </div>
         </div>
 
-        <div className="mt-7 lg:mt-14 transition-transform duration-200 ease-in-out transform hover:-translate-y-0.5 ">
+        <div className="mt-5 lg:mt-14 transition-transform duration-200 ease-in-out transform hover:-translate-y-0.5 ">
           <Link
             to="/seluruhwisata"
             className="text-[0.5rem] py-2 px-3 md:text-sm lg:text-sm border text-hitam border-black rounded-xl"
@@ -178,7 +183,7 @@ const Home = () => {
         </div>
       </section>
 
-      <section className="mt-5 sm:mt-14 mx-7 md:mt-10 md:mx-10 lg:mx-14 lg:mt-20 ">
+      <section className="mt-10 sm:mt-14 mx-7 md:mt-10 md:mx-10 lg:mx-14 lg:mt-20 ">
         <h1 className="text-xl sm:text-3xl font-extrabold md:text-4xl text-hitam">
           Wisata yang Kami Rekomendasikan
         </h1>

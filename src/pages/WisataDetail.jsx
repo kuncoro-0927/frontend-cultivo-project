@@ -2,12 +2,8 @@
 import { useParams } from "react-router-dom";
 import { IoClose } from "react-icons/io5";
 import { useEffect, useState } from "react";
-import {
-  aktivitasList,
-  soloList,
-  malangList,
-  yogyakartaList,
-} from "../data_sementara/DataWisata";
+
+import axios from "axios";
 import CardImg from "../component/card/CardImg";
 import { Modal, Box } from "@mui/material";
 import { CiHeart } from "react-icons/ci";
@@ -17,9 +13,23 @@ import { FaCheck } from "react-icons/fa";
 const WisataDetail = () => {
   const [showNavbar, setShowNavbar] = useState(false);
   const [scrollPosition, setScrollPosition] = useState(0);
-  const { wisataName } = useParams();
+
   const [showAllImages, setShowAllImages] = useState(false);
   const [open, setOpen] = useState(false);
+  const { id } = useParams(); // Mengambil ID dari URL
+  const [wisata, setWisata] = useState("");
+
+  useEffect(() => {
+    // Mengambil data wisata berdasarkan ID yang diterima dari URL
+    axios
+      .get(`http://localhost:5000/wisata/${id}`)
+      .then((response) => {
+        setWisata(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching wisata data:", error);
+      });
+  }, [id]); // Menyebabkan rerender jika id berubah
 
   useEffect(() => {
     const handleScroll = () => {
@@ -37,35 +47,6 @@ const WisataDetail = () => {
     };
   }, []);
 
-  // Menggabungkan semua list wisata dalam satu array
-  const allWisataLists = [
-    ...aktivitasList,
-    ...malangList,
-    ...soloList,
-    ...yogyakartaList,
-  ];
-
-  // Mencari wisata berdasarkan path yang dicocokkan
-  const wisataDetail = allWisataLists.find(
-    (wisata) =>
-      wisata.path &&
-      typeof wisata.path === "string" &&
-      wisata.path.replace("/wisata/", "").toLowerCase() === wisataName
-  );
-
-  // Jika wisataDetail tidak ditemukan
-  if (!wisataDetail) {
-    return (
-      <section className="mt-5 sm:mt-14 mx-7 md:mt-10 md:mx-10 lg:mx-14 lg:mt-24">
-        <h1 className="mt-52 text-xl sm:text-3xl font-extrabold md:text-4xl text-hitam">
-          Daerah Wisata{" "}
-          {wisataName.charAt(0).toUpperCase() + wisataName.slice(1)} Tidak
-          Ditemukan
-        </h1>
-      </section>
-    );
-  }
-
   const handleToggleImages = () => {
     setShowAllImages(!showAllImages);
   };
@@ -77,10 +58,10 @@ const WisataDetail = () => {
     <section className="mt-20 sm:mt-20 mx-7 md:mt-20 md:mx-10 lg:mx-14 lg:mt-24 flex flex-col md:flex-row ">
       <div className="flex-1">
         <h1 className="text-2xl sm:text-3xl font-extrabold md:text-4xl text-hitam">
-          {wisataDetail.title}
+          {wisata.name}
         </h1>
         <p className="mt-5 md:mt-7 text-lg sm:text-base lg:text-lg text-gray-700 lg:max-w-3xl">
-          {wisataDetail.detail}
+          {wisata.detail}
         </p>
 
         <div className="mt-7">
@@ -88,16 +69,15 @@ const WisataDetail = () => {
         </div>
 
         {/* FASILITAS UNTUK LAYAR BESAR */}
-        <div className="flex-wrap justify-start mt-4 gap-4 flex max-w-4xl ">
-          {Array.isArray(wisataDetail.fasilitas) &&
-          wisataDetail.fasilitas.length > 0 ? (
-            wisataDetail.fasilitas.map((item, index) => (
+        <div className="flex-wrap justify-start mt-4 gap-4 flex max-w-4xl">
+          {typeof wisata.facility === "string" && wisata.facility.length > 0 ? (
+            wisata.facility.split(",").map((item, index) => (
               <div
                 key={index}
                 className="rounded-lg lg:flex items-center lg:justify-center px-4 py-3 border border-black hidden md:flex"
               >
                 <div className="flex items-center text-xl">
-                  <span className=" text-base">{item.label}</span>
+                  <span className="text-base">{item.trim()}</span>{" "}
                 </div>
               </div>
             ))
@@ -108,16 +88,14 @@ const WisataDetail = () => {
 
         {/* FASILITAS UNTUK LAYAR KECIL */}
         <div className="mt-1 gap-2 flex max-w-full carousel carousel-center py-1 lg:hidden">
-          {Array.isArray(wisataDetail.fasilitas) &&
-          wisataDetail.fasilitas.length > 0 ? (
-            wisataDetail.fasilitas.map((item, index) => (
+          {typeof wisata.facility === "string" && wisata.facility.length > 0 ? (
+            wisata.facility.split(",").map((item, index) => (
               <div
                 key={index}
                 className="carousel-item rounded-lg px-4 py-3 border border-black"
               >
                 <div className="flex items-center text-xl">
-                  {item.icon}
-                  <span className="ml-2 text-base">{item.label}</span>
+                  <span className="text-base">{item.trim()}</span>{" "}
                 </div>
               </div>
             ))
@@ -126,16 +104,22 @@ const WisataDetail = () => {
           )}
         </div>
 
-        <div className="flex flex-wrap justify-start sm:grid-cols-4 lg:flex items-center mt-5 lg:mt-20 gap-3">
-          {Array.isArray(wisataDetail.dataimg) &&
-          wisataDetail.dataimg.length > 0 ? (
-            wisataDetail.dataimg.slice(0, 4).map((wisata, index) => (
-              <div className="flex justify-center" key={index}>
-                <CardImg img={wisata.img} />
-              </div>
-            ))
+        <div className="flex-wrap justify-start mt-4 lg:mt-10 gap-4 flex max-w-4xl">
+          {typeof wisata.gallery === "string" && wisata.gallery.length > 0 ? (
+            // Memisahkan string gambar berdasarkan koma, menghilangkan spasi ekstra, dan menampilkan maksimal 4 gambar
+            wisata.gallery
+              .split(",")
+              .slice(0, 4)
+              .map((image, index) => (
+                <div key={index} className="flex justify-center">
+                  {/* Menambahkan path dasar di depan nama file gambar */}
+                  <CardImg
+                    img={`http://localhost:5000/images/${image.trim()}`}
+                  />
+                </div>
+              ))
           ) : (
-            <p>No images available</p>
+            <p>No images available</p> // Menampilkan pesan jika tidak ada gambar
           )}
         </div>
 
@@ -147,9 +131,7 @@ const WisataDetail = () => {
           <div className="fixed bottom-0 left-0 right-0 bg-white border-t shadow-md p-4 flex justify-between items-center z-10 lg:hidden md:hidden">
             <div className="text-sm">
               Mulai Dari
-              <div className="text-lg font-extrabold">
-                IDR {wisataDetail.price}
-              </div>
+              <div className="text-lg font-extrabold">IDR {wisata.price}</div>
             </div>
             <button className="py-2 px-4 bg-hitam rounded-md text-white">
               Pesan Sekarang
@@ -179,18 +161,26 @@ const WisataDetail = () => {
                 <IoClose />
               </button>
             </div>
+
             <div className="grid grid-cols-1 justify-center mt-10 gap-10">
-              {Array.isArray(wisataDetail.dataimg) &&
-              wisataDetail.dataimg.length > 0 ? (
-                wisataDetail.dataimg.map((wisata, index) => (
-                  <div key={index} className="relative flex justify-center">
-                    <img
-                      src={wisata.img}
-                      alt={`Gambar ${index + 1}`}
-                      className="w-full h-auto max-w-[700px] rounded-xl transition-transform duration-300 ease-in-out transform hover:scale-105"
-                    />
-                  </div>
-                ))
+              {typeof wisata.gallery === "string" &&
+              wisata.gallery.length > 0 ? (
+                // Memisahkan string gambar berdasarkan koma, menghilangkan spasi ekstra, dan menampilkan maksimal 4 gambar
+                wisata.gallery
+                  .split(",")
+                  .slice(0, 4)
+                  .map((image, index) => (
+                    <div
+                      key={wisata.id}
+                      className="relative flex justify-center"
+                    >
+                      <img
+                        src={`http://localhost:5000/images/${image.trim()}`}
+                        alt={`Gambar ${index + 1}`}
+                        className="w-full h-auto max-w-[700px] rounded-xl transition-transform duration-300 ease-in-out transform hover:scale-105"
+                      />
+                    </div>
+                  ))
               ) : (
                 <p>No images available</p>
               )}
@@ -207,7 +197,7 @@ const WisataDetail = () => {
         <div className="px-5 items-center justify-center max-w-72 border shadow-sm">
           <p className="text-[0.8rem] mt-5">Mulai Dari</p>
           <div className="flex justify-start text-2xl font-extrabold">
-            IDR {wisataDetail.price}
+            IDR {wisata.price}
           </div>
           <button className="w-full py-3 mr-5 lg:mt-5 mb-10 bg-hitam rounded-md text-white flex justify-center hover:-translate-y-1 duration-300">
             Pesan Sekarang

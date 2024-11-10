@@ -10,6 +10,9 @@ import Footer from "./component/Footer";
 import AddDaerah from "./admin/daerah/addDaerah";
 import EditDaerah from "./admin/daerah/EditDaerah";
 import DaerahList from "./admin/daerah/DaerahList";
+import AddWisata from "./admin/wisata/AddWisata";
+import WisataList from "./admin/wisata/WisataList";
+import EditWisata from "./admin/wisata/EditWisata";
 import { Routes, Route } from "react-router-dom";
 function App() {
   return (
@@ -21,12 +24,16 @@ function App() {
         <Route path="/aktivitas" element={<Aktivitas />} />
         <Route path="/kontak" element={<Kontak />} />
         <Route path="/seluruhwisata" element={<DaerahWisata />} />
-        <Route path="/daerah/:daerahName" element={<DaerahDetail />} />
-        <Route path="/wisata/:wisataName" element={<WisataDetail />} />
-        <Route path="/wisata/:wisataName" element={<DaerahDetail />} />
+        <Route path="/wisata/daerah/:daerahId" element={<DaerahDetail />} />
+        <Route path="/wisata/detail/:id" element={<WisataDetail />} />
+        {/* <Route path="/wisata/daerah/:daerahId" element={<DaerahDetail />} /> */}
         <Route path="/adddaerah" element={<AddDaerah />} />
         <Route path="/daerahlist" element={<DaerahList />} />
         <Route path="/editdaerah/:id" element={<EditDaerah />} />
+        <Route path="/addwisata" element={<AddWisata />} />
+        <Route path="/addwisata/:id" element={<AddWisata />} />
+        <Route path="/wisatalist" element={<WisataList />} />
+        <Route path="/editwisata/:id" element={<EditWisata />} />
       </Routes>
       <Footer />
     </>
