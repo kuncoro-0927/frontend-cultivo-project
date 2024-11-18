@@ -49,7 +49,7 @@ const DaerahDetail = () => {
   }, [daerahId]);
 
   return (
-    <section className="mt-5 sm:mt-14 mx-7 md:mt-10 md:mx-10 lg:mx-14 lg:mt-24">
+    <section className="mt-20 sm:mt-20 mx-7 md:mt-20 md:mx-10 lg:mx-14 lg:mt-24">
       <div>
         <h1 className="text-xl sm:text-3xl font-extrabold md:text-4xl text-hitam">
           Eksplor Daerah Wisata {daerahName}
@@ -57,7 +57,7 @@ const DaerahDetail = () => {
       </div>
 
       {/* Grid untuk tampilan besar (desktop) */}
-      <div className="md:flex lg:justify-between lg:p-1 lg:mt-14">
+      <div className="md:flex lg:justify-between lg:p-1 mt-5 lg:mt-14">
         <div className="hidden md:hidden lg:grid lg:grid-cols-3 lg:justify-between lg:w-full lg:gap-3">
           {/* {daerah.map((daerahItem) => (
               <Link
@@ -91,14 +91,18 @@ const DaerahDetail = () => {
       {/* Carousel untuk tampilan mobile */}
       <div className="carousel carousel-center max-w-full py-2 px-2 lg:hidden">
         <div className="carousel-item gap-3">
-          {wisataList.map((wisata, index) => (
-            <CardAktivitas
-              key={index}
-              title={wisata.name}
-              description={wisata.description}
-              image={`http://localhost:5000/images/${wisata.image}`}
-              price={wisata.price}
-            />
+          {wisataList.map((wisata) => (
+            <Link
+              key={wisata.id}
+              to={`/wisata/detail/${wisata.id}`} // Mengarahkan ke halaman detail wisata berdasarkan id wisata
+            >
+              <CardAktivitas
+                title={wisata.name}
+                description={wisata.description}
+                image={`http://localhost:5000/images/${wisata.image}`}
+                price={wisata.price}
+              />
+            </Link>
           ))}
         </div>
       </div>

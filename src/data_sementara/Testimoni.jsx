@@ -11,16 +11,16 @@ export const ServiceData = [
     title: "Branding",
     content:
       "Pengalaman yang seru banget! Pemandu wisatanya ramah dan tahu banyak. Kami belajar banyak tentang bertani, dan anak-anak juga senang belajar menanam. Tempat yang asyik buat santai sambil belajar. Sangat rekomended!",
-    name: "hasri",
-    wisata: "Seinfarm, Bandung",
+    name: "Dzakiansyah",
+    wisata: "Tani Kota",
     backgroundImage: "/public/images/bandung.svg",
   },
   {
     title: "Design",
     content:
       "Sangat menyenangkan bisa menikmati udara segar dan pemandangan hijau sepanjang mata memandang. Wisata peternakan juga menarik, bisa berinteraksi langsung dengan hewan-hewan. Agrowisata ini tidak hanya seru, tapi juga mendidik.",
-    name: "hasri",
-    wisata: "Seinfarm, Bandung",
+    name: "Kuncoro",
+    wisata: "Agrowisata Wonosari",
     backgroundImage: "/public/images/bandung.svg",
   },
   {

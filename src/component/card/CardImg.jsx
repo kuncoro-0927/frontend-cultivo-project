@@ -9,8 +9,8 @@ export default function CardAktivitas({ img }) {
   return (
     <Card
       sx={{
-        width: { xs: 150, sm: 160, md: 700, lg: 180 },
-        height: { xs: 110, sm: 120, md: 350, lg: 140 },
+        width: { xs: 150, sm: 160, md: 160, lg: 180 },
+        height: { xs: 110, sm: 120, md: 120, lg: 140 },
 
         borderRadius: { xs: 3, md: 3, lg: 3 },
       }}
@@ -18,8 +18,8 @@ export default function CardAktivitas({ img }) {
       <CardActionArea>
         <CardMedia
           sx={{
-            width: { xs: 150, sm: 160, md: 700, lg: 180 },
-            height: { xs: 110, sm: 120, md: 350, lg: 140 },
+            width: { xs: 150, sm: 160, md: 160, lg: 180 },
+            height: { xs: 110, sm: 120, md: 120, lg: 140 },
             borderRadius: { xs: 3, md: 3, lg: 3 },
           }}
           image={img} // Pastikan untuk mengatur 'image' dengan prop 'img'

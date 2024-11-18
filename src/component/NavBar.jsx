@@ -1,7 +1,11 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { IoMdArrowDropdown } from "react-icons/io";
+import { CiSearch } from "react-icons/ci";
+import { useAuth } from "../contexts/AuthContext";
 export default function NavBar() {
+  const { isLoggedIn, user, logout } = useAuth();
+
   const [navbar, setNavbar] = useState(false);
   const [scrolling, setScrolling] = useState(false);
 
@@ -18,17 +22,52 @@ export default function NavBar() {
 
   return (
     <nav
-      className={`fixed w-full top-0 md:px-10 py-1 transition-colors duration-300 ${
+      className={`fixed w-full top-0 md:px-7 py-0.5 sm:py-1 transition-colors duration-300 ${
         scrolling ? "shadow-lg bg-white text-black" : "bg-white text-black"
       } z-50`}
     >
-      <div className="justify-between px-4 lg:max-w-7xl md:items-center md:flex md:px-0">
+      <div className="justify-between px-4 lg:max-w-7xl lg:items-center lg:flex md:px-0">
         <div className="">
-          <div className="flex items-center justify-between py-3 md:py-4 md:block">
-            <Link to="/">
-              <h2 className="text-2xl font-bold text-black">Cultivo</h2>
-            </Link>
-            <div className="md:hidden">
+          <div className="flex items-center justify-between py-3 lg:py-4 lg:block">
+            <div className={`${scrolling ? "scrolled" : ""}`}>
+              {/* Logo hanya muncul pada sm dan md jika tidak sedang di-scroll */}
+              {!scrolling && (
+                <Link
+                  to="/"
+                  className="block sm:hidden md:hidden lg:hidden" // Logo hanya muncul di sm dan md
+                >
+                  <img
+                    src="/images/logo2.svg"
+                    className="w-28 lg:w-32"
+                    alt="Logo"
+                  />
+                </Link>
+              )}
+
+              {/* Pencarian hanya muncul jika sudah scroll */}
+              <div className="flex items-center">
+                {/* Logo selalu muncul di lg dan lebih besar */}
+                <Link
+                  to="/"
+                  className="hidden lg:block sm:block md:block" // Logo hanya muncul di lg dan lebih besar
+                >
+                  <img src="/images/logo2.svg" className="w-28 " alt="Logo" />
+                </Link>
+                {scrolling && (
+                  <div className="relative mx-3 lg:hidden">
+                    <span className="ml-1 sm:ml-2 absolute left-3 top-1/2 transform -translate-y-1/2 text-hover pointer-events-none">
+                      <CiSearch className="text-2xl font-bold" />
+                    </span>
+                    <input
+                      type="text"
+                      placeholder="Wisata, atraksi, atau aktivitas"
+                      className="pl-11 sm:pl-14 text-xs lg:text-base px-6 py-3 md:py-3 text-hover border border-hover rounded-full w-[250px] sm:w-[400px] md:w-[400px] lg:w-[500px] focus:outline-none focus:border-hover"
+                    />
+                  </div>
+                )}
+              </div>
+            </div>
+            <div className="lg:hidden">
               <button
                 className="p-2 text-gray-700 rounded-md outline-none focus:border-gray-400 focus:border"
                 onClick={() => setNavbar(!navbar)}
@@ -68,18 +107,27 @@ export default function NavBar() {
         </div>
         <div>
           <div
-            className={`flex-1 justify-start pb-3 mt-8 md:block md:pb-0 md:mt-0 ${
+            className={`flex-1 justify-start pb-3 mt-8 lg:block lg:pb-0 lg:mt-0 ${
               navbar ? "block" : "hidden"
             }`}
           >
-            <ul className="lg:items-center items-baseline md:px-5 md:py-4 md:rounded-full justify-start space-y-8 md:flex md:space-x-3 lg:space-x-2 md:space-y-0">
-              <li className="text-hitam py-1 px-2 font-medium md:text-sm lg:text-base hover:text-hover ">
-                <Link to="/about">Eksplor Destinasi</Link>
+            <ul className="lg:items-center items-baseline lg:px-5 lg:py-4 lg:rounded-full justify-start space-y-8 lg:flex  lg:space-x-4 lg:space-y-0">
+              <li className="">
+                <NavLink
+                  to="/seluruhwisata"
+                  className={({ isActive }) =>
+                    isActive
+                      ? "text-white bg-hitam py-2 px-4 rounded-full font-medium md:text-sm lg:text-base hover:bg-hover duration-200 "
+                      : "text-hitam py-1 px-2 font-medium md:text-sm lg:text-base  hover:text-white hover:py-2 hover:px-4 rounded-full  hover:bg-hitam duration-200  "
+                  }
+                >
+                  Eksplor Destinasi
+                </NavLink>
               </li>
-              <li className="dropdown dropdown-hover mx-2 md:mx-0">
+              <li className="dropdown dropdown-hover md:mx-0">
                 <label
                   tabIndex="0"
-                  className="cursor-pointer hover:text-hover flex items-center"
+                  className="cursor-pointer hover:text-hover flex items-center pl-2 "
                 >
                   Aktivitas <IoMdArrowDropdown className="text-2xl" />
                 </label>
@@ -88,34 +136,70 @@ export default function NavBar() {
                   className="dropdown-content menu shadow bg-white rounded-box w-52"
                 >
                   <li>
-                    <Link to="/aktivitas-1" className="hover:bg-gray-200">
+                    <Link
+                      to="/aktivitas-1"
+                      className="hover:bg-hover hover:text-white"
+                    >
                       Aktivitas 1
                     </Link>
                   </li>
                   <li>
-                    <Link to="/aktivitas-2" className="hover:bg-gray-200">
+                    <Link
+                      to="/aktivitas-2"
+                      className="hover:bg-hover hover:text-white"
+                    >
                       Aktivitas 2
                     </Link>
                   </li>
                   <li>
-                    <Link to="/aktivitas-3" className="hover:bg-gray-200">
+                    <Link
+                      to="/aktivitas-3"
+                      className="hover:bg-hover hover:text-white"
+                    >
                       Aktivitas 3
                     </Link>
                   </li>
                 </ul>
               </li>
-              <li className="text-hitam py-1 px-2 font-medium md:text-sm lg:text-base hover:text-hover ">
-                <Link to="">Bergabung</Link>
+              <li className="">
+                <NavLink
+                  to="/bergabung"
+                  className={({ isActive }) =>
+                    isActive
+                      ? "text-white bg-hitam py-2 px-4 rounded-full font-medium md:text-sm lg:text-base hover:bg-hover duration-200 "
+                      : "text-hitam py-1 px-2 font-medium md:text-sm lg:text-base  hover:text-white hover:py-2 hover:px-4 rounded-full  hover:bg-hitam duration-200  "
+                  }
+                >
+                  Bergabung
+                </NavLink>
               </li>
-              <li className="text-hitam py-1 px-2  font-medium md:text-sm lg:text-base hover:text-hover ">
-                <Link to="">Tentang</Link>
+              <li className="">
+                <NavLink
+                  to="/tentang"
+                  className={({ isActive }) =>
+                    isActive
+                      ? "text-white bg-hitam py-2 px-4 rounded-full font-medium md:text-sm lg:text-base hover:bg-hover duration-200 "
+                      : "text-hitam py-1 px-2 font-medium md:text-sm lg:text-base  hover:text-white hover:py-2 hover:px-4 rounded-full  hover:bg-hitam duration-200  "
+                  }
+                >
+                  Tentang
+                </NavLink>
               </li>
-              <li className="text-hitam py-1 px-2 font-medium md:text-sm lg:text-base hover:text-hover ">
-                <Link to="">Kontak</Link>
+              <li className="">
+                <NavLink
+                  to="/kontak"
+                  className={({ isActive }) =>
+                    isActive
+                      ? "text-white bg-hitam py-2 px-4 rounded-full font-medium md:text-sm lg:text-base hover:bg-hover duration-200 "
+                      : "text-hitam py-1 px-2 font-medium md:text-sm lg:text-base  hover:text-white hover:py-2 hover:px-4 rounded-full  hover:bg-hitam duration-200  "
+                  }
+                >
+                  Kontak
+                </NavLink>
               </li>
             </ul>
 
-            <div className="mt-3 space-y-2 md:hidden">
+            <div className="mt-3 space-y-2 lg:hidden">
               <Link
                 to=""
                 className="inline-block w-full px-4 py-2 text-center text-white bg-hitam rounded-full shadow hover:bg-black"
@@ -131,19 +215,35 @@ export default function NavBar() {
             </div>
           </div>
         </div>
-        <div className="hidden space-x-2 md:inline-block">
-          <a
-            href="/"
-            className="text-black mr-4 md:mr-2 md:text-sm lg:text-base font-medium"
-          >
-            Masuk
-          </a>
-          <button
-            type="submit"
-            className="px-5 py-2 text-white bg-hitam md:text-sm lg:text-base font-medium rounded-full shadow hover:bg-hover"
-          >
-            Daftar
-          </button>
+        <div className="hidden space-x-2 lg:inline-block">
+          {isLoggedIn ? (
+            <>
+              <span className="text-black mr-4 md:text-sm lg:text-base font-medium">
+                Welcome, {user?.name}!
+              </span>
+              <button
+                onClick={logout}
+                className="px-5 py-2 text-white bg-hitam md:text-sm lg:text-base font-medium rounded-full shadow hover:bg-hover"
+              >
+                Logout
+              </button>
+            </>
+          ) : (
+            <>
+              <a
+                href="/"
+                className="text-black mr-4 md:mr-2 md:text-sm lg:text-base font-medium"
+              >
+                Masuk
+              </a>
+              <button
+                type="submit"
+                className="px-5 py-2 text-white bg-hitam md:text-sm lg:text-base font-medium rounded-full shadow hover:bg-hover"
+              >
+                Daftar
+              </button>
+            </>
+          )}
         </div>
       </div>
     </nav>

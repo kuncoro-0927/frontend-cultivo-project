@@ -9,7 +9,7 @@ export default function CardAktivitas({ title, description, image, price }) {
   return (
     <Card
       sx={{
-        width: { xs: 200, md: 350, lg: 371 },
+        width: { xs: 200, sm: 220, md: 260, lg: 371 },
         borderRadius: { xs: 3, md: 3, lg: 5 },
         transition: "transform 0.2s, box-shadow 0.2s", // Transisi untuk efek
         "&:hover": {
@@ -22,7 +22,7 @@ export default function CardAktivitas({ title, description, image, price }) {
         <CardMedia component="img" image={image} alt={title} />
         <CardContent
           sx={{
-            height: { xs: 125, sm: 160, md: 160, lg: 180 },
+            height: { xs: 125, sm: 140, md: 160, lg: 180 },
             paddingY: { lg: 2 },
             display: "flex",
             flexDirection: "column",

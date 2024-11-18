@@ -14,12 +14,11 @@ const Footer = () => {
                 <h2 className="text-base font-bold lg:text-2xl">Cultivo</h2>
               </Link>
               <p className="text-xs lg:text-base">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                <br></br>
-                Aliquid, necessitatibus.
+                Temukan berbagai kegiatan Agrowisata di <br></br>
+                daerah Indonesia bersama Cultivo.
               </p>
             </div>
-            <div className="mt-8 sm:mt-0 md:mt-0 text-sm font-semibold flex justify-between md:justify-end sm:gap-10 md:gap-16 lg:gap-24 ">
+            <div className="mt-8 sm:mt-0 md:mt-0 text-sm font-semibold flex justify-between md:justify-end sm:gap-10 md:gap-10 lg:gap-24 ">
               <ul className="space-y-2">
                 <li className="font-bold md:text-base ">Cultivo</li>
                 <li className="font-normal text-[0.6rem] md:text-[0.8rem] lg:text-[0.9rem]">

@@ -23,14 +23,14 @@ const Home = () => {
   return (
     <>
       <section
-        className="mx-7 px-7 lg:h-[600px] xl:h-screen h-96 bg-cover bg-center lg:mx-10 rounded-2xl md:rounded-3xl flex items-center justify-center lg:px-12 mt-[75px] sm:mt-[80px]  lg:mt-[75px]"
+        className="mx-7 md:mx-10 px-7 lg:h-[600px] xl:h-screen h-96 bg-cover bg-center lg:mx-10 rounded-2xl md:rounded-3xl flex items-center justify-center lg:px-12 mt-[75px] sm:mt-[80px]  lg:mt-[75px]"
         style={{ backgroundImage: "url('images/header.svg')" }}
       >
         <div className="text-center max-w-5xl">
-          <p className="text-white text-2xl md:text-3xl lg:text-5xl font-medium">
-            Agriculture is our wisest pursuit, because it will in the end
-            contribute most to real wealth, good morals & happiness.
-          </p>
+          <h1 className="text-white text-2xl md:text-3xl lg:text-5xl font-medium lg:font-bold">
+            Pertanian adalah usaha bijaksana yang mendatangkan kekayaan sejati,
+            moral yang baik, dan kebahagiaan.
+          </h1>
 
           {/* Input di bawah teks */}
           <div className="lg:mt-20 mt-7 flex justify-center">
@@ -48,7 +48,7 @@ const Home = () => {
         </div>
       </section>
 
-      <section className="mx-7 sm:mt-20 mt-14 md:mx-10 lg:mx-14 md:mt-28">
+      <section className="mx-7 sm:mt-20 mt-14 md:mx-10 lg:mx-14 md:mt-20 lg:mt-28">
         <div>
           <p className="text-xl font-extrabold text-hitam sm:text-3xl md:text-4xl">
             Aktivitas Populer
@@ -163,12 +163,16 @@ const Home = () => {
         <div className="carousel carousel-center max-w-full space-x-3 px-8 py-3 lg:hidden ">
           <div className="carousel-item gap-3">
             {daerah.map((daerahItem) => (
-              <CardDaerah
+              <Link
                 key={daerahItem.id}
-                title={daerahItem.name}
-                image={daerahItem.url}
-                path={daerahItem.path}
-              />
+                to={`/wisata/daerah/${daerahItem.id}`} // Menambahkan path dinamis
+              >
+                <CardDaerah
+                  title={daerahItem.name}
+                  image={daerahItem.url}
+                  path={daerahItem.path} // Bisa digunakan untuk kebutuhan lain, seperti link dalam card
+                />
+              </Link>
             ))}
           </div>
         </div>

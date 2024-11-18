@@ -17,7 +17,7 @@ const DaerahWisata = () => {
 
   return (
     <>
-      <section className="mx-7 mt-20 md:mt-10 lg:mt-28 md:mx-10 lg:mx-14">
+      <section className="mx-7 mt-20 sm:mt-20 md:mt-20 lg:mt-28 md:mx-10 lg:mx-14">
         <div>
           <h1 className="text-xl sm:text-3xl font-extrabold md:text-4xl text-hitam">
             Eksplor Daerah Wisata <br />

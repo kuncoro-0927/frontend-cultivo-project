@@ -14,6 +14,12 @@ import AddWisata from "./admin/wisata/AddWisata";
 import WisataList from "./admin/wisata/WisataList";
 import EditWisata from "./admin/wisata/EditWisata";
 import { Routes, Route } from "react-router-dom";
+import Review from "./component/Review";
+import Register from "./pages/Register";
+import Login from "./pages/Login";
+import PrivateRoute from "./component/PrivateRoute";
+import Dashboard from "./pages/Dashboard";
+
 function App() {
   return (
     <>
@@ -26,7 +32,6 @@ function App() {
         <Route path="/seluruhwisata" element={<DaerahWisata />} />
         <Route path="/wisata/daerah/:daerahId" element={<DaerahDetail />} />
         <Route path="/wisata/detail/:id" element={<WisataDetail />} />
-        {/* <Route path="/wisata/daerah/:daerahId" element={<DaerahDetail />} /> */}
         <Route path="/adddaerah" element={<AddDaerah />} />
         <Route path="/daerahlist" element={<DaerahList />} />
         <Route path="/editdaerah/:id" element={<EditDaerah />} />
@@ -34,6 +39,19 @@ function App() {
         <Route path="/addwisata/:id" element={<AddWisata />} />
         <Route path="/wisatalist" element={<WisataList />} />
         <Route path="/editwisata/:id" element={<EditWisata />} />
+        <Route path="/review" element={<Review />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+
+        {/* Private route untuk admin */}
+        <Route
+          path="/dashboard"
+          element={
+            <PrivateRoute requiredRole="admin">
+              <Dashboard />
+            </PrivateRoute>
+          }
+        />
       </Routes>
       <Footer />
     </>

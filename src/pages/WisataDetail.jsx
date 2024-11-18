@@ -36,8 +36,8 @@ const WisataDetail = () => {
       const currentScroll = window.scrollY;
       setScrollPosition(currentScroll);
       setShowNavbar(
-        currentScroll > 100 &&
-          currentScroll < document.body.scrollHeight - window.innerHeight - 50
+        currentScroll > 0 &&
+          currentScroll < document.body.scrollHeight - window.innerHeight - 0
       );
     };
 
@@ -60,7 +60,7 @@ const WisataDetail = () => {
         <h1 className="text-2xl sm:text-3xl font-extrabold md:text-4xl text-hitam">
           {wisata.name}
         </h1>
-        <p className="mt-5 md:mt-7 text-lg sm:text-base lg:text-lg text-gray-700 lg:max-w-3xl">
+        <p className="mt-5 md:mt-7 text-md sm:text-base lg:text-lg text-hitam lg:max-w-3xl">
           {wisata.detail}
         </p>
 
@@ -87,7 +87,7 @@ const WisataDetail = () => {
         </div>
 
         {/* FASILITAS UNTUK LAYAR KECIL */}
-        <div className="mt-1 gap-2 flex max-w-full carousel carousel-center py-1 lg:hidden">
+        <div className="mt-1 gap-2 flex max-w-full carousel carousel-center py-1 md:hidden">
           {typeof wisata.facility === "string" && wisata.facility.length > 0 ? (
             wisata.facility.split(",").map((item, index) => (
               <div
@@ -104,7 +104,7 @@ const WisataDetail = () => {
           )}
         </div>
 
-        <div className="flex-wrap justify-start mt-4 lg:mt-10 gap-4 flex max-w-4xl">
+        <div className="flex-wrap justify-start mt-4 lg:mt-10 gap-4 flex">
           {typeof wisata.gallery === "string" && wisata.gallery.length > 0 ? (
             // Memisahkan string gambar berdasarkan koma, menghilangkan spasi ekstra, dan menampilkan maksimal 4 gambar
             wisata.gallery
@@ -166,21 +166,15 @@ const WisataDetail = () => {
               {typeof wisata.gallery === "string" &&
               wisata.gallery.length > 0 ? (
                 // Memisahkan string gambar berdasarkan koma, menghilangkan spasi ekstra, dan menampilkan maksimal 4 gambar
-                wisata.gallery
-                  .split(",")
-                  .slice(0, 4)
-                  .map((image, index) => (
-                    <div
-                      key={wisata.id}
-                      className="relative flex justify-center"
-                    >
-                      <img
-                        src={`http://localhost:5000/images/${image.trim()}`}
-                        alt={`Gambar ${index + 1}`}
-                        className="w-full h-auto max-w-[700px] rounded-xl transition-transform duration-300 ease-in-out transform hover:scale-105"
-                      />
-                    </div>
-                  ))
+                wisata.gallery.split(",").map((image, index) => (
+                  <div key={wisata.id} className="relative flex justify-center">
+                    <img
+                      src={`http://localhost:5000/images/${image.trim()}`}
+                      alt={`Gambar ${index + 1}`}
+                      className="w-full h-auto max-w-[700px] rounded-xl transition-transform duration-300 ease-in-out transform hover:scale-105"
+                    />
+                  </div>
+                ))
               ) : (
                 <p>No images available</p>
               )}
@@ -190,30 +184,32 @@ const WisataDetail = () => {
       </div>
 
       {/* Konten di sebelah kanan */}
-      <div className="lg:flex flex-col hidden">
-        <div className="bg-hijau-opa font-medium max-w-72 lg:text-sm text-white flex items-center justify-center py-2 rounded-tr-lg rounded-tl-lg">
-          Jaminan Harga Terbaik
-        </div>
-        <div className="px-5 items-center justify-center max-w-72 border shadow-sm">
-          <p className="text-[0.8rem] mt-5">Mulai Dari</p>
-          <div className="flex justify-start text-2xl font-extrabold">
-            IDR {wisata.price}
+      <div className="md:ml-10">
+        <div className="md:flex flex-col hidden">
+          <div className="bg-hijau-opa font-medium max-w-72 lg:text-sm text-white flex items-center justify-center py-2 rounded-tr-lg rounded-tl-lg">
+            Jaminan Harga Terbaik
           </div>
-          <button className="w-full py-3 mr-5 lg:mt-5 mb-10 bg-hitam rounded-md text-white flex justify-center hover:-translate-y-1 duration-300">
-            Pesan Sekarang
-          </button>
+          <div className="px-5 items-center justify-center max-w-72 border shadow-sm">
+            <p className="text-[0.8rem] mt-5">Mulai Dari</p>
+            <div className="flex justify-start text-2xl font-extrabold">
+              IDR {wisata.price}
+            </div>
+            <button className="w-full py-3 mr-5 lg:mt-5 mb-10 bg-hitam rounded-md text-white flex justify-center hover:-translate-y-1 duration-300">
+              Pesan Sekarang
+            </button>
+          </div>
+
+          <div className="px-3 border font-medium max-w-72 text-hitam flex items-center justify-between py-5 rounded-br-lg rounded-bl-lg">
+            <button className="flex items-center gap-2">
+              <IoShareSocial className="text-xl" /> Bagikan
+            </button>
+            <button className="flex items-center gap-2">
+              <CiHeart className="text-xl" /> Simpan
+            </button>
+          </div>
         </div>
 
-        <div className="px-3 border font-medium max-w-72 text-hitam flex items-center justify-between py-5 rounded-br-lg rounded-bl-lg">
-          <button className="flex items-center gap-2">
-            <IoShareSocial className="text-xl" /> Bagikan
-          </button>
-          <button className="flex items-center gap-2">
-            <CiHeart className="text-xl" /> Simpan
-          </button>
-        </div>
-
-        <div className="lg:mt-10">
+        <div className="mt-10 mb-5 lg:mt-10">
           <h1 className="font-semibold text-lg">Mengapa Cultivo?</h1>
           <div className="space-y-3 mt-5">
             <p className="flex items-center gap-2">
