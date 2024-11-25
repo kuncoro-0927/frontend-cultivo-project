@@ -9,7 +9,7 @@ import CardActionArea from "@mui/material/CardActionArea";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
 
-export default function CardDaerah({ title, image }) {
+export default function CardDaerah({ title, img }) {
   return (
     <>
       <Card
@@ -30,8 +30,8 @@ export default function CardDaerah({ title, image }) {
               objectFit: "cover",
             }}
             component="img"
-            image={image} // Menggunakan image dari props
-            alt=""
+            image={img} // Menggunakan image dari props
+            alt={title}
           />
           <CardContent sx={{ maxHeight: { xs: 100, md: 300 } }}>
             <Typography

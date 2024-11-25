@@ -3,7 +3,14 @@ import { Link, NavLink } from "react-router-dom";
 import { IoMdArrowDropdown } from "react-icons/io";
 import { CiSearch } from "react-icons/ci";
 import { useAuth } from "../contexts/AuthContext";
+import { Avatar } from "@mui/material";
+
 export default function NavBar() {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleDropdown = () => {
+    setIsOpen((prev) => !prev);
+  };
   const { isLoggedIn, user, logout } = useAuth();
 
   const [navbar, setNavbar] = useState(false);
@@ -30,12 +37,8 @@ export default function NavBar() {
         <div className="">
           <div className="flex items-center justify-between py-3 lg:py-4 lg:block">
             <div className={`${scrolling ? "scrolled" : ""}`}>
-              {/* Logo hanya muncul pada sm dan md jika tidak sedang di-scroll */}
               {!scrolling && (
-                <Link
-                  to="/"
-                  className="block sm:hidden md:hidden lg:hidden" // Logo hanya muncul di sm dan md
-                >
+                <Link to="/" className="block sm:hidden md:hidden lg:hidden">
                   <img
                     src="/images/logo2.svg"
                     className="w-28 lg:w-32"
@@ -44,13 +47,8 @@ export default function NavBar() {
                 </Link>
               )}
 
-              {/* Pencarian hanya muncul jika sudah scroll */}
               <div className="flex items-center">
-                {/* Logo selalu muncul di lg dan lebih besar */}
-                <Link
-                  to="/"
-                  className="hidden lg:block sm:block md:block" // Logo hanya muncul di lg dan lebih besar
-                >
+                <Link to="/" className="hidden lg:block sm:block md:block">
                   <img src="/images/logo2.svg" className="w-28 " alt="Logo" />
                 </Link>
                 {scrolling && (
@@ -218,30 +216,73 @@ export default function NavBar() {
         <div className="hidden space-x-2 lg:inline-block">
           {isLoggedIn ? (
             <>
-              <span className="text-black mr-4 md:text-sm lg:text-base font-medium">
-                Welcome, {user?.name}!
-              </span>
-              <button
-                onClick={logout}
-                className="px-5 py-2 text-white bg-hitam md:text-sm lg:text-base font-medium rounded-full shadow hover:bg-hover"
-              >
-                Logout
-              </button>
+              <div className="relative">
+                {/* Avatar and Greeting */}
+                <div
+                  className="flex items-center gap-3 cursor-pointer"
+                  onClick={toggleDropdown}
+                >
+                  <span>Hai, {user?.name}!</span>
+                  <Avatar src="/broken-image.jpg" />
+                </div>
+
+                {/* Dropdown Menu */}
+                {isOpen && (
+                  <div className="absolute right-0 mt-2 w-48 bg-white border rounded-lg shadow-lg z-50">
+                    <ul className="py-2 text-sm text-hitam">
+                      <li>
+                        <button
+                          className="w-full px-4 py-2 text-left hover:bg-gray-100"
+                          onClick={() => console.log("Go to Profile")}
+                        >
+                          Profile
+                        </button>
+                      </li>
+                      <li>
+                        <button
+                          className="w-full px-4 py-2 text-left hover:bg-gray-100"
+                          onClick={() => console.log("Settings")}
+                        >
+                          Settings
+                        </button>
+                      </li>
+                      <li>
+                        <hr className="my-1" />
+                      </li>
+                      <li>
+                        <button
+                          className="w-full px-4 py-2 text-left text-hitam hover:bg-gray-100"
+                          onClick={logout}
+                        >
+                          Logout
+                        </button>
+                      </li>
+                    </ul>
+                  </div>
+                )}
+
+                {isOpen && (
+                  <div
+                    className="fixed inset-0 z-40"
+                    onClick={() => setIsOpen(false)}
+                  ></div>
+                )}
+              </div>
             </>
           ) : (
             <>
-              <a
-                href="/"
+              <Link
+                to="/login"
                 className="text-black mr-4 md:mr-2 md:text-sm lg:text-base font-medium"
               >
                 Masuk
-              </a>
-              <button
-                type="submit"
+              </Link>
+              <Link
+                to="/register"
                 className="px-5 py-2 text-white bg-hitam md:text-sm lg:text-base font-medium rounded-full shadow hover:bg-hover"
               >
                 Daftar
-              </button>
+              </Link>
             </>
           )}
         </div>

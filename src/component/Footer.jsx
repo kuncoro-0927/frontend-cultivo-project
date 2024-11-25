@@ -6,7 +6,7 @@ import { FaXTwitter } from "react-icons/fa6";
 const Footer = () => {
   return (
     <>
-      <footer className="bg-hijau-muda text-hitam  mt-7 lg:mt-20 mx-7 md:mx-10 rounded-2xl md:rounded-3xl mb-10 ">
+      <footer className="bg-hijau-muda text-hitam  mt-7 lg:mt-20 mx-7 md:mx-7 rounded-2xl md:rounded-3xl mb-10 ">
         <div className="py-5 mx-5 md:mx-10 lg:mx-14 sm:mt-7 md:mt-10">
           <div className="sm:flex justify-between sm:mt-3 md:mt-5">
             <div className="space-y-1 sm:space-y-2 md:space-y-2">

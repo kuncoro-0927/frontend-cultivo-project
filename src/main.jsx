@@ -9,8 +9,6 @@ import { AuthProvider } from "./contexts/AuthContext"; // Import AuthProvider
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <AuthProvider>
-      {" "}
-      {/* Bungkus dengan AuthProvider */}
       <BrowserRouter>
         <App />
       </BrowserRouter>

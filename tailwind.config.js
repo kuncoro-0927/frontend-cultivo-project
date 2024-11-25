@@ -18,6 +18,7 @@ export default {
         "hijau-opa": "#B0B7A5",
         button: "#2B2B2B",
         nav: "#",
+        "ghost-white": "#f6f5fa",
       },
     },
   },

@@ -15,9 +15,20 @@ const Home = () => {
   useEffect(() => {
     getDaerah();
   }, []);
+
   const getDaerah = async () => {
-    const response = await axios.get("http://localhost:5000/daerah");
-    setDaerah(response.data);
+    try {
+      const response = await axios.get(
+        "http://localhost:5000/cultivo/api/daerah"
+      );
+      // Memastikan response.data adalah array
+      const dataDaerah = Array.isArray(response.data.data)
+        ? response.data.data
+        : [response.data.data];
+      setDaerah(dataDaerah);
+    } catch (error) {
+      console.error("Error fetching data daerah:", error);
+    }
   };
 
   return (
@@ -145,18 +156,15 @@ const Home = () => {
         <div className="mt-7 md:mx-0 gap-3 flex flex-wrap lg:gap-10 lg:p-1 lg:mt-16">
           {/* Kartu yang muncul secara horizontal di layar besar */}
           <div className="hidden md:hidden lg:flex lg:justify-between lg:w-full lg:gap-3">
-            {daerah.slice(0, 4).map((daerahItem) => (
-              <Link
-                key={daerahItem.id}
-                to={`/wisata/daerah/${daerahItem.id}`} // Menambahkan path dinamis
-              >
-                <CardDaerah
-                  title={daerahItem.name}
-                  image={daerahItem.url}
-                  path={daerahItem.path} // Bisa digunakan untuk kebutuhan lain, seperti link dalam card
-                />
-              </Link>
-            ))}
+            {Array.isArray(daerah) &&
+              daerah.slice(0, 4).map((daerahItem) => (
+                <Link
+                  key={daerahItem.id}
+                  to={`/wisata/daerah/${daerahItem.id}`} // Menambahkan path dinamis
+                >
+                  <CardDaerah title={daerahItem.name} img={daerahItem.url} />
+                </Link>
+              ))}
           </div>
         </div>
 
