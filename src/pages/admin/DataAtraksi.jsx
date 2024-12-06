@@ -1,54 +1,14 @@
 import { useState } from "react";
-import { BiDetail } from "react-icons/bi";
-import { FiEdit } from "react-icons/fi";
-import { MdDelete } from "react-icons/md";
+import WisataTable from "../../component/Admin/Table/WisataTable";
 import TambahWisata from "../../component/Admin/Modal/TambahWisata";
 
 const DataAtraksi = () => {
-  const [activeTab, setActiveTab] = useState("wisata"); // Tab aktif
+  const [activeTab, setActiveTab] = useState("wisata");
+
   const renderContent = () => {
     switch (activeTab) {
       case "wisata":
-        return (
-          <div className="overflow-x-auto">
-            <table className="table">
-              {/* head */}
-              <thead>
-                <tr>
-                  <th></th>
-                  <th>Name</th>
-                  <th>Kota</th>
-                  <th>Aktivitas</th>
-                  <th>Harga</th>
-                  <th>Alamat</th>
-                  <th>Aksi</th>
-                </tr>
-              </thead>
-              <tbody>
-                {/* row 1 */}
-                <tr>
-                  <th>1</th>
-                  <td>Telaga Madiredo</td>
-                  <td>Malang</td>
-                  <td>-</td>
-                  <td>15.000</td>
-                  <td>Malang, Jawa Timur</td>
-                  <td className="flex items-center space-x-3 text-lg">
-                    <button>
-                      <BiDetail />
-                    </button>
-                    <button>
-                      <FiEdit />
-                    </button>
-                    <button>
-                      <MdDelete />
-                    </button>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        );
+        return <WisataTable />;
       case "aktivitas":
         return <div>Data Aktivitas</div>;
       case "daerah":

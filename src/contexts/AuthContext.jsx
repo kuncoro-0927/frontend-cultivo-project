@@ -7,7 +7,9 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState(null);
-
+  const [isLoading, setIsLoading] = useState(true); // Tambahkan state loading
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
   useEffect(() => {
     const token = localStorage.getItem("token");
     const userData = sessionStorage.getItem("user");
@@ -16,6 +18,8 @@ export const AuthProvider = ({ children }) => {
       setIsLoggedIn(true);
       setUser(JSON.parse(userData));
     }
+
+    setIsLoading(false); // Selesai inisialisasi
 
     const handleStorageChange = () => {
       const token = localStorage.getItem("token");
@@ -50,9 +54,37 @@ export const AuthProvider = ({ children }) => {
     setIsLoggedIn(false);
     setUser(null);
   };
+  const updateUser = (newUserData) => {
+    // Update di sessionStorage
+    sessionStorage.setItem("user", JSON.stringify(newUserData));
 
+    // Update di AuthContext
+    setUser(newUserData);
+  };
+
+  const openSnackbar = (message) => {
+    setSnackbarMessage(message);
+    setSnackbarOpen(true);
+  };
+
+  const closeSnackbar = () => {
+    setSnackbarOpen(false);
+  };
   return (
-    <AuthContext.Provider value={{ isLoggedIn, user, login, logout }}>
+    <AuthContext.Provider
+      value={{
+        isLoggedIn,
+        user,
+        login,
+        logout,
+        updateUser,
+        isLoading,
+        openSnackbar,
+        snackbarOpen,
+        snackbarMessage,
+        closeSnackbar,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );

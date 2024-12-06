@@ -1,7 +1,10 @@
+import Calender from "../component/Date";
 const About = () => {
   return (
     <>
-      <div>ini about</div>
+      <div>
+        <Calender />
+      </div>
     </>
   );
 };

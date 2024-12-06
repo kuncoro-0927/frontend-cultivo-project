@@ -1,32 +1,45 @@
+/* eslint-disable react/prop-types */
 import { Modal, Box, TextField, MenuItem, Button } from "@mui/material";
 import { IoClose } from "react-icons/io5";
 import { useState, useEffect } from "react";
 
 import { instance } from "../../../utils/axios";
-const TambahWisata = () => {
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+
+const EditWisata = ({ open, onClose, wisataData, onSubmit }) => {
+  // State untuk form dan file input
   const [imageName, setImageName] = useState(null);
   const [galleryName, setGalleryName] = useState([]);
-
-  const [formData, setFormData] = useState({
-    name: "",
-    city_id: "",
-    activities_id: "",
-    facility: "",
-    description: "",
-    price: "",
-    address: "",
-    url_gmaps: "",
-  });
-
-  const [cities, setCities] = useState([]);
-  const [activities, setActivities] = useState([]);
   const [image, setImage] = useState(null);
   const [gallery, setGallery] = useState([]);
+  const [cities, setCities] = useState([]);
+  const [activities, setActivities] = useState([]);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
+  const [formData, setFormData] = useState({
+    name: wisataData?.name || "",
+    city_id: wisataData?.city_id || "",
+    activities_id: wisataData?.activities_id || "",
+    facility: wisataData?.facility || "",
+    description: wisataData?.description || "",
+    price: wisataData?.price || "",
+    address: wisataData?.address || "",
+    url_gmaps: wisataData?.url_gmaps || "",
+  });
+
+  useEffect(() => {
+    if (wisataData) {
+      setFormData({
+        name: wisataData.name,
+        city_id: wisataData.city_id,
+        activities_id: wisataData.activities_id,
+        facility: wisataData.facility,
+        description: wisataData.description,
+        price: wisataData.price,
+        address: wisataData.address,
+        url_gmaps: wisataData.url_gmaps,
+      });
+    }
+  }, [wisataData]);
 
   useEffect(() => {
     const fetchCitiesAndActivities = async () => {
@@ -53,23 +66,36 @@ const TambahWisata = () => {
   };
 
   const handleImageChange = (e) => {
-    setImage(e.target.files[0]);
     const file = e.target.files[0];
-    if (file) {
-      setImageName(file.name);
+    if (file && file.size > 2 * 1024 * 1024) {
+      alert("Ukuran file terlalu besar. Maksimum 2MB.");
+      return;
     }
+    setImage(file);
+    setImageName(file?.name || null);
   };
 
   const handleGalleryChange = (e) => {
     const files = Array.from(e.target.files);
-    setGallery(files);
-    setGalleryName(files.map((file) => file.name));
+    const validFiles = files.filter((file) => file.size <= 2 * 1024 * 1024);
+
+    if (validFiles.length !== files.length) {
+      alert("Beberapa file melebihi batas ukuran maksimum 2MB.");
+    }
+
+    setGallery(validFiles);
+    setGalleryName(validFiles.map((file) => file.name));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const data = new FormData();
 
+    if (!formData.name || !formData.city_id || !formData.activities_id) {
+      alert("Harap lengkapi semua data wajib.");
+      return;
+    }
+
+    const data = new FormData();
     data.append("name", formData.name);
     data.append("city_id", formData.city_id);
     data.append("activities_id", formData.activities_id);
@@ -79,40 +105,33 @@ const TambahWisata = () => {
     data.append("address", formData.address);
     data.append("url_gmaps", formData.url_gmaps);
 
-    if (image) data.append("image", image);
-    gallery.forEach((file) => data.append("gallery", file));
+    if (image) {
+      data.append("image", image);
+    }
+
+    if (gallery && gallery.length > 0) {
+      gallery.forEach((file, index) => {
+        data.append(`gallery[${index}]`, file);
+      });
+    }
 
     try {
       setLoading(true);
-      const response = await instance.post("/agrotourism", data, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
-      setMessage(response.data.msg);
+      await onSubmit(data);
+      setMessage("Data berhasil diperbarui!");
+      onClose();
     } catch (error) {
-      setMessage("Error uploading data");
-      console.error(error);
+      console.error("Error submitting data:", error);
+      setMessage("Terjadi kesalahan saat mengirim data.");
     } finally {
       setLoading(false);
     }
   };
-
   return (
     <div>
-      <Button
-        variant="contained"
-        component="span"
-        sx={{
-          marginBottom: 1,
-          bgcolor: "primary.main",
-          color: "white",
-          "&:hover": { bgcolor: "primary.dark" },
-        }}
-        onClick={handleOpen}
-      >
-        + Data Wisata
-      </Button>
+      <Button>Edit</Button>
 
-      <Modal open={open} onClose={handleClose}>
+      <Modal open={open} onClose={onClose}>
         <Box
           sx={{
             justifyContent: "center",
@@ -133,8 +152,8 @@ const TambahWisata = () => {
         >
           <div className="">
             <div className="flex items-center justify-between">
-              <h2 className="text-3xl font-bold">Tambah Data Wisata</h2>
-              <button onClick={handleClose} className=" text-3xl">
+              <h2 className="text-3xl font-bold">Edit Data Wisata</h2>
+              <button onClick={onClose} className="text-3xl">
                 <IoClose />
               </button>
             </div>
@@ -330,6 +349,7 @@ const TambahWisata = () => {
                 )}
               </div>
 
+              {/* Submit Button */}
               <div>
                 <button
                   className="bg-hitam py-2 mt-5 hover:bg-hover px-4 text-white rounded-xl"
@@ -341,6 +361,7 @@ const TambahWisata = () => {
               </div>
             </form>
 
+            {/* Message */}
             {message && <div>{message}</div>}
           </div>
         </Box>
@@ -349,4 +370,4 @@ const TambahWisata = () => {
   );
 };
 
-export default TambahWisata;
+export default EditWisata;

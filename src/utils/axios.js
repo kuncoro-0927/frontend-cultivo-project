@@ -1,9 +1,10 @@
 import axios from "axios";
 
+import { showSnackbar } from "../component/CustomSnackbar";
 const instance = axios.create({
   baseURL: import.meta.env.VITE_APIURL,
   timeout: 1000,
-  headers: { "X-custom-header": "foobar" },
+  // headers: { "X-custom-header": "foobar" },
 });
 
 instance.interceptors.request.use(
@@ -19,9 +20,14 @@ instance.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
-      console.log("Unauthorized access");
+      showSnackbar("Terjadi Kesalahan, silakan login kembali.", "error");
+      // showSnackbar("Transaksi dibatalkan!", "error");
+      // localStorage.removeItem("token");
+      // sessionStorage.removeItem("user");
+      // window.location.href = "/login"; // Redirect ke halaman login
     }
     return Promise.reject(error);
   }
 );
-export default instance;
+
+export { instance };

@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import { Link } from "react-router-dom";
-import instance from "../../src/utils/axios";
+import { instance } from "../../src/utils/axios";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -17,13 +17,23 @@ const Login = () => {
     try {
       const response = await instance.post("/login", { email, password });
 
-      const user = { name: response.data.name, role: response.data.role };
+      const { token, ...userData } = response.data;
 
-      localStorage.setItem("token", response.data.token);
-      login(response.data.token, user);
-      navigate("/dashboard");
+      // Menyimpan token dan data pengguna di AuthContext
+      login(token, userData);
+
+      // Redirect berdasarkan role pengguna
+      if (userData.role === "admin") {
+        navigate("/admin/dashboard");
+      } else if (userData.role === "attendant") {
+        navigate("/attendant/dashboard"); // Ganti dengan path halaman attendant
+      } else if (userData.role === "user") {
+        navigate("/");
+      }
     } catch (err) {
-      setError("Login gagal: " + err.response.data.message);
+      setError(
+        "Login gagal: " + (err.response?.data?.message || "Terjadi kesalahan")
+      );
     }
   };
 

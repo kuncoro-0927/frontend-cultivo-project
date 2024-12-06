@@ -1,18 +1,26 @@
 import { Link } from "react-router-dom";
 import CardDaerah from "../component/card/CardDaerah";
-import axios from "axios";
+import { instance } from "../utils/axios";
 import { useState, useEffect } from "react";
 
 const DaerahWisata = () => {
-  const [daerah, setDaerah] = useState([]);
+  const [city, setDaerah] = useState([]);
 
   useEffect(() => {
     getDaerah();
   }, []);
 
   const getDaerah = async () => {
-    const response = await axios.get("http://localhost:5000/daerah");
-    setDaerah(response.data);
+    try {
+      const response = await instance.get("/daerah");
+
+      const dataDaerah = Array.isArray(response.data.data)
+        ? response.data.data
+        : [response.data.data];
+      setDaerah(dataDaerah);
+    } catch (error) {
+      console.error("Error fetching data daerah:", error);
+    }
   };
 
   return (
@@ -26,37 +34,30 @@ const DaerahWisata = () => {
         </div>
 
         <div className="mt-7 md:mx-0 gap-3 flex flex-wrap lg:gap-10 lg:p-1 lg:mt-16">
-          {/* Kartu yang muncul secara horizontal di layar besar */}
           <div className="hidden md:hidden lg:grid lg:justify-between lg:grid-cols-4 lg:w-full lg:gap-3 lg:gap-y-10">
-            {daerah.map((daerahItem) => (
-              <Link
-                key={daerahItem.id}
-                to={`/wisata/daerah/${daerahItem.id}`} // Menambahkan path dinamis untuk daerah
-              >
-                <CardDaerah
-                  title={daerahItem.name}
-                  image={daerahItem.url}
-                  path={daerahItem.path}
-                />
-              </Link>
-            ))}
+            {Array.isArray(city) &&
+              city.map((daerahItem) => (
+                <Link
+                  key={daerahItem.id}
+                  to={`/wisata/daerah/${daerahItem.id}`}
+                >
+                  <CardDaerah title={daerahItem.name} img={daerahItem.url} />
+                </Link>
+              ))}
           </div>
         </div>
 
         <div className="carousel carousel-center max-w-full space-x-3 px-8 py-3 lg:hidden">
           <div className="carousel-item gap-3">
-            {daerah.map((daerahItem) => (
-              <Link
-                key={daerahItem.id}
-                to={`/wisata/daerah/${daerahItem.id}`} // Menambahkan path dinamis untuk daerah
-              >
-                <CardDaerah
-                  title={daerahItem.name}
-                  image={daerahItem.url}
-                  path={daerahItem.path}
-                />
-              </Link>
-            ))}
+            {Array.isArray(city) &&
+              city.map((daerahItem) => (
+                <Link
+                  key={daerahItem.id}
+                  to={`/wisata/daerah/${daerahItem.id}`}
+                >
+                  <CardDaerah title={daerahItem.name} img={daerahItem.url} />
+                </Link>
+              ))}
           </div>
         </div>
       </section>
