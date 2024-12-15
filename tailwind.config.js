@@ -3,6 +3,7 @@ import daisyui from "daisyui";
 
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
+
   theme: {
     extend: {
       fontFamily: {
@@ -14,6 +15,8 @@ export default {
         hijau: "#D5ED9F",
         "hijau-tua": "#DEE8CF",
         hitam: "#2B2B2B",
+        hitam2: " #333333",
+
         hover: "#171717",
         "hijau-opa": "#B0B7A5",
         button: "#2B2B2B",

@@ -2,34 +2,94 @@
 import { useParams } from "react-router-dom";
 import { IoClose } from "react-icons/io5";
 import { useEffect, useState } from "react";
-
-import axios from "axios";
+import { instance } from "../utils/axios";
 import CardImg from "../component/card/CardImg";
 import { Modal, Box } from "@mui/material";
-import { CiHeart } from "react-icons/ci";
+// import { CiHeart } from "react-icons/ci";
 import { IoShareSocial } from "react-icons/io5";
 import { FaCheck } from "react-icons/fa";
-
+import PopUpPesan from "../component/TesPesan";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import { IconButton } from "@mui/material";
+import { useWishlist } from "../contexts/WishlistsContext";
+import { showSnackbar } from "../component/CustomSnackbar";
 const WisataDetail = () => {
+  const { wisataId } = useParams();
+  const { wishlist, setWishlist } = useWishlist();
+  const isInWishlist = wishlist.some(
+    (item) => item.agrotourism_id === wisataId
+  );
+  const [isPopUpOpen, setIsPopUpOpen] = useState(false);
+  const [modalStep, setModalStep] = useState(1); // 1: Pilih Tanggal, 2: Konfirmasi
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [quantity, setQuantity] = useState(1);
+  const [total, setTotal] = useState(0);
   const [showNavbar, setShowNavbar] = useState(false);
   const [scrollPosition, setScrollPosition] = useState(0);
 
   const [showAllImages, setShowAllImages] = useState(false);
   const [open, setOpen] = useState(false);
-  const { id } = useParams(); // Mengambil ID dari URL
-  const [wisata, setWisata] = useState("");
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
+  const [wisataDetail, setWisataDetail] = useState(null);
+  const toggleWishlist = async () => {
+    try {
+      if (isInWishlist) {
+        // Hapus dari wishlist
+        await instance.delete(`/delete/wishlist/${wisataId}`);
+        const updatedWishlist = wishlist.filter(
+          (item) => item.agrotourism_id !== wisataId
+        );
+        setWishlist(updatedWishlist);
+        localStorage.setItem("wishlist", JSON.stringify(updatedWishlist));
+        showSnackbar("Wishlist berhasil dihapus", "success");
+      } else {
+        // Tambahkan ke wishlist
+        await instance.post("/add/wishlist", { agrotourism_id: wisataId });
+        const updatedWishlist = [...wishlist, { agrotourism_id: wisataId }];
+        setWishlist(updatedWishlist);
+        localStorage.setItem("wishlist", JSON.stringify(updatedWishlist));
+      }
+    } catch (error) {
+      console.error("Error toggling wishlist:", error);
+    }
+  };
 
   useEffect(() => {
-    // Mengambil data wisata berdasarkan ID yang diterima dari URL
-    axios
-      .get(`http://localhost:5000/wisata/${id}`)
+    // Memuat wishlist dari localStorage saat komponen dimuat
+    const savedWishlist = JSON.parse(localStorage.getItem("wishlist"));
+    if (savedWishlist) {
+      setWishlist(savedWishlist);
+    }
+  }, [setWishlist]);
+
+  useEffect(() => {
+    if (wisataDetail?.price) {
+      setTotal(wisataDetail.price * quantity);
+    }
+  }, [quantity, wisataDetail]);
+  const handleNextStep = (date) => {
+    setSelectedDate(date);
+    setModalStep(2); // Pindah ke langkah Konfirmasi
+  };
+  useEffect(() => {
+    instance
+      .get(`/agrotourism/${wisataId}`)
       .then((response) => {
-        setWisata(response.data);
+        const wisata = response.data.data[0];
+        setWisataDetail(wisata);
+        console.log("Wisata Detail (State):", wisata);
       })
       .catch((error) => {
-        console.error("Error fetching wisata data:", error);
+        console.error("Error fetching wisata detail:", error);
       });
-  }, [id]); // Menyebabkan rerender jika id berubah
+  }, [wisataId]);
+
+  useEffect(() => {
+    console.log("Updated Wisata Detail:", wisataDetail);
+  }, [wisataDetail]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -51,27 +111,27 @@ const WisataDetail = () => {
     setShowAllImages(!showAllImages);
   };
 
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-
+  if (!wisataDetail) {
+    return <div></div>;
+  }
   return (
-    <section className="mt-20 sm:mt-20 mx-7 md:mt-20 md:mx-10 lg:mx-14 lg:mt-24 flex flex-col md:flex-row ">
+    <section className="mt-5 sm:mt-20 mx-7 md:mt-20 md:mx-10 lg:mx-14 lg:mt-24 flex flex-col md:flex-row ">
       <div className="flex-1">
         <h1 className="text-2xl sm:text-3xl font-extrabold md:text-4xl text-hitam">
-          {wisata.name}
+          {wisataDetail.name}
         </h1>
         <p className="mt-5 md:mt-7 text-md sm:text-base lg:text-lg text-hitam lg:max-w-3xl">
-          {wisata.detail}
+          {wisataDetail.description}
         </p>
 
         <div className="mt-7">
           <h2 className="text-xl font-bold">Fasilitas:</h2>
         </div>
 
-        {/* FASILITAS UNTUK LAYAR BESAR */}
         <div className="flex-wrap justify-start mt-4 gap-4 flex max-w-4xl">
-          {typeof wisata.facility === "string" && wisata.facility.length > 0 ? (
-            wisata.facility.split(",").map((item, index) => (
+          {typeof wisataDetail.facility === "string" &&
+          wisataDetail.facility.length > 0 ? (
+            wisataDetail.facility.split(",").map((item, index) => (
               <div
                 key={index}
                 className="rounded-lg lg:flex items-center lg:justify-center px-4 py-3 border border-black hidden md:flex"
@@ -86,10 +146,10 @@ const WisataDetail = () => {
           )}
         </div>
 
-        {/* FASILITAS UNTUK LAYAR KECIL */}
         <div className="mt-1 gap-2 flex max-w-full carousel carousel-center py-1 md:hidden">
-          {typeof wisata.facility === "string" && wisata.facility.length > 0 ? (
-            wisata.facility.split(",").map((item, index) => (
+          {typeof wisataDetail.facility === "string" &&
+          wisataDetail.facility.length > 0 ? (
+            wisataDetail.facility.split(",").map((item, index) => (
               <div
                 key={index}
                 className="carousel-item rounded-lg px-4 py-3 border border-black"
@@ -105,21 +165,24 @@ const WisataDetail = () => {
         </div>
 
         <div className="flex-wrap justify-start mt-4 lg:mt-10 gap-4 flex">
-          {typeof wisata.gallery === "string" && wisata.gallery.length > 0 ? (
-            // Memisahkan string gambar berdasarkan koma, menghilangkan spasi ekstra, dan menampilkan maksimal 4 gambar
-            wisata.gallery
-              .split(",")
+          {Array.isArray(wisataDetail.url_gallery) &&
+          wisataDetail.url_gallery.length > 0 ? (
+            wisataDetail.url_gallery.slice(0, 4).map((url, index) => (
+              <div key={index} className="flex justify-center">
+                <CardImg img={url.trim()} />
+              </div>
+            ))
+          ) : typeof wisataDetail.url_gallery === "string" &&
+            wisataDetail.url_gallery.length > 0 ? (
+            JSON.parse(wisataDetail.url_gallery)
               .slice(0, 4)
-              .map((image, index) => (
+              .map((url, index) => (
                 <div key={index} className="flex justify-center">
-                  {/* Menambahkan path dasar di depan nama file gambar */}
-                  <CardImg
-                    img={`http://localhost:5000/images/${image.trim()}`}
-                  />
+                  <CardImg img={url.trim()} />
                 </div>
               ))
           ) : (
-            <p>No images available</p> // Menampilkan pesan jika tidak ada gambar
+            <p>No images available</p>
           )}
         </div>
 
@@ -131,15 +194,19 @@ const WisataDetail = () => {
           <div className="fixed bottom-0 left-0 right-0 bg-white border-t shadow-md p-4 flex justify-between items-center z-10 lg:hidden md:hidden">
             <div className="text-sm">
               Mulai Dari
-              <div className="text-lg font-extrabold">IDR {wisata.price}</div>
+              <div className="text-lg font-extrabold">
+                IDR {wisataDetail.price}
+              </div>
             </div>
-            <button className="py-2 px-4 bg-hitam rounded-md text-white">
+            <button
+              onClick={() => setIsPopUpOpen(true)}
+              className="py-2 px-4 bg-hitam rounded-md text-white"
+            >
               Pesan Sekarang
             </button>
           </div>
         )}
 
-        {/* Modal untuk menampilkan semua gambar */}
         <Modal open={open} onClose={handleClose}>
           <Box
             sx={{
@@ -163,18 +230,30 @@ const WisataDetail = () => {
             </div>
 
             <div className="grid grid-cols-1 justify-center mt-10 gap-10">
-              {typeof wisata.gallery === "string" &&
-              wisata.gallery.length > 0 ? (
-                // Memisahkan string gambar berdasarkan koma, menghilangkan spasi ekstra, dan menampilkan maksimal 4 gambar
-                wisata.gallery.split(",").map((image, index) => (
-                  <div key={wisata.id} className="relative flex justify-center">
+              {Array.isArray(wisataDetail.url_gallery) &&
+              wisataDetail.url_gallery.length > 0 ? (
+                wisataDetail.url_gallery.slice(0, 4).map((url, index) => (
+                  <div key={index} className="flex justify-center">
                     <img
-                      src={`http://localhost:5000/images/${image.trim()}`}
-                      alt={`Gambar ${index + 1}`}
                       className="w-full h-auto max-w-[700px] rounded-xl transition-transform duration-300 ease-in-out transform hover:scale-105"
+                      src={url.trim()}
+                      alt=""
                     />
                   </div>
                 ))
+              ) : typeof wisataDetail.url_gallery === "string" &&
+                wisataDetail.url_gallery.length > 0 ? (
+                JSON.parse(wisataDetail.url_gallery)
+                  .slice(0, 4)
+                  .map((url, index) => (
+                    <div key={index} className="flex justify-center">
+                      <img
+                        className="w-full h-auto max-w-[700px] rounded-xl transition-transform duration-300 ease-in-out transform hover:scale-105"
+                        src={url.trim()}
+                        alt=""
+                      />
+                    </div>
+                  ))
               ) : (
                 <p>No images available</p>
               )}
@@ -183,7 +262,6 @@ const WisataDetail = () => {
         </Modal>
       </div>
 
-      {/* Konten di sebelah kanan */}
       <div className="md:ml-10">
         <div className="md:flex flex-col hidden">
           <div className="bg-hijau-opa font-medium max-w-72 lg:text-sm text-white flex items-center justify-center py-2 rounded-tr-lg rounded-tl-lg">
@@ -192,20 +270,45 @@ const WisataDetail = () => {
           <div className="px-5 items-center justify-center max-w-72 border shadow-sm">
             <p className="text-[0.8rem] mt-5">Mulai Dari</p>
             <div className="flex justify-start text-2xl font-extrabold">
-              IDR {wisata.price}
+              IDR {wisataDetail.price}
             </div>
-            <button className="w-full py-3 mr-5 lg:mt-5 mb-10 bg-hitam rounded-md text-white flex justify-center hover:-translate-y-1 duration-300">
+            <button
+              onClick={() => setIsPopUpOpen(true)}
+              className="w-full py-3 mr-5 lg:mt-5 mb-10 bg-hitam rounded-md text-white flex justify-center hover:-translate-y-1 duration-300"
+            >
               Pesan Sekarang
             </button>
+            <PopUpPesan
+              open={isPopUpOpen}
+              onClose={() => {
+                setIsPopUpOpen(false);
+                setModalStep(1); // Reset ke langkah pertama saat modal ditutup
+              }}
+              wisataName={wisataDetail?.name || ""}
+              onConfirm={handleNextStep}
+              modalStep={modalStep}
+              selectedDate={selectedDate}
+              setSelectedDate={setSelectedDate}
+              quantity={quantity}
+              setQuantity={setQuantity}
+              total={total}
+            />
           </div>
 
           <div className="px-3 border font-medium max-w-72 text-hitam flex items-center justify-between py-5 rounded-br-lg rounded-bl-lg">
             <button className="flex items-center gap-2">
               <IoShareSocial className="text-xl" /> Bagikan
             </button>
-            <button className="flex items-center gap-2">
+            {/* <button className="flex items-center gap-2">
               <CiHeart className="text-xl" /> Simpan
-            </button>
+            </button> */}
+            <IconButton onClick={toggleWishlist}>
+              {isInWishlist ? (
+                <FavoriteIcon className="text-red-500" />
+              ) : (
+                <FavoriteBorderIcon />
+              )}
+            </IconButton>
           </div>
         </div>
 

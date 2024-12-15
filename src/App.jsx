@@ -1,57 +1,34 @@
-import NavBar from "./component/NavBar";
-import About from "./pages/About";
-import Home from "./pages/Home";
-import Aktivitas from "./pages/Aktivitas";
-import Kontak from "./pages/Kontak";
-import DaerahWisata from "./pages/DaerahWisata";
-import DaerahDetail from "./pages/DaerahDetail";
-import WisataDetail from "./pages/WisataDetail";
-import Footer from "./component/Footer";
+/* eslint-disable no-unused-vars */
 import { Routes, Route } from "react-router-dom";
-import { useAuth } from "./contexts/AuthContext";
-import Review from "./component/Review";
-import Register from "./pages/Register";
-import Login from "./pages/Login";
-import PrivateRoute from "./component/PrivateRoute";
-import Dashboard from "./pages/admin/DashboardAdmin";
-import AdminNavBar from "./component/AdminNavBar";
-import DataAtraksi from "./pages/admin/DataAtraksi";
+import PrivateRoute from "./routes/PrivateRoute";
+import UserRoutes from "./routes/UserRoutes";
+import AdminRoutes from "./routes/AdminRoutes";
+import React, { useState, useEffect } from "react";
+import { CustomSnackbar } from "./component/CustomSnackbar";
+import AttendantRoutes from "./routes/AttendantRoutes";
+
 function App() {
-  const { user } = useAuth();
   return (
     <>
-      {user?.role === "admin" ? <AdminNavBar /> : <NavBar />}
+      <div>
+        {/* Komponen lainnya */}
+        <CustomSnackbar /> {/* Pastikan ini ada di layout utama */}
+      </div>
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/aktivitas" element={<Aktivitas />} />
-        <Route path="/kontak" element={<Kontak />} />
-        <Route path="/seluruhwisata" element={<DaerahWisata />} />
-        <Route path="/wisata/daerah/:daerahId" element={<DaerahDetail />} />
-        <Route path="/wisata/detail/:id" element={<WisataDetail />} />
-        <Route path="/review" element={<Review />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+        {/* User Routes */}
+        <Route path="/*" element={<UserRoutes />} />
+        <Route path="/attendant/*" element={<AttendantRoutes />} />
 
-        {/* Private route untuk admin */}
+        {/* Admin Routes */}
         <Route
-          path="/dashboard"
+          path="/admin/*"
           element={
             <PrivateRoute requiredRole="admin">
-              <Dashboard />
-            </PrivateRoute>
-          }
-        />
-        <Route
-          path="/data_atraksi"
-          element={
-            <PrivateRoute requiredRole="admin">
-              <DataAtraksi />
+              <AdminRoutes />
             </PrivateRoute>
           }
         />
       </Routes>
-      <Footer />
     </>
   );
 }

@@ -2,26 +2,31 @@ import CardAktivitas from "../component/card/CardAktivitas";
 import CardDaerah from "../component/card/CardDaerah";
 import CardRekomendasi from "../component/card/CardRekomendasi";
 import { aktivitasList } from "../data_sementara/DataWisata";
-import { rekomendasiList } from "../data_sementara/DataWisata";
 import SwiperCardReview from "../component/SwiperCardReview";
 import { CiSearch } from "react-icons/ci";
 import { Link } from "react-router-dom";
 import { LuArrowUpRight } from "react-icons/lu";
-import axios from "axios";
+
 import { useState, useEffect } from "react";
+
+import { instance } from "../utils/axios";
+// import { useAuth } from "../contexts/AuthContext";
 const Home = () => {
-  const [daerah, setDaerah] = useState([]);
+  const [city, setDaerah] = useState([]);
+  const [agrotourism, setAgrotourism] = useState([]);
 
   useEffect(() => {
     getDaerah();
   }, []);
 
+  useEffect(() => {
+    getAgrotourism();
+  }, []);
+
   const getDaerah = async () => {
     try {
-      const response = await axios.get(
-        "http://localhost:5000/cultivo/api/daerah"
-      );
-      // Memastikan response.data adalah array
+      const response = await instance.get("/daerah");
+
       const dataDaerah = Array.isArray(response.data.data)
         ? response.data.data
         : [response.data.data];
@@ -31,10 +36,31 @@ const Home = () => {
     }
   };
 
+  const getAgrotourism = async () => {
+    try {
+      const response = await instance.get("/agrotourism");
+
+      const dataAgrotourism = Array.isArray(response.data.data)
+        ? response.data.data
+        : [response.data.data];
+      setAgrotourism(dataAgrotourism);
+    } catch (error) {
+      console.error("Error fetching data daerah:", error);
+    }
+  };
+
+  const truncateDescriptionByChar = (description, charLimit) => {
+    if (description.length <= charLimit) {
+      return description;
+    } else {
+      return description.slice(0, charLimit) + "...";
+    }
+  };
+
   return (
     <>
       <section
-        className="mx-7 md:mx-10 px-7 lg:h-[600px] xl:h-screen h-96 bg-cover bg-center lg:mx-10 rounded-2xl md:rounded-3xl flex items-center justify-center lg:px-12 mt-[75px] sm:mt-[80px]  lg:mt-[75px]"
+        className="mx-7 md:mx-10 px-7 lg:h-[600px] xl:h-screen h-96 bg-cover bg-center lg:mx-10 rounded-2xl md:rounded-3xl flex items-center justify-center lg:px-12 mt-[66px] sm:mt-[73px]  lg:mt-[74\3px]"
         style={{ backgroundImage: "url('images/header.svg')" }}
       >
         <div className="text-center max-w-5xl">
@@ -43,7 +69,6 @@ const Home = () => {
             moral yang baik, dan kebahagiaan.
           </h1>
 
-          {/* Input di bawah teks */}
           <div className="lg:mt-20 mt-7 flex justify-center">
             <div className="relative">
               <span className="ml-1 sm:ml-2 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none">
@@ -122,7 +147,6 @@ const Home = () => {
                 image={wisata.image}
                 price={wisata.price}
                 path={wisata.path}
-                // Pastikan untuk menambahkan properti ini
               />
             ))}
           </div>
@@ -138,7 +162,6 @@ const Home = () => {
                 image={wisata.image}
                 price={wisata.price}
                 path={wisata.path}
-                // Pastikan untuk menambahkan properti ini
               />
             ))}
           </div>
@@ -154,13 +177,12 @@ const Home = () => {
         </div>
 
         <div className="mt-7 md:mx-0 gap-3 flex flex-wrap lg:gap-10 lg:p-1 lg:mt-16">
-          {/* Kartu yang muncul secara horizontal di layar besar */}
           <div className="hidden md:hidden lg:flex lg:justify-between lg:w-full lg:gap-3">
-            {Array.isArray(daerah) &&
-              daerah.slice(0, 4).map((daerahItem) => (
+            {Array.isArray(city) &&
+              city.slice(0, 4).map((daerahItem) => (
                 <Link
                   key={daerahItem.id}
-                  to={`/wisata/daerah/${daerahItem.id}`} // Menambahkan path dinamis
+                  to={`/wisata/daerah/${daerahItem.id}`}
                 >
                   <CardDaerah title={daerahItem.name} img={daerahItem.url} />
                 </Link>
@@ -170,18 +192,15 @@ const Home = () => {
 
         <div className="carousel carousel-center max-w-full space-x-3 px-8 py-3 lg:hidden ">
           <div className="carousel-item gap-3">
-            {daerah.map((daerahItem) => (
-              <Link
-                key={daerahItem.id}
-                to={`/wisata/daerah/${daerahItem.id}`} // Menambahkan path dinamis
-              >
-                <CardDaerah
-                  title={daerahItem.name}
-                  image={daerahItem.url}
-                  path={daerahItem.path} // Bisa digunakan untuk kebutuhan lain, seperti link dalam card
-                />
-              </Link>
-            ))}
+            {Array.isArray(city) &&
+              city.slice(0, 4).map((daerahItem) => (
+                <Link
+                  key={daerahItem.id}
+                  to={`/wisata/daerah/${daerahItem.id}`}
+                >
+                  <CardDaerah title={daerahItem.name} img={daerahItem.url} />
+                </Link>
+              ))}
           </div>
         </div>
 
@@ -201,32 +220,53 @@ const Home = () => {
         </h1>
         <div className="mt-7 md:mt-14 lg:mt-14 grid grid-cols-2 md:flex lg:justify-between lg:p-1 xl:mt-14 ">
           <div className="hidden md:hidden lg:flex lg:justify-between lg:w-full lg:gap-3">
-            {rekomendasiList.map((rekomendasi, index) => (
-              <CardRekomendasi
-                key={index}
-                title={rekomendasi.title}
-                description={rekomendasi.description}
-                image={rekomendasi.image}
-                price={rekomendasi.price}
-                // Pastikan untuk menambahkan properti ini
-              />
-            ))}
+            {Array.isArray(agrotourism) &&
+              agrotourism
+                .filter((agrotourismItem) =>
+                  [1, 2, 9, 10].includes(agrotourismItem.id)
+                )
+                .map((agrotourismItem) => (
+                  <Link
+                    key={agrotourismItem.id}
+                    to={`/wisata/detail/${agrotourismItem.id}`}
+                  >
+                    <CardRekomendasi
+                      title={agrotourismItem.name}
+                      description={truncateDescriptionByChar(
+                        agrotourismItem.description,
+                        70
+                      )}
+                      image={agrotourismItem.url_image}
+                      price={agrotourismItem.price}
+                    />
+                  </Link>
+                ))}
           </div>
         </div>
 
         <div className="carousel  carousel-center max-w-full py-2 px-2 lg:hidden ">
           <div className="carousel-item gap-3">
-            {rekomendasiList.map((rekomendasi, index) => (
-              <CardRekomendasi
-                key={index}
-                title={rekomendasi.title}
-                description={rekomendasi.description}
-                image={rekomendasi.image}
-                price={rekomendasi.price}
-
-                // Pastikan untuk menambahkan properti ini
-              />
-            ))}
+            {Array.isArray(agrotourism) &&
+              agrotourism
+                .filter((agrotourismItem) =>
+                  [1, 2, 3, 4].includes(agrotourismItem.id)
+                )
+                .map((agrotourismItem) => (
+                  <Link
+                    key={agrotourismItem.id}
+                    to={`/wisata/detail/${agrotourismItem.id}`}
+                  >
+                    <CardRekomendasi
+                      title={agrotourismItem.name}
+                      description={truncateDescriptionByChar(
+                        agrotourismItem.description,
+                        70
+                      )}
+                      image={agrotourismItem.url_image}
+                      price={agrotourismItem.price}
+                    />
+                  </Link>
+                ))}
           </div>
         </div>
       </section>
