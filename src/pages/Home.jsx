@@ -289,8 +289,8 @@ const Home = () => {
           </div>
         </div>
 
-        <div className="carousel bg-red-300 carousel-center max-w-full py-2 lg:hidden ">
-          <div className="carousel-item gap-3 px-3">
+        <div className="carousel carousel-center max-w-full py-2 lg:hidden ">
+          <div className="carousel-item gap-3 px-1">
             {Array.isArray(rekomendasiList) &&
               rekomendasiList.map((agrotourismItem) => (
                 <CardRekomendasi
