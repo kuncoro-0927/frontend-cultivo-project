@@ -74,7 +74,7 @@ export const rekomendasiList = [
     title: "Padaawas Hills Pangalengan, Bandung",
     description:
       "Dengan keelokan hamparan kebun teh luas yang menjadi daya tarik tersendiri..",
-    image: "/public/images/paddawas.svg",
+    image: "/images/paddawas.svg",
     price: "75.000",
   },
   {
