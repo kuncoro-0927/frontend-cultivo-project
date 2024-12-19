@@ -71,28 +71,28 @@ export const aktivitasList = [
 // DATA WISATA DI BAGIAN REKOMENDASI
 export const rekomendasiList = [
   {
-    title: "Padaawas Hills Pangalengan, Bandung",
+    title: "Padaawas Hills Pangalengan",
     description:
       "Dengan keelokan hamparan kebun teh luas yang menjadi daya tarik tersendiri..",
     image: "/images/paddawas.svg",
     price: "75.000",
   },
   {
-    title: "Wisata Telaga Madiredo, Malang",
+    title: "Wisata Telaga Madiredo",
     description:
       "Di Malang, ada telaga cantik yang tengah ramai menjadi jujugan masyarakat..",
     image: "/images/madiredo.svg",
     price: "75.000",
   },
   {
-    title: "Agrowisata Amanah, Karanganyar",
+    title: "Agrowisata Amanah",
     description:
       "Menikmati sejuknya pemadangan dengan orang-orang terdekat. Selain itu Anda..",
     image: "/images/amanah.svg",
     price: "75.000",
   },
   {
-    title: "Agrowisata Wonosari, Malang",
+    title: "Agrowisata Wonosari",
     description: "Kawasan destinasi wisata alam, edukasi hingga penginapan.",
     image: "/images/wonosari.svg",
     price: "15.000",
