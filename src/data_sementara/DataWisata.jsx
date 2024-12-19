@@ -8,7 +8,7 @@ export const aktivitasList = [
       "Vin's Berry Park bergerak di bidang agribisnis budidaya dan agrowisata stroberi.",
     detail:
       "SEIN Farm Bandung menawarkan wisata edukasi pertanian, peternakan, dan budi daya ikan dengan pemandangan indah dari kaki Gunung Manglayang. Pengunjung dapat belajar tentang program ketahanan pangan dan memanfaatkan pekarangan melalui konsep Urban Farming, sekaligus menikmati keindahan alam Kota Bandung dari ketinggian.",
-    image: "/public/images/vinsberrypark.svg",
+    image: "/images/vinsberrypark.svg",
     price: "10.000",
     fasilitas: [
       { label: "Beri Makan Ayam" },
