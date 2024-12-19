@@ -154,7 +154,7 @@ const Home = () => {
         </div>
 
         <div className="carousel  carousel-center max-w-full py-2 px-2 lg:hidden ">
-          <div className="carousel-item gap-3">
+          <div className="carousel-item gap-3 px-1">
             {aktivitasList.map((wisata, index) => (
               <CardAktivitas
                 key={index}
