@@ -7,9 +7,15 @@ import useTodaySalesData from "../TodaySales";
 import { IoCartOutline, IoPricetagsOutline } from "react-icons/io5";
 import { GrTransaction } from "react-icons/gr";
 import { Link } from "react-router-dom";
+import { IoTicketOutline } from "react-icons/io5";
+import { PiCalendarCheck } from "react-icons/pi";
 import TambahWisata from "../../../component/Admin/Modal/TambahWisata";
-const Order = () => {
-  const [orders, setOrders] = useState([]);
+const DataTicket = () => {
+  const [ticketStats, setTicketStats] = useState({
+    totalTickets: 0,
+    totalActiveTickets: 0,
+  });
+  const [tickets, setTicket] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [search, setSearch] = useState(""); // State untuk filter pencarian
@@ -21,12 +27,28 @@ const Order = () => {
   const { totalSales, totalOrders, totalSuccess } = useSalesData();
   const { totalTodaySales, totalTotalOrders, totalTodaySuccess } =
     useTodaySalesData();
+
+  useEffect(() => {
+    const fetchTicketStats = async () => {
+      try {
+        const response = await instance.get("/stats/ticket"); // Sesuaikan dengan endpoint API Anda
+        setTicketStats(response.data);
+      } catch (err) {
+        setError("Gagal memuat data statistik tiket");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTicketStats();
+  }, []);
+
   useEffect(() => {
     // Mengambil data dari API
     instance
-      .get("/all/orders")
+      .get("/get/all/ticket")
       .then((response) => {
-        setOrders(response.data);
+        setTicket(response.data);
         setLoading(false);
       })
       .catch((error) => {
@@ -36,8 +58,8 @@ const Order = () => {
   }, []);
 
   // Filter data berdasarkan pencarian
-  const filteredOrders = orders.filter((order) =>
-    order.user_name.toLowerCase().includes(search.toLowerCase())
+  const filteredOrders = tickets.filter((ticket) =>
+    ticket.order_id.toLowerCase().includes(search.toLowerCase())
   );
 
   // Hitung data untuk halaman saat ini
@@ -61,21 +83,6 @@ const Order = () => {
       <section className="mx-7 flex mt-32 items-center gap-5">
         <div className="border border-gray-200 shadow-md hover:-translate-y-2 duration-300 w-60 h-36 rounded-2xl px-5 p-5">
           <div className="text-sm flex items-center gap-4">
-            <div className="bg-green-100 p-2 rounded-md text-green-600 text-base font-extrabold">
-              {" "}
-              <IoCartOutline />
-            </div>
-            <p className="font-semibold">Total Pesanan</p>
-          </div>
-          <p className="font-extrabold text-xl mt-3">{totalOrders}</p>
-
-          <p className="text-xs font-bold mt-5 text-green-600">
-            +{totalTotalOrders} hari ini
-          </p>
-        </div>
-
-        <div className="border border-gray-200 shadow-md hover:-translate-y-2 duration-300 w-60 h-36 rounded-2xl px-5 p-5">
-          <div className="text-sm flex items-center gap-4">
             <div className="bg-orange-100 p-2 rounded-md text-orange-600 text-base font-extrabold">
               {" "}
               <IoPricetagsOutline />
@@ -95,13 +102,30 @@ const Order = () => {
           <div className="text-sm flex items-center gap-4">
             <div className="bg-blue-100 p-2 rounded-md text-blue-600 text-base font-extrabold">
               {" "}
-              <GrTransaction />
+              <IoTicketOutline />
             </div>
-            <p className="font-semibold">Transaksi Berhasil</p>
+            <p className="font-semibold">Total Tiket</p>
           </div>
-          <p className="font-extrabold text-xl mt-3">{totalSuccess}</p>
+          <p className="font-extrabold text-xl mt-3">
+            {ticketStats.totalTickets}
+          </p>
 
-          <p className="text-xs font-bold mt-5 text-blue-600">
+          <p className="text-xs font-bold mt-5 text-blue-600">+ 0 hari ini</p>
+        </div>
+
+        <div className="border border-gray-200 shadow-md hover:-translate-y-2 duration-300 w-60 h-36 rounded-2xl px-5 p-5">
+          <div className="text-sm flex items-center gap-4">
+            <div className="bg-green-100 p-2 rounded-md text-green-600 text-base font-extrabold">
+              {" "}
+              <PiCalendarCheck />
+            </div>
+            <p className="font-semibold">Tiket Aktif</p>
+          </div>
+          <p className="font-extrabold text-xl mt-3">
+            {ticketStats.totalActiveTickets}
+          </p>
+
+          <p className="text-xs font-bold mt-5 text-green-600">
             + {totalTodaySuccess} hari ini
           </p>
         </div>
@@ -114,13 +138,13 @@ const Order = () => {
             {/* Input Search */}
             <input
               type="text"
-              placeholder="Cari Data Pesanan"
+              placeholder="Cari Data Tiket"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               className="border px-4 py-2 rounded w-full"
             />
             <p className="text-xs mt-1 text-gray-500 text-end">
-              Filter pesanan berdasarkan nama
+              Filter tiket berdasarkan nama
             </p>
           </div>
         </div>
@@ -138,7 +162,7 @@ const Order = () => {
                     Nama
                   </div>
                   <div className="border-blue-gray-100 w-[250px] max-w-xl bg-blue-gray-50/50 p-4">
-                    Email
+                    Kode Tiket
                   </div>
                   <div className=" border-blue-gray-100 w-[200px] max-w-xl bg-blue-gray-50/50 p-4">
                     Wisata
@@ -160,54 +184,54 @@ const Order = () => {
             </div>
             <div>
               {currentOrders.length > 0 ? (
-                currentOrders.map((order) => (
+                currentOrders.map((ticket) => (
                   <div
-                    key={order.order_id}
+                    key={ticket.id}
                     className="flex items-center justify-between " // Menambahkan garis batas bawah antar baris
                   >
                     <div className="rounded-full  px-3 shadow-md my-2 flex items-center justify-between  ">
                       <div className="p-4  w-[150px] max-w-xl">
-                        {order.order_id}
+                        {ticket.order_id}
                       </div>
 
                       <div className=" p-4 w-[200px] max-w-xl">
-                        {order.user_name}
+                        {ticket.user_name}
                       </div>
                       <div className="p-4 w-[250px] max-w-xl  text-blue-500 font-semibold underline ">
-                        {order.email}
+                        {ticket.ticket_code}
                       </div>
 
                       <div className="p-4 w-[200px] max-w-xl ">
-                        {order.agrotourism_name}
+                        {ticket.agrotourism_name}
                       </div>
                       <div className="p-4 w-[70px] max-w-xl ">
-                        {order.quantity}
+                        {ticket.quantity}
                       </div>
                       <div className="p-4 w-[90px] max-w-xl ">
-                        {order.total_price}
+                        {ticket.total_price}
                       </div>
                       <div className="p-4 w-[110px] max-w-xl ">
                         <div className="w-max">
                           <div
                             className={`relative grid items-center font-sans font-bold uppercase whitespace-nowrap select-none py-1 px-2 text-xs rounded-md
                           ${
-                            order.status === "pending"
+                            ticket.status === "Used"
                               ? "bg-blue-500/20 text-blue-900"
                               : ""
                           }
                           ${
-                            order.status === "failed"
+                            ticket.status === "Expired"
                               ? "bg-red-500/20 text-red-900"
                               : ""
                           }
                           ${
-                            order.status === "success"
+                            ticket.status === "Active"
                               ? "bg-green-500/20 text-green-900"
                               : ""
                           }
                         `}
                           >
-                            <span>{order.status}</span>
+                            <span>{ticket.status}</span>
                           </div>
                         </div>
                       </div>
@@ -255,4 +279,4 @@ const Order = () => {
   );
 };
 
-export default Order;
+export default DataTicket;

@@ -54,6 +54,22 @@ const SidebarAccount = () => {
             </NavLink>
           </li>
 
+          {/* WISHLIST */}
+
+          {/* <li className="">
+            <NavLink
+              to="/account/review"
+              className={({ isActive }) =>
+                isActive
+                  ? "text-hitam border-r-2 border-hitam hover:bg-gray-200 hover:bg-opacity-40 lg:ml-10 ml-5 md:ml-7 pl-5 lg:pl-10 lg:pr-10 py-3 font-bold text-sm md:text-sm lg:text-base flex items-center justify-between"
+                  : "text-hitam hover:bg-gray-200 hover:bg-opacity-40 ml-5 md:ml-7 lg:ml-10 pl-5 lg:pl-10 lg:pr-10 py-3 font-normal text-sm md:text-sm lg:text-base flex items-center justify-between"
+              }
+            >
+              <CiHeart className="text-lg mr-2" />
+              <span className="flex-1">Review</span>{" "}
+            </NavLink>
+          </li> */}
+
           {/* Logout */}
 
           <li className="md:ml-7 sm:ml-5 lg:ml-10">

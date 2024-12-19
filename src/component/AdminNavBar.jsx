@@ -151,7 +151,7 @@ export default function NavBar() {
                 </li>
                 <li className="">
                   <NavLink
-                    to="/admin/kontak"
+                    to="/admin/users"
                     className={({ isActive }) =>
                       isActive
                         ? "text-blue-500 font-bold py-2 px-4 rounded-full md:text-sm lg:text-base"
@@ -163,7 +163,7 @@ export default function NavBar() {
                 </li>
                 <li className="">
                   <NavLink
-                    to="/admin/kontak"
+                    to="/admin/ticket"
                     className={({ isActive }) =>
                       isActive
                         ? "text-blue-500 font-bold py-2 px-4 rounded-full md:text-sm lg:text-base"
@@ -260,8 +260,13 @@ export default function NavBar() {
                   className="flex items-center gap-3 cursor-pointer"
                   onClick={toggleDropdown}
                 >
-                  <span>Hai, {user?.name}!</span>
-                  <Avatar src="/broken-image.jpg" />
+                  <div className="flex-col">
+                    <p className="text-sm font-bold">Khansa Hasri Ainun</p>
+                    <p className="text-xs text-gray-600">
+                      hasriainun@gmail.com
+                    </p>
+                  </div>
+                  <Avatar src="/public/images/hasri.png" />
                 </div>
 
                 {/* Dropdown Menu */}

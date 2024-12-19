@@ -8,7 +8,7 @@ import { useState, useEffect } from "react";
 import { updateUserProfile, getUserData } from "../../services/UserServices"; // Import service untuk API
 import { useNavigate } from "react-router-dom"; // Untuk navigasi setelah update
 import Cookies from "js-cookie";
-
+import { showSnackbar } from "../../component/CustomSnackbar";
 const Profile = () => {
   const { updateUser } = useAuth();
   const [message, setMessage] = useState("");
@@ -70,6 +70,7 @@ const Profile = () => {
       Cookies.set("user", JSON.stringify(formData), { expires: 7, path: "/" });
 
       setMessage("Profil berhasil diperbarui!");
+      showSnackbar("Profil berhasil diperbarui!", "success");
       if (updateUser) {
         updateUser(formData); // Update state global jika perlu
       }
@@ -250,7 +251,8 @@ const Profile = () => {
             >
               Simpan
             </button>
-            {message && <p className="ml-4 text-green-500">{message}</p>}
+
+            {message && <p className="ml-4 text-green-500">{showSnackbar}</p>}
           </div>
         </form>
       </div>

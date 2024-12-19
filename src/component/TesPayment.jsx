@@ -53,7 +53,7 @@ const PaymentPage = () => {
       // Panggil Snap Midtrans
       window.snap.pay(snapToken, {
         onSuccess: function (result) {
-          showSnackbar("Pembayaran berhasilfafa!", "success");
+          showSnackbar("Pembayaran berhasil!", "success");
           console.log("Success:", result);
           setIsPaymentCompleted(true);
         },
@@ -81,22 +81,27 @@ const PaymentPage = () => {
   return (
     <>
       <CustomSnackbar />
-      <section className="flex flex-col lg:flex-row  mt-24 mx-14 space-y-10 lg:space-y-0 ">
-        <div className="w-[700px] pr-10 ">
-          <div className="font-extrabold text-4xl text-hitam">Pembayaran</div>
+      <section className="flex flex-col-reverse md:flex-col lg:flex-row mx-10 mt-10 md:mt-24 md:mx-14 space-y-10 lg:space-y-0 ">
+        <div className="md:w-[700px] w-[400px] pr-10 ">
+          <div className="font-extrabold mt-10 md:mt-0 text-3xl md:text-4xl text-hitam">
+            Pembayaran
+          </div>
 
-          <div className="bg-hijau-muda flex items-center justify-between space-x-3 font-normal bg-opacity-30 py-3 px-4 mt-5">
-            <FaRegCircleUser />
+          <div className="bg-hijau-muda text-xs md:text-base grid md:flex items-center justify-between space-x-3 font-normal bg-opacity-30 py-3 px-2 md:px-4 mt-5">
+            <FaRegCircleUser className="hidden md:flex" />
             <p className="flex-1">
               Kamu masuk sebagai{" "}
               <span className="font-bold">{user?.email}</span>
             </p>
-            <p className="text-end">Bukan anda?</p>
+            <p className="md:text-end mt-1">
+              Bukan anda?{" "}
+              <span className="underline font-medium">Ganti akun</span>
+            </p>
           </div>
 
           <div className="mt-10">
             <h1 className="font-extrabold text-2xl">Informasi Pengguna</h1>
-            <div className="flex items-center justify-between">
+            <div className="md:flex grid items-center justify-between">
               <p className="text-sm mt-1">
                 Perbarui Profile anda jika data belum lengkap atau ada
                 kesalahan.
@@ -104,13 +109,13 @@ const PaymentPage = () => {
 
               <Link
                 to="/account/profile"
-                className="text-sm underline hover:text-blue-500"
+                className="text-sm mt-2 md:mt-0s underline hover:text-blue-500"
               >
                 Perbarui
               </Link>
             </div>
 
-            <div className="mt-7 grid grid-cols-2 gap-x-5 gap-y-8">
+            <div className="mt-7 grid md:grid-cols-2 gap-x-5 gap-y-8">
               <TextField
                 label="Nama Depan"
                 variant="outlined"
@@ -161,7 +166,7 @@ const PaymentPage = () => {
           </button>
         </div>
 
-        <div className="mt-20 w-[400px] px-10 bg-gray-300 bg-opacity-20 pt-14">
+        <div className="md:mt-20 w-[400px] px-10 bg-gray-300 bg-opacity-20 py-10 md:pt-14">
           {orderDetail ? (
             <div>
               <h2 className="font-extrabold text-2xl">Detail Pesanan</h2>

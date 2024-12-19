@@ -27,6 +27,8 @@ const EditWisata = ({ wisataId }) => {
     city_id: "",
     activities_id: "",
     facility: "",
+    include: "",
+    exclude: "",
     description: "",
     price: "",
     address: "",
@@ -76,6 +78,8 @@ const EditWisata = ({ wisataId }) => {
             city_id: validCityId || "",
             activities_id: wisataData.activities_id || "",
             facility: wisataData.facility || "",
+            include: wisataData.include || "",
+            exclude: wisataData.exclude || "",
             description: wisataData.description || "",
             price: wisataData.price || "",
             address: wisataData.address || "",
@@ -122,12 +126,15 @@ const EditWisata = ({ wisataId }) => {
     data.append("city_id", formData.city_id);
     data.append("activities_id", formData.activities_id);
     data.append("facility", formData.facility);
+    data.append("include", formData.include);
+    data.append("exclude", formData.exclude);
     data.append("description", formData.description);
     data.append("price", formData.price);
     data.append("address", formData.address);
     data.append("url_gmaps", formData.url_gmaps);
     if (image) data.append("image", image);
     gallery.forEach((file) => data.append("gallery", file));
+
     try {
       setLoading(true);
       const response = await instance.put(`/agrotourism/${wisataId}`, data, {
@@ -256,6 +263,38 @@ const EditWisata = ({ wisataId }) => {
                   required
                 />
               </div>
+              <div className="mt-4">
+                <TextField
+                  label="Include"
+                  variant="outlined"
+                  type="text"
+                  multiline
+                  rows={3}
+                  fullWidth
+                  helperText="Pisahkan dengan koma. Contoh: Wifi, Air, listrik"
+                  name="include"
+                  value={formData.include}
+                  onChange={handleInputChange}
+                  size="small"
+                  required
+                />
+              </div>
+              <div className="mt-4">
+                <TextField
+                  label="Exclude"
+                  variant="outlined"
+                  type="text"
+                  multiline
+                  rows={3}
+                  fullWidth
+                  helperText="Pisahkan dengan koma. Contoh: Wifi, Air, listrik"
+                  name="exclude"
+                  value={formData.exclude}
+                  onChange={handleInputChange}
+                  size="small"
+                  required
+                />
+              </div>
 
               <div className="mt-4">
                 <TextField
@@ -375,12 +414,12 @@ const EditWisata = ({ wisataId }) => {
                 </button>
               </div>
             </form>
-            <button
+            {/* <button
               onClick={handleClose}
               className="text-red-500  flex items-center gap-2 font-semibold mt-5"
             >
               <IoClose /> Batal
-            </button>
+            </button> */}
           </div>
         </Box>
       </Modal>

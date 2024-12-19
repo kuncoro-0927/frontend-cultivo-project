@@ -28,6 +28,8 @@ const TambahWisata = () => {
     city_id: "",
     activities_id: "",
     facility: "",
+    include: "",
+    exclude: "",
     description: "",
     price: "",
     address: "",
@@ -87,6 +89,8 @@ const TambahWisata = () => {
     data.append("city_id", formData.city_id);
     data.append("activities_id", formData.activities_id);
     data.append("facility", formData.facility);
+    data.append("include", formData.include);
+    data.append("exclude", formData.exclude);
     data.append("description", formData.description);
     data.append("price", formData.price);
     data.append("address", formData.address);
@@ -134,7 +138,7 @@ const TambahWisata = () => {
         }}
         onClick={handleOpen}
       >
-        + Data Wisata
+        + Tambah
       </Button>
 
       <Modal open={open} onClose={handleClose}>
@@ -229,6 +233,38 @@ const TambahWisata = () => {
                   helperText="Pisahkan dengan koma. Contoh: Wifi, Air, listrik"
                   name="facility"
                   value={formData.facility}
+                  onChange={handleInputChange}
+                  size="small"
+                  required
+                />
+              </div>
+              <div className="mt-4">
+                <TextField
+                  label="Include"
+                  variant="outlined"
+                  type="text"
+                  multiline
+                  rows={3}
+                  fullWidth
+                  helperText="Pisahkan dengan koma. Contoh: Wifi, Air, listrik"
+                  name="include"
+                  value={formData.include}
+                  onChange={handleInputChange}
+                  size="small"
+                  required
+                />
+              </div>
+              <div className="mt-4">
+                <TextField
+                  label="Exclude"
+                  variant="outlined"
+                  type="text"
+                  multiline
+                  rows={3}
+                  fullWidth
+                  helperText="Pisahkan dengan koma. Contoh: Wifi, Air, listrik"
+                  name="exclude"
+                  value={formData.exclude}
                   onChange={handleInputChange}
                   size="small"
                   required
@@ -344,12 +380,12 @@ const TambahWisata = () => {
                 )}
               </div>
               <div className="text-end flex items-center justify-end">
-                <button
+                {/* <button
                   onClick={handleClose}
                   className="text-red-500  flex items-center gap-2 font-semibold mt-5"
                 >
                   <IoClose /> Batal
-                </button>
+                </button> */}
                 <button
                   className="text-blue-500 flex items-center gap-2  ml-5 font-semibold mt-5"
                   type="submit "

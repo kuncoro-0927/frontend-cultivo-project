@@ -12,13 +12,14 @@ import { CiSearch } from "react-icons/ci";
 import { useAuth } from "../contexts/AuthContext";
 import ModalJoinWithUs from "./ModalJoinWithUs";
 import Avatar from "./Avatar";
+import { instance } from "../utils/axios";
 export default function NavBar() {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleDropdown = () => {
     setIsOpen((prev) => !prev);
   };
-  const { isLoggedIn, user, logout } = useAuth();
+  const { isLoggedIn, logout } = useAuth();
 
   const [navbar, setNavbar] = useState(false);
   const [scrolling, setScrolling] = useState(false);
@@ -48,6 +49,30 @@ export default function NavBar() {
   const handleLogout = async () => {
     await logout(); // Panggil fungsi logout
   };
+
+  const [name, setName] = useState("");
+  const getUserData = async () => {
+    try {
+      const response = await instance.get("/user");
+      return response.data.data; // Ambil data user dari respons
+    } catch (error) {
+      throw error.response?.data?.msg || "Terjadi kesalahan server";
+    }
+  };
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await getUserData();
+        setName(data.name);
+        console.log(data); // Lakukan sesuatu dengan data user
+      } catch (error) {
+        console.error(error); // Menangani error
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <nav
       className={`fixed w-full top-0 md:px-7 transition-colors duration-300 ${
@@ -140,7 +165,7 @@ export default function NavBar() {
                     onClick={toggleDropdown}
                   >
                     <Avatar />
-                    <span>Hai, {user?.name}!</span>
+                    <span>Hai, {name}!</span>
                   </div>
 
                   <div className="ml-4 mr-2">

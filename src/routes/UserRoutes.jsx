@@ -23,6 +23,8 @@ import Pertanian from "../pages/user/Activity/Pertanian";
 import Perkebunan from "../pages/user/Activity/Perkebunan";
 import Perikanan from "../pages/user/Activity/Perikanan";
 import Wishlist from "../pages/user/Account/Wishlists";
+import Testiket from "../pages/user/Account/testiket";
+import Reviews from "../pages/user/Account/Reviews";
 function UserRoutes() {
   const location = useLocation();
 
@@ -54,6 +56,22 @@ function UserRoutes() {
           element={
             <PrivateRoute>
               <Wishlist />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/account/tiket"
+          element={
+            <PrivateRoute>
+              <Testiket />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/account/review"
+          element={
+            <PrivateRoute>
+              <Reviews />
             </PrivateRoute>
           }
         />

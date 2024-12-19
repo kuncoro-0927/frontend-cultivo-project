@@ -89,7 +89,7 @@ import dayjs from "dayjs";
 import axios from "axios";
 
 const useSalesData = () => {
-  const [startDate, setStartDate] = useState(dayjs().subtract(1, "month")); // Default 1 bulan lalu
+  const [startDate, setStartDate] = useState(dayjs().subtract(1, "week")); // Default 1 bulan lalu
   const [endDate, setEndDate] = useState(dayjs()); // Default hari ini
   const [totalSales, setTotalSales] = useState(0);
   const [totalOrders, setTotalOrders] = useState(0);

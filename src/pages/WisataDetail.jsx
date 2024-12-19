@@ -14,6 +14,8 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import { IconButton } from "@mui/material";
 import { useWishlist } from "../contexts/WishlistsContext";
 import { showSnackbar } from "../component/CustomSnackbar";
+
+import { IoMdClose, IoMdCheckmark } from "react-icons/io";
 const WisataDetail = () => {
   const { wisataId } = useParams();
   const { wishlist, setWishlist } = useWishlist();
@@ -115,7 +117,7 @@ const WisataDetail = () => {
     return <div></div>;
   }
   return (
-    <section className="mt-5 sm:mt-20 mx-7 md:mt-20 md:mx-10 lg:mx-14 lg:mt-24 flex flex-col md:flex-row ">
+    <section className="mt-5 sm:mt-20 mx-7 md:mt-20 md:mx-10 lg:mx-14 lg:mt-24 pt-20 md:pt-0 flex flex-col md:flex-row ">
       <div className="flex-1">
         <h1 className="text-2xl sm:text-3xl font-extrabold md:text-4xl text-hitam">
           {wisataDetail.name}
@@ -125,7 +127,65 @@ const WisataDetail = () => {
         </p>
 
         <div className="mt-7">
-          <h2 className="text-xl font-bold">Fasilitas:</h2>
+          <h2 className="text-2xl font-extrabold">Alamat</h2>
+        </div>
+        <p className="mt-5 md:mt-2 text-md sm:text-base lg:text-lg text-hitam lg:max-w-3xl">
+          {wisataDetail.address}
+        </p>
+
+        <div className="mt-7">
+          <h2 className="text-2xl font-extrabold">Apa yang termasuk?</h2>
+        </div>
+        <div className=" flex items-start gap-16 mt-2">
+          <div className="grid justify-start mt-4 gap-4  max-w-4xl">
+            <p className="font-semibold text-sm md:text-base text-hitam2">
+              TERMASUK
+            </p>
+            {typeof wisataDetail.include === "string" &&
+            wisataDetail.include.length > 0 ? (
+              wisataDetail.include.split(",").map((item, index) => (
+                <div key={index} className="">
+                  <div className="flex items-center gap-3 text-xl">
+                    <div className="text-green-500">
+                      <IoMdCheckmark />
+                    </div>
+                    <div className="text-sm md:text-base grid">
+                      {item.trim()}
+                    </div>{" "}
+                  </div>
+                </div>
+              ))
+            ) : (
+              <p>No include available</p>
+            )}
+          </div>
+
+          <div className="grid justify-start mt-4 gap-4  max-w-4xl">
+            <p className="font-semibold text-sm md:text-base text-hitam2">
+              TIDAK TERMASUK
+            </p>
+            {typeof wisataDetail.exclude === "string" &&
+            wisataDetail.exclude.length > 0 ? (
+              wisataDetail.exclude.split(",").map((item, index) => (
+                <div key={index} className="">
+                  <div className="flex items-center gap-3 text-xl">
+                    <div className="text-red-500">
+                      <IoMdClose />
+                    </div>
+                    <div className="text-sm md:text-base grid">
+                      {item.trim()}
+                    </div>{" "}
+                  </div>
+                </div>
+              ))
+            ) : (
+              <p>No exclude available</p>
+            )}
+          </div>
+        </div>
+
+        <div className="mt-7">
+          <h2 className="text-2xl font-extrabold">Fasilitas</h2>
         </div>
 
         <div className="flex-wrap justify-start mt-4 gap-4 flex max-w-4xl">
@@ -270,7 +330,7 @@ const WisataDetail = () => {
           <div className="px-5 items-center justify-center max-w-72 border shadow-sm">
             <p className="text-[0.8rem] mt-5">Mulai Dari</p>
             <div className="flex justify-start text-2xl font-extrabold">
-              IDR {wisataDetail.price}
+              IDR {Number(wisataDetail.price).toLocaleString("id-ID")}
             </div>
             <button
               onClick={() => setIsPopUpOpen(true)}
@@ -292,6 +352,7 @@ const WisataDetail = () => {
               quantity={quantity}
               setQuantity={setQuantity}
               total={total}
+              price={wisataDetail?.price.toLocaleString()}
             />
           </div>
 

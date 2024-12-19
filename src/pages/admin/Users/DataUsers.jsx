@@ -8,8 +8,19 @@ import { IoCartOutline, IoPricetagsOutline } from "react-icons/io5";
 import { GrTransaction } from "react-icons/gr";
 import { Link } from "react-router-dom";
 import TambahWisata from "../../../component/Admin/Modal/TambahWisata";
-const Order = () => {
-  const [orders, setOrders] = useState([]);
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import CancelIcon from "@mui/icons-material/Cancel";
+import { CiUser } from "react-icons/ci";
+import { LuUserCheck } from "react-icons/lu";
+import { FaGoogle } from "react-icons/fa";
+const DataUsers = () => {
+  const [stats, setStats] = useState({
+    totalUsers: 0,
+    totalVerifiedUsers: 0,
+    totalGoogleUsers: 0,
+  });
+  const [users, setUsers] = useState([]);
+
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [search, setSearch] = useState(""); // State untuk filter pencarian
@@ -24,9 +35,9 @@ const Order = () => {
   useEffect(() => {
     // Mengambil data dari API
     instance
-      .get("/all/orders")
+      .get("/all/user")
       .then((response) => {
-        setOrders(response.data);
+        setUsers(response.data);
         setLoading(false);
       })
       .catch((error) => {
@@ -36,9 +47,11 @@ const Order = () => {
   }, []);
 
   // Filter data berdasarkan pencarian
-  const filteredOrders = orders.filter((order) =>
-    order.user_name.toLowerCase().includes(search.toLowerCase())
-  );
+  const filteredOrders = Array.isArray(users)
+    ? users.filter((user) =>
+        user.name.toLowerCase().includes(search.toLowerCase())
+      )
+    : [];
 
   // Hitung data untuk halaman saat ini
   const indexOfLastRow = currentPage * rowsPerPage;
@@ -56,21 +69,35 @@ const Order = () => {
   const formatNumber = (number) => {
     return parseFloat(number).toLocaleString("id-ID"); // Format Indonesia
   };
+
+  useEffect(() => {
+    // Mengambil data statistik dari backend
+    const fetchUserStats = async () => {
+      try {
+        const response = await instance.get("/stats/user");
+        setStats(response.data);
+      } catch (error) {
+        console.error("Error fetching user stats:", error);
+      }
+    };
+
+    fetchUserStats();
+  }, []);
   return (
     <>
-      <section className="mx-7 flex mt-32 items-center gap-5">
+      <section className="mx-7 flex mt-32 items-end gap-5">
         <div className="border border-gray-200 shadow-md hover:-translate-y-2 duration-300 w-60 h-36 rounded-2xl px-5 p-5">
           <div className="text-sm flex items-center gap-4">
             <div className="bg-green-100 p-2 rounded-md text-green-600 text-base font-extrabold">
               {" "}
-              <IoCartOutline />
+              <CiUser />
             </div>
-            <p className="font-semibold">Total Pesanan</p>
+            <p className="font-semibold">Pengguna</p>
           </div>
-          <p className="font-extrabold text-xl mt-3">{totalOrders}</p>
+          <p className="font-extrabold text-xl mt-3">{stats.totalUsers}</p>
 
           <p className="text-xs font-bold mt-5 text-green-600">
-            +{totalTotalOrders} hari ini
+            Total seluruh pengguna
           </p>
         </div>
 
@@ -78,16 +105,16 @@ const Order = () => {
           <div className="text-sm flex items-center gap-4">
             <div className="bg-orange-100 p-2 rounded-md text-orange-600 text-base font-extrabold">
               {" "}
-              <IoPricetagsOutline />
+              <LuUserCheck />
             </div>
-            <p className="font-semibold">Total Penjualan</p>
+            <p className="font-semibold">Verifikasi</p>
           </div>
           <p className="font-extrabold text-xl mt-3">
-            IDR {formatNumber(totalSales)}
+            {stats.totalVerifiedUsers}
           </p>
 
           <p className="text-xs font-bold mt-5 text-orange-600">
-            + IDR {formatNumber(totalTodaySales)} hari ini
+            Pengguna sudah terverifikasi
           </p>
         </div>
 
@@ -95,32 +122,34 @@ const Order = () => {
           <div className="text-sm flex items-center gap-4">
             <div className="bg-blue-100 p-2 rounded-md text-blue-600 text-base font-extrabold">
               {" "}
-              <GrTransaction />
+              <FaGoogle />
             </div>
-            <p className="font-semibold">Transaksi Berhasil</p>
+            <p className="font-semibold">Google</p>
           </div>
-          <p className="font-extrabold text-xl mt-3">{totalSuccess}</p>
+          <p className="font-extrabold text-xl mt-3">
+            {stats.totalGoogleUsers}
+          </p>
 
           <p className="text-xs font-bold mt-5 text-blue-600">
-            + {totalTodaySuccess} hari ini
+            Dengan akun Google
           </p>
         </div>
 
         <div className="ml-auto ">
-          <div className=" ml-auto">
+          <div className="">
             <TambahWisata />
           </div>
           <div className="mr-5">
             {/* Input Search */}
             <input
               type="text"
-              placeholder="Cari Data Pesanan"
+              placeholder="Cari Data Users"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               className="border px-4 py-2 rounded w-full"
             />
             <p className="text-xs mt-1 text-gray-500 text-end">
-              Filter pesanan berdasarkan nama
+              Filter Users berdasarkan nama
             </p>
           </div>
         </div>
@@ -130,27 +159,27 @@ const Order = () => {
           <div className=" rounded-lg min-w-max table-auto text-left">
             <div className="">
               <div className="flex items-center">
-                <div className="rounded-full bg-blue-50 font-bold px-3 my-3 flex items-center justify-between  ">
+                <div className="rounded-full  bg-blue-50 font-bold px-3 my-3 flex items-center justify-between  ">
                   <div className=" w-[150px] border-blue-gray-100 bg-blue-gray-50/50 p-4">
-                    ID Pesanan
-                  </div>
-                  <div className="border-blue-gray-100 w-[200px] max-w-xl bg-blue-gray-50/50 p-4">
                     Nama
                   </div>
-                  <div className="border-blue-gray-100 w-[250px] max-w-xl bg-blue-gray-50/50 p-4">
-                    Email
+                  <div className=" border-blue-gray-100 w-[150px] max-w-xl bg-blue-gray-50/50 p-4">
+                    Nama Depan
+                  </div>
+                  <div className=" border-blue-gray-100  w-[150px] max-w-xl bg-blue-gray-50/50 p-4">
+                    Nama Belakang
                   </div>
                   <div className=" border-blue-gray-100 w-[200px] max-w-xl bg-blue-gray-50/50 p-4">
-                    Wisata
+                    Email
                   </div>
-                  <div className=" border-blue-gray-100 w-[70px] max-w-xl bg-blue-gray-50/50 p-4">
-                    Tiket
+                  <div className="border-blue-gray-100 w-[160px] max-w-xl bg-blue-gray-50/50 p-4">
+                    Telepon
                   </div>
-                  <div className=" border-blue-gray-100 w-[90px] max-w-xl bg-blue-gray-50/50 p-4">
-                    Harga
+                  <div className=" border-blue-gray-100 w-[200px] max-w-xl bg-blue-gray-50/50 p-4">
+                    Google ID
                   </div>
-                  <div className=" w-[110px] max-w-xl bg-blue-gray-50/50 p-4">
-                    Status
+                  <div className=" w-[70px] max-w-xl bg-blue-gray-50/50 p-4">
+                    Verify
                   </div>
                   <div className=" border-blue-gray-100 w-[100px] mr-0 bg-blue-gray-50/50 p-4">
                     Aksi
@@ -160,57 +189,37 @@ const Order = () => {
             </div>
             <div>
               {currentOrders.length > 0 ? (
-                currentOrders.map((order) => (
+                currentOrders.map((user) => (
                   <div
-                    key={order.order_id}
+                    key={user.id}
                     className="flex items-center justify-between " // Menambahkan garis batas bawah antar baris
                   >
                     <div className="rounded-full  px-3 shadow-md my-2 flex items-center justify-between  ">
-                      <div className="p-4  w-[150px] max-w-xl">
-                        {order.order_id}
-                      </div>
+                      <div className="p-4  w-[150px] max-w-xl">{user.name}</div>
 
-                      <div className=" p-4 w-[200px] max-w-xl">
-                        {order.user_name}
+                      <div className=" p-4 w-[150px] max-w-xl">
+                        {user.firstname}
                       </div>
-                      <div className="p-4 w-[250px] max-w-xl  text-blue-500 font-semibold underline ">
-                        {order.email}
+                      <div className="p-4 w-[150px] max-w-xl  text-blue-500 font-semibold underline ">
+                        {user.lastname}
                       </div>
-
                       <div className="p-4 w-[200px] max-w-xl ">
-                        {order.agrotourism_name}
+                        {user.email}
+                      </div>
+                      <div className="p-4 w-[160px] max-w-xl ">
+                        {user.phonenumber}
+                      </div>
+                      <div className="p-4 w-[200px] max-w-xl ">
+                        {user.google_id}
                       </div>
                       <div className="p-4 w-[70px] max-w-xl ">
-                        {order.quantity}
+                        {user.isverified === 1 ? (
+                          <CheckCircleIcon color="success" />
+                        ) : (
+                          <CancelIcon color="error" />
+                        )}
                       </div>
-                      <div className="p-4 w-[90px] max-w-xl ">
-                        {order.total_price}
-                      </div>
-                      <div className="p-4 w-[110px] max-w-xl ">
-                        <div className="w-max">
-                          <div
-                            className={`relative grid items-center font-sans font-bold uppercase whitespace-nowrap select-none py-1 px-2 text-xs rounded-md
-                          ${
-                            order.status === "pending"
-                              ? "bg-blue-500/20 text-blue-900"
-                              : ""
-                          }
-                          ${
-                            order.status === "failed"
-                              ? "bg-red-500/20 text-red-900"
-                              : ""
-                          }
-                          ${
-                            order.status === "success"
-                              ? "bg-green-500/20 text-green-900"
-                              : ""
-                          }
-                        `}
-                          >
-                            <span>{order.status}</span>
-                          </div>
-                        </div>
-                      </div>
+
                       <div className="p-4 text-base flex items-center gap-2 ">
                         <MdRemoveRedEye />
 
@@ -255,4 +264,4 @@ const Order = () => {
   );
 };
 
-export default Order;
+export default DataUsers;

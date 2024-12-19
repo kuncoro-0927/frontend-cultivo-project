@@ -3,8 +3,9 @@ import { useEffect, useState } from "react";
 import { instance } from "../../../utils/axios";
 import { CiCalendar } from "react-icons/ci";
 import { IoTicketOutline } from "react-icons/io5";
-import { IoMdDownload } from "react-icons/io";
+//import { IoMdDownload } from "react-icons/io";
 import { Link } from "react-router-dom";
+import TicketPdf from "../../../component/TicketPdfContent";
 const Bookings = () => {
   const [tickets, setTickets] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -74,11 +75,12 @@ const Bookings = () => {
             tickets.map((ticket) => (
               <div
                 key={ticket.ticket_code}
+                id={`ticket-${ticket.ticket_code}`}
                 className="ticket-card max-w-[800px] mb-4 mt-10"
               >
                 <div className="border flex border-gray-200 w-full rounded-lg shadow-sm">
                   {/* Kolom kiri: Gambar */}
-                  <div className="h-[200px] w-[200px] flex items-center justify-center rounded-l-lg overflow-hidden">
+                  <div className="h-[200px] hidden w-[200px] md:flex items-center justify-center rounded-l-lg overflow-hidden">
                     <img
                       src={ticket.agrotourism_url_image}
                       alt="Agrotourism"
@@ -87,36 +89,38 @@ const Bookings = () => {
                   </div>
 
                   {/* Kolom tengah: Informasi tiket */}
-                  <div className="p-4 flex flex-col justify-between">
-                    <div>
+                  <div className="p-4 md:p-4 flex flex-col justify-between">
+                    <div className="">
                       <h1 className="font-bold text-lg">
                         {ticket.agrotourism_name}
                       </h1>
-                      <p className="text-sm font-medium">
+                      <p className="text-xs w-64 md:w-96 max-w-xl font-medium">
                         {ticket.agrotourism_address}
                       </p>
-                      <p className="text-sm mt-4 flex items-center">
-                        <IoTicketOutline className="text-lg mr-1 font-extrabold" />{" "}
+                      <p className="text-xs md:text-sm mt-4 flex items-center">
+                        <IoTicketOutline className="text-sm md:text-lg mr-1 font-extrabold" />{" "}
                         <span className="mr-1 font-bold">Jumlah tiket:</span>{" "}
                         <span>{ticket.quantity}</span>
                       </p>
-                      <p className="mt-2 text-sm flex items-center">
-                        <CiCalendar className="text-lg mr-1 font-extrabold" />{" "}
+                      <p className="mt-2 text-xs md:text-sm flex items-center">
+                        <CiCalendar className=" text-sm md:text-lg mr-1 font-extrabold" />{" "}
                         <span className="mr-1 font-bold">Tanggal Tiket: </span>{" "}
                         <span>{formatDate(ticket.selected_date)}</span>
                       </p>
                     </div>
                     <div>
-                      <button className="underline text-sm">Lihat Tiket</button>
+                      <button className="underline text-xs md:text-sm">
+                        Lihat Tiket
+                      </button>
                     </div>
                   </div>
 
                   {/* Kolom kanan: ID dan status tiket */}
-                  <div className="text-right p-4 ml-auto flex flex-col justify-between">
+                  <div className="text-right p-4 md:p-4 ml-auto flex flex-col justify-between">
                     <div>
                       <p className="text-xs">ID Tiket: {ticket.ticket_code}</p>
                       <p
-                        className={`text-base mt-2 font-bold ${
+                        className={`text-xs mt-2 font-bold ${
                           ticket.status === "Active"
                             ? "text-green-500"
                             : ticket.status === "Used"
@@ -130,10 +134,11 @@ const Bookings = () => {
                       </p>
                     </div>
                     <div>
-                      <button className="py-2 px-3 flex ml-auto items-center font-semibold">
+                      {/* <button className="py-2 px-3 flex ml-auto items-center font-semibold">
                         <span className="text-sm mr-2">Unduh Tiket</span>
                         <IoMdDownload />
-                      </button>
+                      </button> */}
+                      <TicketPdf ticket={ticket} />
                     </div>
                   </div>
                 </div>

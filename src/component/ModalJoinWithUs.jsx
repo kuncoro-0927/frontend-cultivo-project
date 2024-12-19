@@ -66,7 +66,7 @@ const ModalJoinWithUs = () => {
                 to="https://forms.gle/zP33i6xGvUppN9649"
                 className="border border-gray-400 rounded-xl p-4 w-full"
               >
-                Bergabung menjadi apaaa ges
+                Bergabung menjadi mitra Cultivo
               </Link>
             </div>
           </div>

@@ -95,7 +95,7 @@ const Login = () => {
                   required
                 />
                 <div className="flex items-center justify-between">
-                  <d className="mt-3 text-sm">Lupa Kata Sandi?</d>
+                  <div className="mt-3 text-sm">Lupa Kata Sandi?</div>
                   <div className="text-red-500 text-sm mt-2">
                     {error && <div>{error}</div>}
                   </div>

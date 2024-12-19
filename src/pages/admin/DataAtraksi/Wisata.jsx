@@ -6,10 +6,18 @@ import useSalesData from "../Sales";
 import useTodaySalesData from "../TodaySales";
 import { IoCartOutline, IoPricetagsOutline } from "react-icons/io5";
 import { GrTransaction } from "react-icons/gr";
+import { CiMapPin, CiCamera } from "react-icons/ci";
 import TambahWisata from "../../../component/Admin/Modal/TambahWisata";
 import EditWisata from "../../../component/Admin/Modal/EditWisata";
 import DeleteButton from "../../../component/Admin/Modal/DeleteAgrotourism";
+import { LuMountain } from "react-icons/lu";
 const Wisata = () => {
+  const [totalCounts, setTotalCounts] = useState({
+    total_agrotourism: 0,
+    total_activity: 0,
+    total_city: 0,
+  });
+  const [totalAgrotourism, setTotalAgrotourism] = useState(null);
   const [agrotourism, setAgrotourism] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -63,6 +71,21 @@ const Wisata = () => {
     fetchWisataList();
   }, []);
 
+  useEffect(() => {
+    // Memanggil API untuk mendapatkan data total counts
+    const fetchTotalCounts = async () => {
+      try {
+        const response = await instance.get("/total/agrotourism"); // Sesuaikan URL API
+        setTotalCounts(response.data);
+        setLoading(false);
+      } catch (error) {
+        setError("Error fetching data");
+        setLoading(false);
+      }
+    };
+
+    fetchTotalCounts();
+  }, []);
   // Filter data berdasarkan pencarian
   const filteredOrders = agrotourism.filter((agrotourism) =>
     agrotourism.name.toLowerCase().includes(search.toLowerCase())
@@ -98,49 +121,47 @@ const Wisata = () => {
       <section className="mx-7 flex mt-32 items-center gap-5">
         <div className="border border-gray-200 shadow-md hover:-translate-y-2 duration-300 w-60 h-36 rounded-2xl px-5 p-5">
           <div className="text-sm flex items-center gap-4">
-            <div className="bg-green-100 p-2 rounded-md text-green-600 text-base font-extrabold">
+            <div className="bg-blue-100 p-2 rounded-md text-blue-600 text-base font-extrabold">
               {" "}
-              <IoCartOutline />
+              <LuMountain />
             </div>
-            <p className="font-semibold">Total Pesanan</p>
+            <p className="font-semibold">Total Wisata</p>
           </div>
-          <p className="font-extrabold text-xl mt-3">{totalOrders}</p>
-
-          <p className="text-xs font-bold mt-5 text-green-600">
-            +{totalTotalOrders} hari ini
+          <p className="font-extrabold text-xl mt-3">
+            {totalCounts.total_agrotourism}
           </p>
+
+          <p className="text-xs font-bold mt-5 text-blue-600">+ hari ini</p>
+        </div>
+
+        <div className="border border-gray-200 shadow-md hover:-translate-y-2 duration-300 w-60 h-36 rounded-2xl px-5 p-5">
+          <div className="text-sm flex items-center gap-4">
+            <div className="bg-red-100 p-2 rounded-md text-red-600 text-base font-extrabold">
+              {" "}
+              <CiMapPin />
+            </div>
+            <p className="font-semibold">Total Daerah</p>
+          </div>
+          <p className="font-extrabold text-xl mt-3">
+            {totalCounts.total_city}
+          </p>
+
+          <p className="text-xs font-bold mt-5 text-red-600">+ hari ini</p>
         </div>
 
         <div className="border border-gray-200 shadow-md hover:-translate-y-2 duration-300 w-60 h-36 rounded-2xl px-5 p-5">
           <div className="text-sm flex items-center gap-4">
             <div className="bg-orange-100 p-2 rounded-md text-orange-600 text-base font-extrabold">
               {" "}
-              <IoPricetagsOutline />
+              <CiCamera />
             </div>
-            <p className="font-semibold">Total Penjualan</p>
+            <p className="font-semibold">Total Aktivitas</p>
           </div>
           <p className="font-extrabold text-xl mt-3">
-            IDR {formatNumber(totalSales)}
+            {totalCounts.total_activity}
           </p>
 
-          <p className="text-xs font-bold mt-5 text-orange-600">
-            + IDR {formatNumber(totalTodaySales)} hari ini
-          </p>
-        </div>
-
-        <div className="border border-gray-200 shadow-md hover:-translate-y-2 duration-300 w-60 h-36 rounded-2xl px-5 p-5">
-          <div className="text-sm flex items-center gap-4">
-            <div className="bg-blue-100 p-2 rounded-md text-blue-600 text-base font-extrabold">
-              {" "}
-              <GrTransaction />
-            </div>
-            <p className="font-semibold">Transaksi Berhasil</p>
-          </div>
-          <p className="font-extrabold text-xl mt-3">{totalSuccess}</p>
-
-          <p className="text-xs font-bold mt-5 text-blue-600">
-            + {totalTodaySuccess} hari ini
-          </p>
+          <p className="text-xs font-bold mt-5 text-orange-600">+ hari ini</p>
         </div>
 
         <div className="ml-auto ">
@@ -166,13 +187,13 @@ const Wisata = () => {
             {/* Input Search */}
             <input
               type="text"
-              placeholder="Cari Data Pesanan"
+              placeholder="Cari Data Wisata"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               className="border px-4 py-2 rounded w-full"
             />
             <p className="text-xs mt-1 text-gray-500 text-end">
-              Filter pesanan berdasarkan nama
+              Filter Wisata berdasarkan nama
             </p>
           </div>
         </div>
