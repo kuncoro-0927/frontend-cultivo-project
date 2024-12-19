@@ -94,7 +94,7 @@ const Home = () => {
         <div className="flex flex-col lg:flex-row items-start sm:mt-7 mt-5 md:mt-10">
           <img
             className="rounded-2xl md:w-[600px] lg:w-[500px] xl:w-[700px] md:mr-7 lg:mr-8"
-            src="/public/images/green_garden.svg"
+            src="/images/green_garden.svg"
             alt=""
           />
 

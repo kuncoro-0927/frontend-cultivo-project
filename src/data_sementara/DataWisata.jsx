@@ -21,25 +21,25 @@ export const aktivitasList = [
     ],
     dataimg: [
       {
-        img: "/public/images/bandung/vinsberry/img7.svg",
+        img: "/images/bandung/vinsberry/img7.svg",
       },
       {
-        img: "/public/images/bandung/vinsberry/img6.svg",
+        img: "/images/bandung/vinsberry/img6.svg",
       },
       {
-        img: "/public/images/bandung/vinsberry/img5.svg",
+        img: "/images/bandung/vinsberry/img5.svg",
       },
       {
-        img: "/public/images/bandung/vinsberry/img4.svg",
+        img: "/images/bandung/vinsberry/img4.svg",
       },
       {
-        img: "/public/images/bandung/vinsberry/img3.svg",
+        img: "/images/bandung/vinsberry/img3.svg",
       },
       {
-        img: "/public/images/bandung/vinsberry/img2.svg",
+        img: "/images/bandung/vinsberry/img2.svg",
       },
       {
-        img: "/public/images/bandung/vinsberry/img1.svg",
+        img: "/images/bandung/vinsberry/img1.svg",
       },
     ],
     path: "/wisata/vinsberrypark",
@@ -49,13 +49,13 @@ export const aktivitasList = [
     title: "Sein Farm, Bandung",
     description:
       "Sein Farm menawarkan wisata edukasi pertanian, peternakan, dan budi daya ikan",
-    image: "/public/images/seinfarm.svg",
+    image: "/images/seinfarm.svg",
     price: "45.000",
     path: "/wisata/seinfarm",
     fasilitas: "",
     dataimg: [
       {
-        img: "/public/images/bandung/greengarden/img1.svg",
+        img: "/images/bandung/greengarden/img1.svg",
       },
     ],
   },
@@ -63,7 +63,7 @@ export const aktivitasList = [
     title: "Kampoeng Karet, Karanganyar",
     description:
       "Kampoeng Karet merupakan obyek wisata edukasi yang terletak di Desa Puntukrejo",
-    image: "/public/images/kampungkaret.svg",
+    image: "/images/kampungkaret.svg",
     price: "55.000",
   },
 ];
