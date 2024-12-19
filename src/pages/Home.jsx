@@ -277,7 +277,7 @@ const Home = () => {
               rekomendasiList.map((agrotourismItem) => (
                 <CardRekomendasi
                   key={agrotourismItem.id}
-                  title={agrotourismItem.name}
+                  title={agrotourismItem.title}
                   description={truncateDescriptionByChar(
                     agrotourismItem.description,
                     70
@@ -295,7 +295,7 @@ const Home = () => {
               rekomendasiList.map((agrotourismItem) => (
                 <CardRekomendasi
                   key={agrotourismItem.id}
-                  title={agrotourismItem.name}
+                  title={agrotourismItem.title}
                   description={truncateDescriptionByChar(
                     agrotourismItem.description,
                     70
