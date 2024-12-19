@@ -272,7 +272,7 @@ const Home = () => {
 
         <div className="mt-7 md:mt-14 lg:mt-14 grid grid-cols-2 md:flex lg:justify-between lg:p-1 xl:mt-14 ">
           <div className="hidden md:hidden lg:flex lg:justify-between lg:w-full lg:gap-3">
-            {Array.isArray(agrotourism) &&
+            {Array.isArray(rekomendasiList) &&
               agrotourism
                 .filter((agrotourismItem) =>
                   [1, 2, 9, 10].includes(agrotourismItem.id)
