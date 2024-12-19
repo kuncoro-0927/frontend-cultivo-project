@@ -6,7 +6,7 @@ import SwiperCardReview from "../component/SwiperCardReview";
 import { CiSearch } from "react-icons/ci";
 import { Link } from "react-router-dom";
 import { LuArrowUpRight } from "react-icons/lu";
-
+import { rekomendasiList } from "../data_sementara/DataWisata";
 import { useState, useEffect } from "react";
 
 import { instance } from "../utils/axios";
@@ -218,7 +218,7 @@ const Home = () => {
         <h1 className="text-xl sm:text-3xl font-extrabold md:text-4xl text-hitam">
           Wisata yang Kami Rekomendasikan
         </h1>
-        <div className="mt-7 md:mt-14 lg:mt-14 grid grid-cols-2 md:flex lg:justify-between lg:p-1 xl:mt-14 ">
+        {/* <div className="mt-7 md:mt-14 lg:mt-14 grid grid-cols-2 md:flex lg:justify-between lg:p-1 xl:mt-14 ">
           <div className="hidden md:hidden lg:flex lg:justify-between lg:w-full lg:gap-3">
             {Array.isArray(agrotourism) &&
               agrotourism
@@ -247,6 +247,58 @@ const Home = () => {
         <div className="carousel  carousel-center max-w-full py-2 px-2 lg:hidden ">
           <div className="carousel-item gap-3">
             {Array.isArray(agrotourism) &&
+              agrotourism
+                .filter((agrotourismItem) =>
+                  [1, 2, 3, 4].includes(agrotourismItem.id)
+                )
+                .map((agrotourismItem) => (
+                  <Link
+                    key={agrotourismItem.id}
+                    to={`/wisata/detail/${agrotourismItem.id}`}
+                  >
+                    <CardRekomendasi
+                      title={agrotourismItem.name}
+                      description={truncateDescriptionByChar(
+                        agrotourismItem.description,
+                        70
+                      )}
+                      image={agrotourismItem.url_image}
+                      price={agrotourismItem.price}
+                    />
+                  </Link>
+                ))}
+          </div>
+        </div> */}
+
+        <div className="mt-7 md:mt-14 lg:mt-14 grid grid-cols-2 md:flex lg:justify-between lg:p-1 xl:mt-14 ">
+          <div className="hidden md:hidden lg:flex lg:justify-between lg:w-full lg:gap-3">
+            {Array.isArray(agrotourism) &&
+              agrotourism
+                .filter((agrotourismItem) =>
+                  [1, 2, 9, 10].includes(agrotourismItem.id)
+                )
+                .map((agrotourismItem) => (
+                  <Link
+                    key={agrotourismItem.id}
+                    to={`/wisata/detail/${agrotourismItem.id}`}
+                  >
+                    <CardRekomendasi
+                      title={agrotourismItem.name}
+                      description={truncateDescriptionByChar(
+                        agrotourismItem.description,
+                        70
+                      )}
+                      image={agrotourismItem.url_image}
+                      price={agrotourismItem.price}
+                    />
+                  </Link>
+                ))}
+          </div>
+        </div>
+
+        <div className="carousel  carousel-center max-w-full py-2 px-2 lg:hidden ">
+          <div className="carousel-item gap-3">
+            {Array.isArray(rekomendasiList) &&
               agrotourism
                 .filter((agrotourismItem) =>
                   [1, 2, 3, 4].includes(agrotourismItem.id)
