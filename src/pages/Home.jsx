@@ -275,20 +275,16 @@ const Home = () => {
           <div className="hidden md:hidden lg:flex lg:justify-between lg:w-full lg:gap-3">
             {Array.isArray(rekomendasiList) &&
               rekomendasiList.map((agrotourismItem) => (
-                <Link
+                <CardRekomendasi
                   key={agrotourismItem.id}
-                  to={`/wisata/detail/${agrotourismItem.id}`}
-                >
-                  <CardRekomendasi
-                    title={agrotourismItem.name}
-                    description={truncateDescriptionByChar(
-                      agrotourismItem.description,
-                      70
-                    )}
-                    image={agrotourismItem.image}
-                    price={agrotourismItem.price}
-                  />
-                </Link>
+                  title={agrotourismItem.name}
+                  description={truncateDescriptionByChar(
+                    agrotourismItem.description,
+                    70
+                  )}
+                  image={agrotourismItem.image}
+                  price={agrotourismItem.price}
+                />
               ))}
           </div>
         </div>
@@ -297,20 +293,16 @@ const Home = () => {
           <div className="carousel-item gap-3">
             {Array.isArray(rekomendasiList) &&
               rekomendasiList.map((agrotourismItem) => (
-                <Link
+                <CardRekomendasi
                   key={agrotourismItem.id}
-                  to={`/wisata/detail/${agrotourismItem.id}`}
-                >
-                  <CardRekomendasi
-                    title={agrotourismItem.name}
-                    description={truncateDescriptionByChar(
-                      agrotourismItem.description,
-                      70
-                    )}
-                    image={agrotourismItem.image}
-                    price={agrotourismItem.price}
-                  />
-                </Link>
+                  title={agrotourismItem.name}
+                  description={truncateDescriptionByChar(
+                    agrotourismItem.description,
+                    70
+                  )}
+                  image={agrotourismItem.image}
+                  price={agrotourismItem.price}
+                />
               ))}
           </div>
         </div>

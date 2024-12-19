@@ -81,20 +81,20 @@ export const rekomendasiList = [
     title: "Wisata Telaga Madiredo, Malang",
     description:
       "Di Malang, ada telaga cantik yang tengah ramai menjadi jujugan masyarakat..",
-    image: "/public/images/madiredo.svg",
+    image: "/images/madiredo.svg",
     price: "75.000",
   },
   {
     title: "Agrowisata Amanah, Karanganyar",
     description:
       "Menikmati sejuknya pemadangan dengan orang-orang terdekat. Selain itu Anda..",
-    image: "/public/images/amanah.svg",
+    image: "/images/amanah.svg",
     price: "75.000",
   },
   {
     title: "Agrowisata Wonosari, Malang",
     description: "Kawasan destinasi wisata alam, edukasi hingga penginapan.",
-    image: "/public/images/wonosari.svg",
+    image: "/images/wonosari.svg",
     price: "15.000",
   },
 ];
