@@ -61,7 +61,7 @@ const Home = () => {
   return (
     <>
       <section
-        className="mx-7 md:mx-10 px-7 lg:h-[600px] xl:h-screen h-96 bg-cover bg-center lg:mx-10 rounded-2xl md:rounded-3xl flex items-center justify-center lg:px-12 mt-[66px] sm:mt-[73px]  lg:mt-[74\3px]"
+        className="mx-7 md:mx-10 px-7 lg:h-[600px] xl:h-screen h-96 bg-cover bg-center lg:mx-10 rounded-2xl md:rounded-3xl flex items-center justify-center lg:px-12 mt-[90px] sm:mt-[80px]  lg:mt-[100px]"
         style={{ backgroundImage: "url('images/header.svg')" }}
       >
         <div className="text-center max-w-5xl">
