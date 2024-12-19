@@ -128,6 +128,27 @@ export const daerahList = [
     image: "/images/yogyakarta.svg",
     price: "75.000",
   },
+  {
+    title: "Surabaya",
+    description:
+      "Dengan keelokan hamparan kebun teh luas yang menjadi daya tarik tersendiri..",
+    image: "/images/surabaya.svg",
+    price: "75.000",
+  },
+  {
+    title: "Bogor",
+    description:
+      "Dengan keelokan hamparan kebun teh luas yang menjadi daya tarik tersendiri..",
+    image: "/images/bogor.svg",
+    price: "75.000",
+  },
+  {
+    title: "Jakarta",
+    description:
+      "Dengan keelokan hamparan kebun teh luas yang menjadi daya tarik tersendiri..",
+    image: "/images/jakarta.svg",
+    price: "75.000",
+  },
 ];
 // DATA WISATA SOLO
 export const soloList = [

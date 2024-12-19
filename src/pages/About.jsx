@@ -39,10 +39,10 @@ const About = () => {
         </div>
       </div>
 
-      <div className="flex flex-col-reverse md:mt-28 md:max-w-2xl lg:max-w-3xl mt-10 lg:mt-32 mx-auto lg:flex md:flex-row items-center md:items-start gap-10">
-        {/* Gambar */}
+      {/* <div className="flex flex-col-reverse md:mt-28 md:max-w-2xl lg:max-w-3xl mt-10 lg:mt-32 mx-auto lg:flex md:flex-row items-center md:items-start gap-10">
+        Gambar
 
-        {/* Teks */}
+        Teks
         <div className="text-left mx-10 md:mx-0 mt-14 lg:mt-0 lg:mx-0 text-base flex flex-col gap-5">
           <div className="font-extrabold text-2xl text-gray lg:text-4xl mr-20 text-left md:-mt-28 lg:-mt-16">
             Apa itu Cultivo?
@@ -68,7 +68,7 @@ const About = () => {
           src="/images/cultivo-about.jpg"
           alt="About Image"
         />
-      </div>
+      </div> */}
 
       <section className="bg-ghost-white mt-10 px-10 py-10">
         {" "}
