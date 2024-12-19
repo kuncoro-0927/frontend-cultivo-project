@@ -7,7 +7,7 @@ import SwiperCardReview from "../component/SwiperCardReview";
 import { CiSearch } from "react-icons/ci";
 import { Link } from "react-router-dom";
 import { LuArrowUpRight } from "react-icons/lu";
-import { rekomendasiList } from "../data_sementara/DataWisata";
+import { rekomendasiList, daerahList } from "../data_sementara/DataWisata";
 import { useState, useEffect } from "react";
 
 import { instance } from "../utils/axios";
@@ -153,7 +153,7 @@ const Home = () => {
           </div>
         </div>
 
-        <div className="carousel bg-red-100 carousel-center max-w-full py-2 lg:hidden ">
+        <div className="carousel carousel-center max-w-full py-2 lg:hidden ">
           <div className="carousel-item gap-3 px-1">
             {aktivitasList.map((wisata, index) => (
               <CardAktivitas
@@ -178,7 +178,7 @@ const Home = () => {
         </div>
 
         <div className="mt-7 md:mx-0 gap-3 flex flex-wrap lg:gap-10 lg:p-1 lg:mt-16">
-          <div className="hidden md:hidden lg:flex lg:justify-between lg:w-full lg:gap-3">
+          {/* <div className="hidden md:hidden lg:flex lg:justify-between lg:w-full lg:gap-3">
             {Array.isArray(city) &&
               city.slice(0, 4).map((daerahItem) => (
                 <Link
@@ -188,10 +188,24 @@ const Home = () => {
                   <CardDaerah title={daerahItem.name} img={daerahItem.url} />
                 </Link>
               ))}
+          </div> */}
+
+          {/* DATA DUMMY SEMENTARA EXHIBITION */}
+          <div className="hidden md:hidden lg:flex lg:justify-between lg:w-full lg:gap-3">
+            {Array.isArray(daerahList) &&
+              daerahList
+                .slice(0, 4)
+                .map((daerahItem) => (
+                  <CardDaerah
+                    key={daerahItem.id}
+                    title={daerahItem.title}
+                    img={daerahItem.image}
+                  />
+                ))}
           </div>
         </div>
 
-        <div className="carousel carousel-center max-w-full space-x-3 px-8 py-3 lg:hidden ">
+        {/* <div className="carousel carousel-center max-w-full space-x-3 px-8 py-3 lg:hidden ">
           <div className="carousel-item gap-3">
             {Array.isArray(city) &&
               city.slice(0, 4).map((daerahItem) => (
@@ -202,6 +216,21 @@ const Home = () => {
                   <CardDaerah title={daerahItem.name} img={daerahItem.url} />
                 </Link>
               ))}
+          </div>
+           </div> */}
+
+        <div className="carousel carousel-center max-w-full space-x-3 py-3 lg:hidden ">
+          <div className="carousel-item gap-3 px-1">
+            {Array.isArray(daerahList) &&
+              daerahList
+                .slice(0, 4)
+                .map((daerahItem) => (
+                  <CardDaerah
+                    key={daerahItem.id}
+                    title={daerahItem.title}
+                    img={daerahItem.image}
+                  />
+                ))}
           </div>
         </div>
 

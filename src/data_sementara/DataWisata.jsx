@@ -98,6 +98,37 @@ export const rekomendasiList = [
     price: "15.000",
   },
 ];
+
+export const daerahList = [
+  {
+    title: "Bandung",
+    description:
+      "Dengan keelokan hamparan kebun teh luas yang menjadi daya tarik tersendiri..",
+    image: "/images/bandung.svg",
+    price: "75.000",
+  },
+  {
+    title: "Malang",
+    description:
+      "Dengan keelokan hamparan kebun teh luas yang menjadi daya tarik tersendiri..",
+    image: "/images/malang.svg",
+    price: "75.000",
+  },
+  {
+    title: "Solo",
+    description:
+      "Dengan keelokan hamparan kebun teh luas yang menjadi daya tarik tersendiri..",
+    image: "/images/solo.svg",
+    price: "75.000",
+  },
+  {
+    title: "Yogyakarta",
+    description:
+      "Dengan keelokan hamparan kebun teh luas yang menjadi daya tarik tersendiri..",
+    image: "/images/yogyakarta.svg",
+    price: "75.000",
+  },
+];
 // DATA WISATA SOLO
 export const soloList = [
   {
