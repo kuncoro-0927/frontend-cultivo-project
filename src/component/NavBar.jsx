@@ -237,7 +237,7 @@ export default function NavBar() {
                     <div>
                       <img
                         className="w-36"
-                        src="/public/images/register-mobile.svg"
+                        src="/images/register-mobile.svg"
                         alt=""
                       />
                     </div>
