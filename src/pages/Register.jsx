@@ -458,7 +458,7 @@ const Register = () => {
             <div className="md:block hidden lg:block">
               <img
                 className="rounded-2xl md:h-[315px] lg:h-[400px] lg:w-[400px] object-cover"
-                src="/public/images/login.svg"
+                src="/images/login.svg"
                 alt=""
               />
             </div>
@@ -513,7 +513,7 @@ const Register = () => {
             <div className="md:block hidden lg:block">
               <img
                 className="rounded-2xl md:h-[315px] lg:h-[400px] lg:w-[400px] object-cover"
-                src="/public/images/login.svg"
+                src="/images/login.svg"
                 alt=""
               />
             </div>

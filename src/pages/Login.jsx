@@ -118,11 +118,7 @@ const Login = () => {
                 onClick={handleGoogleLogin}
                 className="bg-gray-200 bg-opacity-30 rounded-md p-2 mt-5 flex items-center justify-center gap-2"
               >
-                <img
-                  className="w-[22px]"
-                  src="/public/images/google.svg"
-                  alt=""
-                />
+                <img className="w-[22px]" src="/images/google.svg" alt="" />
                 <p className="text-base"> Login dengan Google</p>
               </button>
               <div className="mt-5 text-xs md:text-base flex justify-center gap-1">
@@ -136,7 +132,7 @@ const Login = () => {
           <div className="md:block hidden lg:block">
             <img
               className="rounded-2xl md:h-[315px] lg:h-[400px] lg:w-[400px] object-cover"
-              src="/public/images/login.svg"
+              src="/images/login.svg"
               alt=""
             />
           </div>
