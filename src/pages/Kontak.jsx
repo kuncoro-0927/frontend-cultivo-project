@@ -1,11 +1,59 @@
+import { useState } from "react";
 import { TeamData } from "../data_sementara/Team";
 import CardTeam from "../component/card/CardTeam";
 import { TextField } from "@mui/material";
+import { instance } from "../utils/axios"; // Pastikan Anda menginstal axios (npm install axios)
+
 const Kontak = () => {
+  // State untuk menyimpan data form
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    message: "",
+  });
+
+  // State untuk mengelola status kiriman
+  const [status, setStatus] = useState("");
+
+  // Fungsi untuk menangani perubahan input
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  // Fungsi untuk mengirim form
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setStatus("loading"); // Set status loading
+
+    try {
+      // Kirim data ke server backend
+      const response = await instance.post("/form/contact", formData);
+
+      if (response.status === 200) {
+        setStatus("success"); // Sukses
+        alert("Pesan berhasil dikirim!");
+        setFormData({
+          firstName: "",
+          lastName: "",
+          email: "",
+          phone: "",
+          message: "",
+        }); // Reset form
+      }
+    } catch (error) {
+      console.error("Error saat mengirim pesan:", error);
+      setStatus("error"); // Gagal
+      alert("Gagal mengirim pesan. Coba lagi nanti.");
+    }
+  };
+
   return (
     <>
-      <section className="mt-32 mx-7 text-hitam2">
-        <div className=" text-center space-y-2">
+      <section className="lg:mt-32 mt-20 mx-4 text-hitam2">
+        <div className="text-center space-y-2">
           <p className="font-bold">Hubungi kami</p>
           <p className="text-3xl font-extrabold ">Ada yang bisa dibantu?</p>
           <p className="text-sm text-gray-600">
@@ -15,7 +63,7 @@ const Kontak = () => {
         </div>
 
         <div className="carousel carousel-center max-w-full mt-7 md:mx-0 gap-3  lg:gap-10 lg:mt-16">
-          <div className="carousel-item hidden md:hidden lg:flex  lg:gap-3">
+          <div className="carousel-item hidden md:hidden lg:flex  lg:gap-5">
             {Array.isArray(TeamData) &&
               TeamData.slice(0, 6).map((daerahItem) => (
                 <CardTeam
@@ -43,31 +91,29 @@ const Kontak = () => {
         </div>
       </section>
 
-      <section className="mx-40 mt-28 flex gap-10">
+      <section className="lg:mx-40 mx-4 mt-10 lg:mt-28 flex flex-col-reverse gap-10">
         <div className="bg-gray-100 rounded-lg p-6 w-full">
           <h2 className="text-lg font-semibold mb-4">Hubungi tim kami</h2>
-          <form>
-            {/* Nama Depan dan Belakang sejajar */}
+          <form onSubmit={handleSubmit}>
+            {/* Nama Depan dan Belakang */}
             <div className="flex gap-4 mb-4">
               <TextField
                 fullWidth
                 label="Nama depan"
                 variant="outlined"
                 name="firstName"
+                value={formData.firstName}
+                onChange={handleChange}
                 size="small"
                 sx={{
                   "& .MuiOutlinedInput-root": {
-                    color: "black !important", // Warna teks input menjadi hitam
+                    color: "black !important",
                   },
                   "& .MuiOutlinedInput-notchedOutline": {
-                    borderColor: "black !important", // Warna border menjadi hitam
+                    borderColor: "black !important",
                   },
                   "& .MuiInputLabel-root": {
-                    color: "black !important", // Warna label menjadi hitam
-                    fontSize: { xs: "0.875rem", md: "14px" },
-                  },
-                  "& .Mui-focused .MuiInputLabel-root": {
-                    color: "black !important", // Menghindari label biru saat fokus
+                    color: "black !important",
                   },
                 }}
               />
@@ -76,20 +122,18 @@ const Kontak = () => {
                 label="Nama belakang"
                 variant="outlined"
                 name="lastName"
+                value={formData.lastName}
+                onChange={handleChange}
                 size="small"
                 sx={{
                   "& .MuiOutlinedInput-root": {
-                    color: "black !important", // Warna teks input menjadi hitam
+                    color: "black !important",
                   },
                   "& .MuiOutlinedInput-notchedOutline": {
-                    borderColor: "black !important", // Warna border menjadi hitam
+                    borderColor: "black !important",
                   },
                   "& .MuiInputLabel-root": {
-                    color: "black !important", // Warna label menjadi hitam
-                    fontSize: { xs: "0.875rem", md: "14px" },
-                  },
-                  "& .Mui-focused .MuiInputLabel-root": {
-                    color: "black !important", // Menghindari label biru saat fokus
+                    color: "black !important",
                   },
                 }}
               />
@@ -102,6 +146,8 @@ const Kontak = () => {
                 label="Email"
                 variant="outlined"
                 name="email"
+                value={formData.email}
+                onChange={handleChange}
                 size="small"
                 sx={{
                   "& .MuiOutlinedInput-root": {
@@ -111,10 +157,6 @@ const Kontak = () => {
                     borderColor: "black !important",
                   },
                   "& .MuiInputLabel-root": {
-                    color: "black !important",
-                    fontSize: { xs: "0.875rem", md: "14px" },
-                  },
-                  "& .Mui-focused .MuiInputLabel-root": {
                     color: "black !important",
                   },
                 }}
@@ -128,6 +170,8 @@ const Kontak = () => {
                 label="No telepon"
                 variant="outlined"
                 name="phone"
+                value={formData.phone}
+                onChange={handleChange}
                 size="small"
                 sx={{
                   "& .MuiOutlinedInput-root": {
@@ -137,10 +181,6 @@ const Kontak = () => {
                     borderColor: "black !important",
                   },
                   "& .MuiInputLabel-root": {
-                    color: "black !important",
-                    fontSize: { xs: "0.875rem", md: "14px" },
-                  },
-                  "& .Mui-focused .MuiInputLabel-root": {
                     color: "black !important",
                   },
                 }}
@@ -154,8 +194,10 @@ const Kontak = () => {
                 label="Pesan"
                 variant="outlined"
                 name="message"
+                value={formData.message}
+                onChange={handleChange}
                 multiline
-                rows={6} // Mengatur ukuran lebih besar
+                rows={6}
                 sx={{
                   "& .MuiOutlinedInput-root": {
                     color: "black !important",
@@ -165,26 +207,21 @@ const Kontak = () => {
                   },
                   "& .MuiInputLabel-root": {
                     color: "black !important",
-                    fontSize: { xs: "0.875rem", md: "14px" },
-                  },
-                  "& .Mui-focused .MuiInputLabel-root": {
-                    color: "black !important",
                   },
                 }}
               />
             </div>
-            <div className="mt-4 flex justify-between">
+            <div className="mt-4">
               <button
-                onClick=""
+                type="submit"
                 className="bg-hover text-white px-4 py-2 rounded-md w-full"
+                disabled={status === "loading"}
               >
-                Submit
+                {status === "loading" ? "Mengirim..." : "Submit"}
               </button>
             </div>
           </form>
         </div>
-
-        {/* Kolom Samping */}
         <div className=" p-4 w-full">
           <div>
             <p className="font-bold">Email Support</p>

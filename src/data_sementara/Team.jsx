@@ -5,9 +5,9 @@ export const TeamData = [
     image: "/images/hasri.jpg",
   },
   {
-    title: "Khitan Hesthi Kuncoro",
-    role: "Fullstack Developer",
-    image: "/images/hasri.png",
+    title: "Qaulan Tsaqila",
+    role: "UI & UX Designer",
+    image: "/images/qaulan.jpg",
   },
 
   {
