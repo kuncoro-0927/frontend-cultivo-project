@@ -13,7 +13,7 @@ export default function CardRekomendasi({
       {/* Bagian Gambar */}
       <div className="relative  w-full overflow-hidden flex-shrink-0">
         <img
-          className="lg:h-[200px] md:h-[175px] w-full h-[120px] object-cover rounded-t-xl transform transition-transform duration-300 group-hover:scale-105"
+          className="lg:h-[200px] md:h-[175px] w-full h-[160px] object-cover rounded-t-xl transform transition-transform duration-300 group-hover:scale-105"
           src={image}
           alt="Image"
         />
