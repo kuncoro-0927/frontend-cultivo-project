@@ -269,7 +269,7 @@ const Home = () => {
         </div>
 
         <div className="lg:hidden md:carousel md:carousel-center md:space-x-3 md:px-8 md:py-3  md:max-w-full ">
-          <div className="md:carousel-item justify-between flex flex-wrap gap-3">
+          <div className="md:carousel-item justify-between grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 gap-3">
             {Array.isArray(rekomendasiList) &&
               rekomendasiList.map((agrotourismItem) => (
                 <div key={agrotourismItem.id} className="relative">
