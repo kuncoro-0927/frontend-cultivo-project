@@ -1,18 +1,19 @@
 export const TeamData = [
   {
-    title: "Khitan Hesthi Kuncoro",
-    role: "Fullstack Developer",
-    image: "/images/kuncoro.jpg",
-  },
-  {
-    title: "Dzakkiansyah",
-    role: "Frontend Developer",
-    image: "/images/dzaki.jpg",
+    title: "Kansha Hasri Ainun",
+    role: "Project Manager",
+    image: "/images/hasri.jpg",
   },
   {
     title: "Khitan Hesthi Kuncoro",
     role: "Fullstack Developer",
     image: "/images/hasri.png",
+  },
+
+  {
+    title: "Adeenda Putri Uswatun",
+    role: "UI & UX Designer",
+    image: "/images/dinda.jpg",
   },
   {
     title: "Khitan Hesthi Kuncoro",
@@ -25,8 +26,8 @@ export const TeamData = [
     image: "/images/imel.jpg",
   },
   {
-    title: "Khitan Hesthi Kuncoro",
-    role: "Fullstack Developer",
-    image: "/images/kuncoro.jpg",
+    title: "Dzakkiansyah",
+    role: "Frontend Developer",
+    image: "/images/dzaki.jpg",
   },
 ];

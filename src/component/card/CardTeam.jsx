@@ -8,7 +8,7 @@ export default function CardTeam({ title, img, role }) {
 
       {/* Overlay Info */}
       <div className="absolute bottom-0 left-0 w-full  p-2">
-        <div className="relative p-4 bg-white rounded-lg shadow-md">
+        <div className="relative p-4 opacity-85 bg-white rounded-lg shadow-md">
           <h2 className="text-black font-bold text-sm">{title}</h2>
           <p className="text-gray-600 text-xs">{role}</p>
         </div>

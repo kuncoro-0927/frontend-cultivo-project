@@ -9,7 +9,7 @@ import { FaTractor } from "react-icons/fa";
 import { useAuth } from "../contexts/AuthContext";
 import { GiForestCamp } from "react-icons/gi";
 import { Link } from "react-router-dom";
-
+import { rekomendasiList } from "../data_sementara/DataWisata";
 import { useState, useEffect } from "react";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ModalSignUp from "../component/ModalSignUp";
@@ -220,65 +220,99 @@ const Home = () => {
             </span>
           </div>
         </div>
-        <div className="mt-10 flex-wrap flex gap-7">
-          {/* KONTEN 1 */}
-          <div
-            className="relative w-full h-[200px] md:max-w-3xl md:h-[300px] bg-cover rounded-2xl flex items-end p-5 text-white"
-            style={{ backgroundImage: "url('images/wonosari.svg')" }}
-          >
-            {/* Layer gradien */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent rounded-2xl"></div>
+        <div className="mt-7 md:mt-14 lg:mt-14 grid grid-cols-2 md:flex lg:justify-between lg:p-1 xl:mt-14 ">
+          <div className="hidden md:hidden lg:flex lg:justify-between lg:w-full lg:gap-3">
+            {Array.isArray(rekomendasiList) &&
+              rekomendasiList.map((agrotourismItem) => (
+                <div key={agrotourismItem.id} className="relative">
+                  {/* Link hanya membungkus card tanpa ikon wishlist */}
+                  <Link to={`/wisata/detail/${agrotourismItem.id}`}>
+                    <CardRekomendasi
+                      title={agrotourismItem.title}
+                      description={truncateDescriptionByChar(
+                        agrotourismItem.description,
+                        70
+                      )}
+                      image={agrotourismItem.image}
+                      price={agrotourismItem.price}
+                      average_rating={
+                        agrotourismItem.average_rating
+                          ? parseFloat(agrotourismItem.average_rating).toFixed(
+                              1
+                            )
+                          : "0.0"
+                      }
+                    />
+                  </Link>
 
-            {/* Konten teks */}
-            <div className="relative">
-              <p className="text-base font-semibold">Malang, Jawa Timur</p>
-              <span className="text-sm">Agrowisata Wonosari</span>
-            </div>
-          </div>
-
-          {/* KONTEN 2 */}
-          <div
-            className="relative w-full flex-1 ml-auto h-[190px] md:h-[300px] bg-cover bg-center rounded-2xl flex items-end p-5 text-white"
-            style={{ backgroundImage: "url('images/kampoengkaret.png')" }}
-          >
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent rounded-2xl"></div>
-
-            {/* Konten teks */}
-            <div className="relative">
-              <p className="text-base font-semibold">Solo, Jawa Tengah</p>
-              <span className="text-sm">Kampoeng Karet</span>
-            </div>
+                  <div className="absolute top-2 right-2">
+                    <IconButton
+                      onClick={() => toggleWishlist(agrotourismItem.id)}
+                      className="p-2"
+                    >
+                      {isInWishlist(agrotourismItem.id) ? (
+                        <FavoriteIcon
+                          className="text-red-500"
+                          sx={{ width: 28, height: 28 }}
+                        />
+                      ) : (
+                        <FavoriteIcon
+                          className=""
+                          sx={{ width: 28, height: 28 }}
+                        />
+                      )}
+                    </IconButton>
+                  </div>
+                </div>
+              ))}
           </div>
         </div>
 
-        <div className="mt-7 flex gap-7">
-          {/* KONTEN 3 */}
-          <div
-            className="relative w-full flex-1 h-[190px] md:h-[300px] bg-cover rounded-2xl flex items-end p-5 text-white"
-            style={{ backgroundImage: "url('images/telagamadiredo-2.svg')" }}
-          >
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent rounded-2xl"></div>
+        <div className="lg:hidden md:carousel md:carousel-center md:space-x-3 md:px-8 md:py-3  md:max-w-full ">
+          <div className="md:carousel-item justify-between flex flex-wrap gap-3">
+            {Array.isArray(rekomendasiList) &&
+              rekomendasiList.map((agrotourismItem) => (
+                <div key={agrotourismItem.id} className="relative">
+                  {/* Link hanya membungkus card tanpa ikon wishlist */}
+                  <Link to={`/wisata/detail/${agrotourismItem.id}`}>
+                    <CardRekomendasi
+                      title={agrotourismItem.title}
+                      description={truncateDescriptionByChar(
+                        agrotourismItem.description,
+                        70
+                      )}
+                      image={agrotourismItem.image}
+                      price={agrotourismItem.price}
+                      average_rating={
+                        agrotourismItem.average_rating
+                          ? parseFloat(agrotourismItem.average_rating).toFixed(
+                              1
+                            )
+                          : "0.0"
+                      }
+                    />
+                  </Link>
 
-            {/* Konten teks */}
-            <div className="relative">
-              <p className="text-base font-semibold">Malang, Jawa Timur</p>
-              <span className="text-sm">Telaga Madiredo</span>
-            </div>
-          </div>
-
-          {/* KONTEN 4 */}
-          <div
-            className="relative w-full md:max-w-3xl h-[200px] md:h-[300px] bg-cover bg-center rounded-2xl flex items-end p-5 text-white"
-            style={{ backgroundImage: "url('images/paddaawas-3.jpg')" }}
-          >
-            {/* Layer gradien */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/90 to-transparent rounded-2xl"></div>
-
-            {/* Konten teks */}
-            <div className="relative">
-              <p className="text-base font-semibold">Bandung, Jawa Timur</p>
-              <span className="text-sm">Pesona Padaawas Pangalengan</span>
-            </div>
+                  <div className="absolute top-0 right-0 ">
+                    <IconButton
+                      onClick={() => toggleWishlist(agrotourismItem.id)}
+                      className=""
+                    >
+                      {isInWishlist(agrotourismItem.id) ? (
+                        <FavoriteIcon
+                          className="text-red-500"
+                          sx={{ width: 28, height: 28 }}
+                        />
+                      ) : (
+                        <FavoriteIcon
+                          className=""
+                          sx={{ width: 28, height: 28 }}
+                        />
+                      )}
+                    </IconButton>
+                  </div>
+                </div>
+              ))}
           </div>
         </div>
       </section>
