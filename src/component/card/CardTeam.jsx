@@ -1,35 +1,18 @@
 /* eslint-disable react/prop-types */
-// src/components/CardDaerah.jsx
-//import { Link } from "react-router-dom";
 
-import CardActionArea from "@mui/material/CardActionArea";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
-
-export default function CardTeam({ title, img }) {
+export default function CardTeam({ title, img, role }) {
   return (
-    <>
-      <div>
-        <CardActionArea>
-          <img
-            src={img}
-            alt="Gambar"
-            className="w-[220px] h-[270px] object-cover rounded-lg"
-          />
+    <div className="relative w-[220px] h-[270px] rounded-lg overflow-hidden shadow-lg group">
+      {/* Gambar */}
+      <img src={img} alt={title} className="w-full h-full object-cover" />
 
-          <div>
-            <div>
-              <FontAwesomeIcon
-                icon={faLocationDot}
-                style={{ marginRight: "0.7rem" }}
-              />
-              {title}
-            </div>
-
-            <div></div>
-          </div>
-        </CardActionArea>
+      {/* Overlay Info */}
+      <div className="absolute bottom-0 left-0 w-full  p-2">
+        <div className="relative p-4 bg-white rounded-lg shadow-md">
+          <h2 className="text-black font-bold text-sm">{title}</h2>
+          <p className="text-gray-600 text-xs">{role}</p>
+        </div>
       </div>
-    </>
+    </div>
   );
 }

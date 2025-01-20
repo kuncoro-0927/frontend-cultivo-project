@@ -3,7 +3,7 @@ import CardTeam from "../component/card/CardTeam";
 const Kontak = () => {
   return (
     <>
-      <section className="mt-32 text-hitam2">
+      <section className="mt-32 mx-10 text-hitam2">
         <div className=" text-center space-y-2">
           <p className="font-bold">Hubungi kami</p>
           <p className="text-3xl font-extrabold ">Ada yang bisa dibantu?</p>
@@ -29,11 +29,12 @@ const Kontak = () => {
           {/* DATA DUMMY SEMENTARA EXHIBITION */}
           <div className="hidden md:hidden lg:flex lg:justify-between lg:w-full lg:gap-3">
             {Array.isArray(TeamData) &&
-              TeamData.slice(0, 4).map((daerahItem) => (
+              TeamData.slice(0, 6).map((daerahItem) => (
                 <CardTeam
                   key={daerahItem.id}
                   title={daerahItem.title}
                   img={daerahItem.image}
+                  role={daerahItem.role}
                 />
               ))}
           </div>
@@ -56,11 +57,12 @@ const Kontak = () => {
         <div className="carousel carousel-center max-w-full space-x-3 py-3 lg:hidden ">
           <div className="carousel-item gap-3 px-1">
             {Array.isArray(TeamData) &&
-              TeamData.slice(0, 4).map((daerahItem) => (
+              TeamData.slice(0, 6).map((daerahItem) => (
                 <CardTeam
                   key={daerahItem.id}
                   title={daerahItem.title}
                   img={daerahItem.image}
+                  role={daerahItem.role}
                 />
               ))}
           </div>
