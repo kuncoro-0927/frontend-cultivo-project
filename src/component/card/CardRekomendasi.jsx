@@ -27,8 +27,8 @@ export default function CardRekomendasi({
       </div>
 
       {/* Bagian Konten */}
-      <div className="flex flex-col px-5 py-2 md:py-2 flex-grow">
-        <h1 className="text-sm md:text-base mb-2 md:mb-4 font-bold text-hitam2">
+      <div className="flex flex-col px-3 py-2 md:py-2 flex-grow">
+        <h1 className="text-sm md:text-base mb-7 md:mb-4 font-bold text-hitam2">
           {title}
         </h1>
 
