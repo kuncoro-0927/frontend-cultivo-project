@@ -34,9 +34,9 @@ const CustomSnackbar = () => {
       open={open}
       // Durasi 10 detik
       onClose={handleClose}
-      anchorOrigin={{ vertical: "top", horizontal: "center" }} // Posisi di kanan bawah
+      anchorOrigin={{ vertical: "top", horizontal: "right" }} // Posisi di kanan bawah
     >
-      <Alert onClose={handleClose} severity={severity} sx={{ width: "100%" }}>
+      <Alert onClose={handleClose} severity={severity} sx={{ width: "80%" }}>
         {message}
       </Alert>
     </Snackbar>

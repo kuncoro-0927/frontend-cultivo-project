@@ -9,7 +9,7 @@ export default function CardReview({ content, name, wisata }) {
   return (
     <Card
       sx={{
-        width: { xs: 200, sm: 260, md: 280, lg: 350 },
+        width: { xs: 300, sm: 350, md: 350, lg: 350 },
         borderTopRightRadius: { xs: 3, md: 3, lg: 15 },
         borderTopLeftRadius: { xs: 3, md: 3, lg: 15 },
         borderBottomLeftRadius: 3,
@@ -29,7 +29,7 @@ export default function CardReview({ content, name, wisata }) {
             display: "flex",
             flexDirection: "column",
             justifyContent: "space-between", // Memastikan ada ruang antara elemen
-            height: { xs: 240, sm: 240, md: 240, lg: 300 }, // Mengatur tinggi minimum agar konsisten
+            height: { xs: 250, sm: 290, md: 290, lg: 300 }, // Mengatur tinggi minimum agar konsisten
             paddingBottom: 0,
             paddingRight: 0,
             paddingLeft: 0,
@@ -38,12 +38,9 @@ export default function CardReview({ content, name, wisata }) {
         >
           <div className="px-5 sm:px-5 py-1.5 md:px-5 lg:px-6">
             <Typography
-              gutterBottom
-              variant="h4"
-              fontFamily="Poppins"
               component="div"
               sx={{
-                fontSize: { xs: "0.5rem", sm: "0.9rem", md: "1rem" },
+                fontSize: { xs: "0.6rem", sm: "0.9rem", md: "1rem" },
                 fontWeight: "medium",
               }}
             >
@@ -70,11 +67,10 @@ export default function CardReview({ content, name, wisata }) {
             <Typography
               variant=""
               sx={{
-                fontFamily: "Poppins",
                 fontSize: {
-                  xs: "0.5rem",
-                  sm: "0.6rem",
-                  md: "0.7rem",
+                  xs: "0.75rem",
+                  sm: "0.75rem",
+                  md: "0.8rem",
                   lg: "0.8rem",
                 },
 
@@ -93,9 +89,9 @@ export default function CardReview({ content, name, wisata }) {
                 color: "white",
                 marginTop: "auto", // Menjaga nama tetap di bawah
                 fontSize: {
-                  xs: "0.5rem",
-                  sm: "0.6rem",
-                  md: "0.7rem",
+                  xs: "0.7rem",
+                  sm: "0.8rem",
+                  md: "0.8rem",
                   lg: "0.8rem",
                 },
               }}
@@ -108,9 +104,9 @@ export default function CardReview({ content, name, wisata }) {
                 color: "white",
 
                 fontSize: {
-                  xs: "0.5rem",
-                  sm: "0.6rem",
-                  md: "0.7rem",
+                  xs: "0.7rem",
+                  sm: "0.8rem",
+                  md: "0.8rem",
                   lg: "0.8rem",
                 },
               }}

@@ -2,20 +2,79 @@
 import CardAktivitas from "../component/card/CardAktivitas";
 import CardDaerah from "../component/card/CardDaerah";
 import CardRekomendasi from "../component/card/CardRekomendasi";
-import { aktivitasList } from "../data_sementara/DataWisata";
-import SwiperCardReview from "../component/SwiperCardReview";
-import { CiSearch } from "react-icons/ci";
-import { Link } from "react-router-dom";
-import { LuArrowUpRight } from "react-icons/lu";
-import { rekomendasiList, daerahList } from "../data_sementara/DataWisata";
-import { useState, useEffect } from "react";
 
+import SwiperCardReview from "../component/SwiperCardReview";
+import { FiSearch } from "react-icons/fi";
+import { FaTractor } from "react-icons/fa";
+import { useAuth } from "../contexts/AuthContext";
+import { GiForestCamp } from "react-icons/gi";
+import { Link } from "react-router-dom";
+
+import { useState, useEffect } from "react";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import ModalSignUp from "../component/ModalSignUp";
+import { IconButton } from "@mui/material";
+import { useParams } from "react-router-dom";
 import { instance } from "../utils/axios";
-// import { useAuth } from "../contexts/AuthContext";
+import { useWishlist } from "../contexts/WishlistsContext";
+import { showSnackbar } from "../component/CustomSnackbar";
+import ModalSearch from "../component/ModalSearch";
 const Home = () => {
   const [city, setDaerah] = useState([]);
   const [agrotourism, setAgrotourism] = useState([]);
+  const { wisataId } = useParams();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const { isLoggedIn } = useAuth();
+  const { wishlist, setWishlist } = useWishlist();
+  const [isModalSearchOpen, setModalSearchOpen] = useState(false);
+  const [selectedAgrotourism, setSelectedAgrotourism] = useState(null);
+  const isInWishlist = (agrotourismId) => {
+    return wishlist.some((item) => item.agrotourism_id === agrotourismId);
+  };
+  const handleOpenModalSearch = () => {
+    setModalSearchOpen(true);
+  };
+  const handleSelectAgrotourism = (agrotourism) => {
+    setSelectedAgrotourism(agrotourism);
+    setModalSearchOpen(false);
+  };
+  const toggleWishlist = async (agrotourismId) => {
+    if (!isLoggedIn) {
+      setIsModalOpen(true);
+      return;
+    }
 
+    try {
+      if (isInWishlist(agrotourismId)) {
+        await instance.delete(`/delete/wishlist/${agrotourismId}`);
+        const updatedWishlist = wishlist.filter(
+          (item) => item.agrotourism_id !== agrotourismId
+        );
+        setWishlist(updatedWishlist);
+        localStorage.setItem("wishlist", JSON.stringify(updatedWishlist));
+        showSnackbar("Wishlist berhasil dihapus", "success");
+      } else {
+        // Tambahkan ke wishlist
+        await instance.post("/add/wishlist", { agrotourism_id: agrotourismId });
+        const updatedWishlist = [
+          ...wishlist,
+          { agrotourism_id: agrotourismId },
+        ];
+        setWishlist(updatedWishlist);
+        localStorage.setItem("wishlist", JSON.stringify(updatedWishlist));
+        showSnackbar("Wishlist berhasil ditambahkan", "success");
+      }
+    } catch (error) {
+      console.error("Error toggling wishlist:", error);
+    }
+  };
+
+  useEffect(() => {
+    const savedWishlist = JSON.parse(localStorage.getItem("wishlist"));
+    if (savedWishlist) {
+      setWishlist(savedWishlist);
+    }
+  }, [setWishlist]);
   useEffect(() => {
     getDaerah();
   }, []);
@@ -58,127 +117,201 @@ const Home = () => {
     }
   };
 
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+  const handleCloseModalSearch = () => {
+    setModalSearchOpen(false);
+  };
   return (
     <>
+      <ModalSignUp open={isModalOpen} handleClose={handleCloseModal} />
+      <section className="mt-[80px] sm:mt-[80px] grid  lg:mt-[75px] mx-5 md:mx-10 md:flex items-center space-x-0 md:space-x-4">
+        <div className="relative">
+          <span className="ml-0 bg-white p-1.5 rounded-full sm:ml-2 absolute left-2 md:left-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none">
+            <FiSearch className="md:text-lg font-extrabold" />
+          </span>
+          {/* <button
+            onClick={() => setModalSearchOpen(true)}
+            type="text"
+            placeholder="Search Destination"
+            className="pl-14 sm:pl-14 text-xs lg:text-base px-6 py-4 md:py-3 text-hitam bg-gray-100  rounded-full w-[300px] md:w-[400px] lg:w-[430px] focus:outline-none focus:border-gray-500 "
+          ><button/> */}
+          <button
+            onClick={handleOpenModalSearch}
+            type="text"
+            className="text-left pl-12 md:pl-16 text-xs lg:text-base px-6 py-3 md:py-3 text-gray-400 bg-gray-100  rounded-full w-[300px] md:w-[400px] lg:w-[430px] focus:outline-none focus:border-gray-500 "
+          >
+            Cari Destinasi
+          </button>
+          {/* {selectedAgrotourism && (
+            <p className="mt-4">
+              Selected Agrotourism: {selectedAgrotourism.name}
+            </p>
+          )} */}
+
+          <ModalSearch
+            isOpen={isModalSearchOpen}
+            handleClose={handleCloseModalSearch}
+            onSelect={handleSelectAgrotourism}
+          />
+        </div>{" "}
+        <div className="flex-row flex mt-3 md:mt-0 space-x-3 ">
+          <button className="py-2 pl-3 pr-4 flex text-xs md:text-sm items-center gap-x-2 bg-gray-100 rounded-full hover:bg-hover hover:text-white group duration-200">
+            <FaTractor className="bg-white rounded-full p-1.5 text-3xl text-current group-hover:text-black duration-200" />
+            Agriculture
+          </button>
+          <div className="py-2 pl-3 pr-4 flex text-xs md:text-sm items-center gap-x-2 bg-gray-100 rounded-full hover:bg-hover hover:text-white group duration-200">
+            <GiForestCamp className="bg-white rounded-full p-1.5 text-3xl text-current group-hover:text-black duration-200" />
+            Nature
+          </div>
+          {/* <div className="py-2 pl-3 pr-4 flex text-xs md:text-sm items-center gap-x-2 bg-gray-100 rounded-full hover:bg-hover hover:text-white group duration-200">
+            <PiPottedPlantFill className="bg-white rounded-full p-1.5 text-3xl text-current group-hover:text-black duration-200" />
+            Plantation
+          </div> */}
+        </div>
+      </section>
       <section
-        className="mx-7 md:mx-10 px-7 lg:h-[600px] xl:h-screen h-96 bg-cover bg-center lg:mx-10 rounded-2xl md:rounded-3xl flex items-center justify-center lg:px-12 mt-[90px] sm:mt-[80px]  lg:mt-[100px]"
-        style={{ backgroundImage: "url('images/header.svg')" }}
+        className="mx-5 md:mx-10 px-7 lg:h-[600px] xl:h-screen h-96 bg-cover bg-center lg:mx-10 rounded-2xl md:rounded-3xl flex items-center justify-center lg:px-12 mt-[20px] sm:mt-[20px]  lg:mt-[30px]"
+        style={{ backgroundImage: "url('images/bg-home-5.jpg')" }}
       >
         <div className="text-center max-w-5xl">
-          <h1 className="text-white text-2xl md:text-3xl lg:text-5xl font-medium lg:font-bold">
-            Pertanian adalah usaha bijaksana yang mendatangkan kekayaan sejati,
-            moral yang baik, dan kebahagiaan.
+          <h1 className="text-white mb-5 text-2xl md:text-3xl lg:text-6xl font-medium lg:font-medium">
+            Extraordinary natural and <br />
+            cultural charm
           </h1>
+          <span className="text-white">
+            Exploring Indonesia is an unforgettable adventure
+          </span>
+          <div className="backdrop-blur-xl rounded-lg flex items-center justify-center mt-16 w-auto">
+            <div className="flex w-full max-w-3xl">
+              <div className="text-white border-r px-5 py-3 flex-1 text-center ">
+                <h1 className="text-xl md:text-2xl font-bold">10K</h1>
+                <span className="text-xs md:text-sm">Total Customers</span>
+              </div>
+              <div className="text-white border-r px-5 py-3 flex-1 text-center ">
+                <h1 className="text-xl md:text-2xl font-bold">50+</h1>
+                <span className="text-xs md:text-sm">Total Destination</span>
+              </div>
+              <div className=" text-white px-5 py-3 flex-1 text-center">
+                <h1 className="text-xl md:text-2xl font-bold">5.0</h1>
+                <span className="text-xs md:text-sm">Average Rating</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
-          <div className="lg:mt-20 mt-7 flex justify-center">
-            <div className="relative">
-              <span className="ml-1 sm:ml-2 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none">
-                <CiSearch className="text-2xl font-bold" />
+      <section className="mx-5 sm:mt-20 mt-14 md:mx-10 lg:mx-10 md:mt-20 lg:mt-28">
+        <div className="md:flex md:items-start md:justify-between">
+          <div>
+            <span>Best Location</span>
+            <p className="text-xl font-extrabold text-hitam sm:text-3xl md:text-4xl">
+              Indonesian{" "}
+              <span className="bg-hijau-muda inline-block px-5 rounded-full py-2">
+                Agrotourism
               </span>
-              <input
-                type="text"
-                placeholder="Wisata, atraksi, atau aktivitas"
-                className="pl-11 sm:pl-14 text-xs lg:text-base px-6 py-3 md:py-3 text-hitam border border-gray-300 rounded-full w-[250px] md:w-[400px] lg:w-[500px] focus:outline-none focus:border-gray-500 "
-              />
+            </p>
+          </div>
+          <div className="max-w-lg mt-2 md:mt-0 md:text-right">
+            <span className="text-sm text-gray-400">
+              Discover top agrotourism destinations from Cultivo, offering
+              unique nature and cultural experiences.
+            </span>
+          </div>
+        </div>
+        <div className="mt-10 flex-wrap flex gap-7">
+          {/* KONTEN 1 */}
+          <div
+            className="relative w-full h-[200px] md:max-w-3xl md:h-[300px] bg-cover rounded-2xl flex items-end p-5 text-white"
+            style={{ backgroundImage: "url('images/wonosari.svg')" }}
+          >
+            {/* Layer gradien */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent rounded-2xl"></div>
+
+            {/* Konten teks */}
+            <div className="relative">
+              <p className="text-base font-semibold">Malang, Jawa Timur</p>
+              <span className="text-sm">Agrowisata Wonosari</span>
+            </div>
+          </div>
+
+          {/* KONTEN 2 */}
+          <div
+            className="relative w-full flex-1 ml-auto h-[190px] md:h-[300px] bg-cover bg-center rounded-2xl flex items-end p-5 text-white"
+            style={{ backgroundImage: "url('images/kampoengkaret.png')" }}
+          >
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent rounded-2xl"></div>
+
+            {/* Konten teks */}
+            <div className="relative">
+              <p className="text-base font-semibold">Solo, Jawa Tengah</p>
+              <span className="text-sm">Kampoeng Karet</span>
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-7 flex gap-7">
+          {/* KONTEN 3 */}
+          <div
+            className="relative w-full flex-1 h-[190px] md:h-[300px] bg-cover rounded-2xl flex items-end p-5 text-white"
+            style={{ backgroundImage: "url('images/telagamadiredo-2.svg')" }}
+          >
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent rounded-2xl"></div>
+
+            {/* Konten teks */}
+            <div className="relative">
+              <p className="text-base font-semibold">Malang, Jawa Timur</p>
+              <span className="text-sm">Telaga Madiredo</span>
+            </div>
+          </div>
+
+          {/* KONTEN 4 */}
+          <div
+            className="relative w-full md:max-w-3xl h-[200px] md:h-[300px] bg-cover bg-center rounded-2xl flex items-end p-5 text-white"
+            style={{ backgroundImage: "url('images/paddaawas-3.jpg')" }}
+          >
+            {/* Layer gradien */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/90 to-transparent rounded-2xl"></div>
+
+            {/* Konten teks */}
+            <div className="relative">
+              <p className="text-base font-semibold">Bandung, Jawa Timur</p>
+              <span className="text-sm">Pesona Padaawas Pangalengan</span>
             </div>
           </div>
         </div>
       </section>
 
-      <section className="mx-7 sm:mt-20 mt-14 md:mx-10 lg:mx-14 md:mt-20 lg:mt-28">
-        <div>
-          <p className="text-xl font-extrabold text-hitam sm:text-3xl md:text-4xl">
-            Aktivitas Populer
-          </p>
-        </div>
-        <div className="flex flex-col lg:flex-row items-start sm:mt-7 mt-5 md:mt-10">
-          <img
-            className="rounded-2xl md:w-[600px] lg:w-[500px] xl:w-[700px] md:mr-7 lg:mr-8"
-            src="/images/green_garden.svg"
-            alt=""
-          />
-
-          <div className="flex flex-col justify-between h-full">
-            <div>
-              <div className="flex items-center sm:mt-10 md:mt-10 mt-5 lg:mt-0 ">
-                <div className="py-1 px-4 bg-hijau-muda w-auto rounded-full">
-                  <p className="text-center text-xl sm:text-2xl text-hitam font-bold md:text-2xl lg:text-2xl">
-                    Green
-                  </p>
-                </div>
-                <div className="ml-1">
-                  <p className="font-bold text-xl sm:text-2xl text-hitam md:text-2xl lg:text-2xl">
-                    Garden, Malang
-                  </p>
-                </div>
-              </div>
-
-              <div className="mt-2 sm:mt-5">
-                <p className="text-sm sm:text-lg md:text-base lg:text-lg text-hitam">
-                  Nikmati pengalaman seru memetik apel jenis manalagi dan apel
-                  anna langsung dari pohonnya! Apel manalagi yang segar dan
-                  manis, serta apel anna dengan rasa asam segar yang dipetik
-                  sendiri. Rasakan kesegaran buah apel yang baru saja dipetik,
-                  sambil menikmati pemandangan perkebunan yang memukau.
-                </p>
-              </div>
-            </div>
-            <div className="mt-5 ">
-              <div className="flex items-center ml-auto mt-2">
-                <button className="text-[0.7rem] sm:text-[0.7rem] md:text-[0.7rem] lg:text-sm pl-3 pr-1 py-1 lg:px-4 md:py-1 lg:pr-1 lg:py-1 rounded-full bg-hijau-opa bg-opacity-80 hover:bg-hijau-opa hover:opacity-900 duration-300 text-white flex items-center">
-                  Selengkapnya
-                  <div className="py-3 px-3 rounded-full ml-1 md:px-3 md:py-3 bg-button text-white md:rounded-full md:ml-2 lg:ml-2 lg:py-3 lg:px-3 items-center">
-                    <LuArrowUpRight className="lg:text-base" />
-                  </div>
-                </button>
-              </div>
+      <section className="mx-5  mt-14 md:mt-10 lg:mt-28 md:mx-6 lg:mx-14">
+        <div className="flex items-center ">
+          <div>
+            <h1 className="text-2xl sm:text-3xl font-extrabold md:text-4xl text-hitam">
+              Explore the best Agrotourism
+            </h1>
+            <div className="flex items-center">
+              <h1 className="text-2xl sm:text-3xl font-extrabold md:text-4xl text-hitam">
+                cities in Indonesia
+              </h1>
+              <img
+                className="w-24 h-11 object-cover rounded-full ml-2"
+                src="/images/bg-home-2.jpg"
+                alt=""
+              />
             </div>
           </div>
-        </div>
-      </section>
-
-      <section className="mt-5 sm:mt-14 mx-7 md:mt-10 md:mx-10 lg:mx-14 ">
-        <div className="grid grid-cols-2 md:flex lg:justify-between lg:p-1 ">
-          <div className="hidden md:hidden lg:flex lg:justify-between lg:w-full lg:gap-3">
-            {aktivitasList.map((wisata, index) => (
-              <CardAktivitas
-                key={index}
-                title={wisata.title}
-                description={wisata.description}
-                image={wisata.image}
-                price={wisata.price}
-                path={wisata.path}
-              />
-            ))}
+          <div className="mt-5 ml-auto lg:mt-14 transition-transform duration-200 ease-in-out transform hover:-translate-y-0.5 hidden md:block">
+            <Link
+              to="/seluruhwisata"
+              className="text-base py-1 text-center w-full border-b  text-hitam border-black block"
+            >
+              See all cities
+            </Link>
           </div>
-        </div>
-
-        <div className="carousel carousel-center max-w-full py-2 lg:hidden ">
-          <div className="carousel-item gap-3 px-1">
-            {aktivitasList.map((wisata, index) => (
-              <CardAktivitas
-                key={index}
-                title={wisata.title}
-                description={wisata.description}
-                image={wisata.image}
-                price={wisata.price}
-                path={wisata.path}
-              />
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="mx-7  mt-14 md:mt-10 lg:mt-28 md:mx-10 lg:mx-14">
-        <div>
-          <h1 className="text-xl sm:text-3xl font-extrabold md:text-4xl text-hitam">
-            Eksplor Daerah Wisata <br />
-            di Indonesia
-          </h1>
         </div>
 
         <div className="mt-7 md:mx-0 gap-3 flex flex-wrap lg:gap-10 lg:p-1 lg:mt-16">
-          {/* <div className="hidden md:hidden lg:flex lg:justify-between lg:w-full lg:gap-3">
+          <div className="hidden md:hidden lg:flex lg:justify-between lg:w-full lg:gap-3">
             {Array.isArray(city) &&
               city.slice(0, 4).map((daerahItem) => (
                 <Link
@@ -188,24 +321,10 @@ const Home = () => {
                   <CardDaerah title={daerahItem.name} img={daerahItem.url} />
                 </Link>
               ))}
-          </div> */}
-
-          {/* DATA DUMMY SEMENTARA EXHIBITION */}
-          <div className="hidden md:hidden lg:flex lg:justify-between lg:w-full lg:gap-3">
-            {Array.isArray(daerahList) &&
-              daerahList
-                .slice(0, 4)
-                .map((daerahItem) => (
-                  <CardDaerah
-                    key={daerahItem.id}
-                    title={daerahItem.title}
-                    img={daerahItem.image}
-                  />
-                ))}
           </div>
         </div>
 
-        {/* <div className="carousel carousel-center max-w-full space-x-3 px-8 py-3 lg:hidden ">
+        <div className="carousel carousel-center max-w-full space-x-3 px-8 py-3 lg:hidden ">
           <div className="carousel-item gap-3">
             {Array.isArray(city) &&
               city.slice(0, 4).map((daerahItem) => (
@@ -217,38 +336,23 @@ const Home = () => {
                 </Link>
               ))}
           </div>
-           </div> */}
-
-        <div className="carousel carousel-center max-w-full space-x-3 py-3 lg:hidden ">
-          <div className="carousel-item gap-3 px-1">
-            {Array.isArray(daerahList) &&
-              daerahList
-                .slice(0, 4)
-                .map((daerahItem) => (
-                  <CardDaerah
-                    key={daerahItem.id}
-                    title={daerahItem.title}
-                    img={daerahItem.image}
-                  />
-                ))}
-          </div>
         </div>
 
-        <div className="mt-5 lg:mt-14 transition-transform duration-200 ease-in-out transform hover:-translate-y-0.5 ">
+        <div className="mt-5 lg:mt-14 transition-transform duration-200 ease-in-out transform hover:-translate-y-0.5 md:hidden">
           <Link
             to="/seluruhwisata"
-            className="text-[0.5rem] py-2 px-3 md:text-sm lg:text-sm border text-hitam border-black rounded-xl"
+            className="text-xs py-2 text-center w-full md:text-sm lg:text-sm border text-hitam border-black rounded-md block"
           >
-            Lihat Semua Daerah
+            See all cities
           </Link>
         </div>
       </section>
 
-      <section className="mt-10 sm:mt-14 mx-7 md:mt-10 md:mx-10 lg:mx-14 lg:mt-20 ">
-        <h1 className="text-xl sm:text-3xl font-extrabold md:text-4xl text-hitam">
-          Wisata yang Kami Rekomendasikan
+      <section className="mt-10 sm:mt-14 mx-4 md:mt-10 md:mx-6 lg:mx-10 lg:mt-20 ">
+        <h1 className="text-2xl sm:text-3xl font-extrabold md:text-4xl text-hitam">
+          Recomended for you
         </h1>
-        {/* <div className="mt-7 md:mt-14 lg:mt-14 grid grid-cols-2 md:flex lg:justify-between lg:p-1 xl:mt-14 ">
+        <div className="mt-7 md:mt-14 lg:mt-14 grid grid-cols-2 md:flex lg:justify-between lg:p-1 xl:mt-14 ">
           <div className="hidden md:hidden lg:flex lg:justify-between lg:w-full lg:gap-3">
             {Array.isArray(agrotourism) &&
               agrotourism
@@ -256,90 +360,106 @@ const Home = () => {
                   [1, 2, 9, 10].includes(agrotourismItem.id)
                 )
                 .map((agrotourismItem) => (
-                  <Link
-                    key={agrotourismItem.id}
-                    to={`/wisata/detail/${agrotourismItem.id}`}
-                  >
-                    <CardRekomendasi
-                      title={agrotourismItem.name}
-                      description={truncateDescriptionByChar(
-                        agrotourismItem.description,
-                        70
-                      )}
-                      image={agrotourismItem.url_image}
-                      price={agrotourismItem.price}
-                    />
-                  </Link>
+                  <div key={agrotourismItem.id} className="relative">
+                    {/* Link hanya membungkus card tanpa ikon wishlist */}
+                    <Link to={`/wisata/detail/${agrotourismItem.id}`}>
+                      <CardRekomendasi
+                        title={agrotourismItem.name}
+                        description={truncateDescriptionByChar(
+                          agrotourismItem.description,
+                          70
+                        )}
+                        image={agrotourismItem.url_image}
+                        price={agrotourismItem.price}
+                        average_rating={
+                          agrotourismItem.average_rating
+                            ? parseFloat(
+                                agrotourismItem.average_rating
+                              ).toFixed(1)
+                            : "0.0"
+                        }
+                      />
+                    </Link>
+
+                    <div className="absolute top-2 right-2">
+                      <IconButton
+                        onClick={() => toggleWishlist(agrotourismItem.id)}
+                        className="p-2"
+                      >
+                        {isInWishlist(agrotourismItem.id) ? (
+                          <FavoriteIcon
+                            className="text-red-500"
+                            sx={{ width: 28, height: 28 }}
+                          />
+                        ) : (
+                          <FavoriteIcon
+                            className=""
+                            sx={{ width: 28, height: 28 }}
+                          />
+                        )}
+                      </IconButton>
+                    </div>
+                  </div>
                 ))}
           </div>
         </div>
 
-        <div className="carousel  carousel-center max-w-full py-2 px-2 lg:hidden ">
-          <div className="carousel-item gap-3">
+        <div className="lg:hidden md:carousel md:carousel-center md:space-x-3 md:px-8 md:py-3  md:max-w-full ">
+          <div className="md:carousel-item justify-between flex flex-wrap gap-3">
             {Array.isArray(agrotourism) &&
               agrotourism
                 .filter((agrotourismItem) =>
-                  [1, 2, 3, 4].includes(agrotourismItem.id)
+                  [1, 2, 9, 10].includes(agrotourismItem.id)
                 )
                 .map((agrotourismItem) => (
-                  <Link
-                    key={agrotourismItem.id}
-                    to={`/wisata/detail/${agrotourismItem.id}`}
-                  >
-                    <CardRekomendasi
-                      title={agrotourismItem.name}
-                      description={truncateDescriptionByChar(
-                        agrotourismItem.description,
-                        70
-                      )}
-                      image={agrotourismItem.url_image}
-                      price={agrotourismItem.price}
-                    />
-                  </Link>
+                  <div key={agrotourismItem.id} className="relative">
+                    {/* Link hanya membungkus card tanpa ikon wishlist */}
+                    <Link to={`/wisata/detail/${agrotourismItem.id}`}>
+                      <CardRekomendasi
+                        title={agrotourismItem.name}
+                        description={truncateDescriptionByChar(
+                          agrotourismItem.description,
+                          70
+                        )}
+                        image={agrotourismItem.url_image}
+                        price={agrotourismItem.price}
+                        average_rating={
+                          agrotourismItem.average_rating
+                            ? parseFloat(
+                                agrotourismItem.average_rating
+                              ).toFixed(1)
+                            : "0.0"
+                        }
+                      />
+                    </Link>
+
+                    <div className="absolute top-0 right-0 ">
+                      <IconButton
+                        onClick={() => toggleWishlist(agrotourismItem.id)}
+                        className=""
+                      >
+                        {isInWishlist(agrotourismItem.id) ? (
+                          <FavoriteIcon
+                            className="text-red-500"
+                            sx={{ width: 28, height: 28 }}
+                          />
+                        ) : (
+                          <FavoriteIcon
+                            className=""
+                            sx={{ width: 28, height: 28 }}
+                          />
+                        )}
+                      </IconButton>
+                    </div>
+                  </div>
                 ))}
-          </div>
-        </div> */}
-
-        <div className="mt-7 md:mt-14 lg:mt-14 grid grid-cols-2 md:flex lg:justify-between lg:p-1 xl:mt-14 ">
-          <div className="hidden md:hidden lg:flex lg:justify-between lg:w-full lg:gap-3">
-            {Array.isArray(rekomendasiList) &&
-              rekomendasiList.map((agrotourismItem) => (
-                <CardRekomendasi
-                  key={agrotourismItem.id}
-                  title={agrotourismItem.title}
-                  description={truncateDescriptionByChar(
-                    agrotourismItem.description,
-                    70
-                  )}
-                  image={agrotourismItem.image}
-                  price={agrotourismItem.price}
-                />
-              ))}
-          </div>
-        </div>
-
-        <div className="carousel carousel-center max-w-full py-2 lg:hidden ">
-          <div className="carousel-item gap-3 px-1">
-            {Array.isArray(rekomendasiList) &&
-              rekomendasiList.map((agrotourismItem) => (
-                <CardRekomendasi
-                  key={agrotourismItem.id}
-                  title={agrotourismItem.title}
-                  description={truncateDescriptionByChar(
-                    agrotourismItem.description,
-                    70
-                  )}
-                  image={agrotourismItem.image}
-                  price={agrotourismItem.price}
-                />
-              ))}
           </div>
         </div>
       </section>
 
       <section className="mx-7 md:mx-10 lg:mx-14 bg-cover mt-10 justify-center lg:mt-20">
         <h1 className="text-xl sm:text-3xl font-extrabold md:text-4xl mb-7 md:mb-10 lg:mb-20 text-hitam">
-          Apa Kata Pengunjung
+          What guests are saying
         </h1>
 
         <SwiperCardReview />

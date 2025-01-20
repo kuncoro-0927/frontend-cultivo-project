@@ -1,7 +1,7 @@
 import { CiHeart, CiUser, CiLogout } from "react-icons/ci";
-import { IoTicketOutline } from "react-icons/io5";
 import { NavLink } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
+import { PiNotepadThin, PiTicketThin } from "react-icons/pi";
 const SidebarAccount = () => {
   const { logout } = useAuth();
   return (
@@ -19,7 +19,7 @@ const SidebarAccount = () => {
               }
             >
               <CiUser className="text-lg mr-2" />
-              <span className="flex-1">Profile</span>{" "}
+              <span className="flex-1">Profil</span>{" "}
             </NavLink>
           </li>
 
@@ -33,8 +33,8 @@ const SidebarAccount = () => {
                   : "text-hitam hover:bg-gray-200 hover:bg-opacity-40 ml-5 md:ml-7 lg:ml-10 pl-5 lg:pl-10 lg:pr-10 py-3 font-normal text-sm md:text-sm lg:text-base flex items-center justify-between"
               }
             >
-              <IoTicketOutline className="text-lg mr-2" />
-              <span className="flex-1">Pesan</span>{" "}
+              <PiTicketThin className="text-lg mr-2" />
+              <span className="flex-1">Tiket</span>{" "}
             </NavLink>
           </li>
 
@@ -50,13 +50,13 @@ const SidebarAccount = () => {
               }
             >
               <CiHeart className="text-lg mr-2" />
-              <span className="flex-1">Wishlist</span>{" "}
+              <span className="flex-1">Favorit</span>{" "}
             </NavLink>
           </li>
 
-          {/* WISHLIST */}
+          {/* Ulasan */}
 
-          {/* <li className="">
+          <li className="">
             <NavLink
               to="/account/review"
               className={({ isActive }) =>
@@ -65,10 +65,10 @@ const SidebarAccount = () => {
                   : "text-hitam hover:bg-gray-200 hover:bg-opacity-40 ml-5 md:ml-7 lg:ml-10 pl-5 lg:pl-10 lg:pr-10 py-3 font-normal text-sm md:text-sm lg:text-base flex items-center justify-between"
               }
             >
-              <CiHeart className="text-lg mr-2" />
-              <span className="flex-1">Review</span>{" "}
+              <PiNotepadThin className="text-lg mr-2" />
+              <span className="flex-1">Ulasan</span>{" "}
             </NavLink>
-          </li> */}
+          </li>
 
           {/* Logout */}
 

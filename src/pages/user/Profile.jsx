@@ -94,150 +94,140 @@ const Profile = () => {
       <div className="hidden sm:block md:block lg:block">
         <SidebarAccount />
       </div>
-      <div className="p-8 mt-20">
+      <div className="md:p-8 mx-5 mt-20">
         <span className="font-extrabold text-3xl">Informasi Akun</span>
         <p>Lengkapi data akun anda</p>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="mt-6 space-y-6 lg:space-y-0 lg:grid lg:grid-cols-2 lg:gap-x-8 lg:gap-y-10 lg:mt-7">
-            <div className="w-96">
-              <TextField
-                fullWidth
-                label="Nama Depan"
-                variant="outlined"
-                value={formData.firstname}
-                onChange={handleInputChange}
-                name="firstname"
-                error={!!errors.firstname}
-                helperText={errors.firstname}
-                required
-                size="normal"
-                InputLabelProps={{
-                  sx: {
-                    color: errors.firstname
-                      ? theme.palette.error.main
-                      : "black",
-                    fontSize: { xs: "0.875rem", md: "0.9rem" },
-                    "&.Mui-focused": {
-                      color: errors.firstname
-                        ? `${theme.palette.error.main} !important`
-                        : "black !important",
-                    },
-                  },
-                }}
-                sx={{
-                  "& .MuiOutlinedInput-root": {
+            <TextField
+              fullWidth
+              label="Nama Depan"
+              variant="outlined"
+              value={formData.firstname}
+              onChange={handleInputChange}
+              name="firstname"
+              error={!!errors.firstname}
+              helperText={errors.firstname}
+              required
+              size="normal"
+              InputLabelProps={{
+                sx: {
+                  color: errors.firstname ? theme.palette.error.main : "black",
+                  fontSize: { xs: "0.875rem", md: "0.9rem" },
+                  "&.Mui-focused": {
                     color: errors.firstname
                       ? `${theme.palette.error.main} !important`
                       : "black !important",
                   },
-                  "& .MuiOutlinedInput-notchedOutline": {
-                    borderColor: errors.firstname
-                      ? `${theme.palette.error.main} !important`
-                      : "black !important",
-                  },
-                }}
-              />
-            </div>
+                },
+              }}
+              sx={{
+                "& .MuiOutlinedInput-root": {
+                  color: errors.firstname
+                    ? `${theme.palette.error.main} !important`
+                    : "black !important",
+                },
+                "& .MuiOutlinedInput-notchedOutline": {
+                  borderColor: errors.firstname
+                    ? `${theme.palette.error.main} !important`
+                    : "black !important",
+                },
+              }}
+            />
 
-            <div className="w-96">
-              <TextField
-                fullWidth
-                label="Nama Belakang"
-                variant="outlined"
-                name="lastname"
-                value={formData.lastname}
-                onChange={handleInputChange}
-                error={!!errors.lastname}
-                helperText={errors.lastname}
-                required
-                size="normal"
-                InputLabelProps={{
-                  sx: {
-                    color: errors.lastname ? theme.palette.error.main : "black",
-                    fontSize: { xs: "0.875rem", md: "0.9rem" },
-                    "&.Mui-focused": {
-                      color: errors.lastname
-                        ? `${theme.palette.error.main} !important`
-                        : "black !important",
-                    },
-                  },
-                }}
-                sx={{
-                  "& .MuiOutlinedInput-root": {
+            <TextField
+              fullWidth
+              label="Nama Belakang"
+              variant="outlined"
+              name="lastname"
+              value={formData.lastname}
+              onChange={handleInputChange}
+              error={!!errors.lastname}
+              helperText={errors.lastname}
+              required
+              size="normal"
+              InputLabelProps={{
+                sx: {
+                  color: errors.lastname ? theme.palette.error.main : "black",
+                  fontSize: { xs: "0.875rem", md: "0.9rem" },
+                  "&.Mui-focused": {
                     color: errors.lastname
                       ? `${theme.palette.error.main} !important`
                       : "black !important",
                   },
-                  "& .MuiOutlinedInput-notchedOutline": {
-                    borderColor: errors.lastname
-                      ? `${theme.palette.error.main} !important`
-                      : "black !important",
-                  },
-                }}
-              />
-            </div>
+                },
+              }}
+              sx={{
+                "& .MuiOutlinedInput-root": {
+                  color: errors.lastname
+                    ? `${theme.palette.error.main} !important`
+                    : "black !important",
+                },
+                "& .MuiOutlinedInput-notchedOutline": {
+                  borderColor: errors.lastname
+                    ? `${theme.palette.error.main} !important`
+                    : "black !important",
+                },
+              }}
+            />
 
-            <div className="w-96">
-              <MuiTelInput
-                value={formData.phonenumber}
-                onChange={(value) => {
-                  setErrors((prevErrors) => ({
-                    ...prevErrors,
-                    phonenumber: value.trim()
-                      ? ""
-                      : "Nomor Telepon tidak boleh kosong",
-                  }));
-                  setFormData((prevData) => ({
-                    ...prevData,
-                    phonenumber: value,
-                  }));
-                }}
-                fullWidth
-                label="Nomor Telepon"
-                required
-                error={!!errors.phonenumber}
-                helperText={errors.phonenumber}
-                defaultCountry="ID"
-                InputLabelProps={{
-                  sx: {
-                    color: errors.phonenumber
-                      ? theme.palette.error.main
-                      : "black",
-                    fontSize: { xs: "0.875rem", md: "0.9rem" },
-                    "&.Mui-focused": {
-                      color: errors.phonenumber
-                        ? `${theme.palette.error.main} !important`
-                        : "black !important",
-                    },
-                  },
-                }}
-                sx={{
-                  "& .MuiOutlinedInput-root": {
+            <MuiTelInput
+              value={formData.phonenumber}
+              onChange={(value) => {
+                setErrors((prevErrors) => ({
+                  ...prevErrors,
+                  phonenumber: value.trim()
+                    ? ""
+                    : "Nomor Telepon tidak boleh kosong",
+                }));
+                setFormData((prevData) => ({
+                  ...prevData,
+                  phonenumber: value,
+                }));
+              }}
+              fullWidth
+              label="Nomor Telepon"
+              required
+              error={!!errors.phonenumber}
+              helperText={errors.phonenumber}
+              defaultCountry="ID"
+              InputLabelProps={{
+                sx: {
+                  color: errors.phonenumber
+                    ? theme.palette.error.main
+                    : "black",
+                  fontSize: { xs: "0.875rem", md: "0.9rem" },
+                  "&.Mui-focused": {
                     color: errors.phonenumber
                       ? `${theme.palette.error.main} !important`
                       : "black !important",
                   },
-                  "& .MuiOutlinedInput-notchedOutline": {
-                    borderColor: errors.phonenumber
-                      ? `${theme.palette.error.main} !important`
-                      : "black !important",
-                  },
-                }}
-              />
-            </div>
+                },
+              }}
+              sx={{
+                "& .MuiOutlinedInput-root": {
+                  color: errors.phonenumber
+                    ? `${theme.palette.error.main} !important`
+                    : "black !important",
+                },
+                "& .MuiOutlinedInput-notchedOutline": {
+                  borderColor: errors.phonenumber
+                    ? `${theme.palette.error.main} !important`
+                    : "black !important",
+                },
+              }}
+            />
 
-            <div className="w-96">
-              <TextField
-                fullWidth
-                label="Email"
-                variant="outlined"
-                name="email"
-                value={formData.email || ""}
-                required
-                disabled
-                size="normal"
-              />
-            </div>
+            <TextField
+              fullWidth
+              label="Email"
+              variant="outlined"
+              name="email"
+              value={formData.email || ""}
+              required
+              disabled
+              size="normal"
+            />
           </div>
           <div className="flex items-center ">
             <button

@@ -14,19 +14,18 @@ export default function CardDaerah({ title, img }) {
     <>
       <Card
         sx={{
-          width: { xs: 150, sm: 195, md: 210, lg: 250 },
+          width: { xs: 180, sm: 195, md: 210, lg: 250 },
           borderRadius: { xs: 3, lg: 5 },
           transition: "transform 0.2s, box-shadow 0.2s", // Transisi untuk efek
           "&:hover": {
             transform: "translateY(-4px)", // Naik sedikit
-            boxShadow: "0px 4px 20px rgba(0, 0, 0, 0.2)", // Bayangan lebih dalam
           },
         }}
       >
         <CardActionArea>
           <CardMedia
             sx={{
-              height: { xs: 130, sm: 180, md: 185, lg: 250 },
+              height: { xs: 170, sm: 180, md: 185, lg: 250 },
               objectFit: "cover",
             }}
             component="img"
@@ -45,7 +44,7 @@ export default function CardDaerah({ title, img }) {
                 display: "flex",
                 alignItems: "center",
               }}
-              marginTop={"1rem"}
+              marginTop={""}
             >
               <FontAwesomeIcon
                 icon={faLocationDot}

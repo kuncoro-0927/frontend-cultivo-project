@@ -1,15 +1,18 @@
 /* eslint-disable no-unused-vars */
-// Review.jsx
-
-import { useState, useEffect } from "react";
-import { useAuth } from "../../../contexts/AuthContext";
+import { useEffect, useState } from "react";
 import { instance } from "../../../utils/axios";
+import { CiCalendar } from "react-icons/ci";
+import { IoTicketOutline } from "react-icons/io5";
+import { Link } from "react-router-dom";
+import TicketPdf from "../../../component/TicketPdfContent";
+import ModalReview from "../../../component/ModalReview"; // Import ModalReview
+import { useAuth } from "../../../contexts/AuthContext";
+import SidebarAccount from "../../../component/SidebarAccount";
 
 const Review = () => {
   const [tickets, setTickets] = useState([]);
-  const [reviewText, setReviewText] = useState("");
-  const [rating, setRating] = useState(5);
-  const [loading, setLoading] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false); // State modal
+  const [selectedTicketId, setSelectedTicketId] = useState(null); // Untuk menyimpan ticketId yang dipilih
   const { user, isLoading } = useAuth();
 
   // Fetch tiket pengguna
@@ -19,7 +22,6 @@ const Review = () => {
       setTickets(response.data);
     } catch (error) {
       console.error("Gagal memuat tiket.", error);
-      alert("Gagal memuat tiket.");
     }
   };
 
@@ -29,95 +31,110 @@ const Review = () => {
     }
   }, [user]);
 
-  const submitReview = async (ticketId) => {
-    if (!user?.id || !ticketId) {
-      console.error("User ID atau Ticket ID tidak valid!");
-      return;
-    }
-
-    try {
-      setLoading(true);
-      await instance.post("/create/reviews", {
-        ticket_id: ticketId,
-        user_id: user.id, // User ID dari AuthContext
-        review_text: reviewText,
-        rating: rating,
-      });
-      alert("Review berhasil dikirim");
-      setReviewText(""); // Clear form after submit
-      setRating(5); // Reset rating
-    } catch (error) {
-      console.error("Gagal mengirim review", error);
-      alert("Gagal mengirim review");
-    } finally {
-      setLoading(false);
-    }
+  const handleOpenModal = (ticketId) => {
+    setSelectedTicketId(ticketId); // Set ticketId yang dipilih
+    setModalOpen(true); // Buka modal
   };
 
+  const handleCloseModal = () => {
+    setModalOpen(false); // Tutup modal
+  };
+
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const options = { year: "numeric", month: "long", day: "numeric" };
+    return date.toLocaleDateString("id-ID", options); // Format: Januari 16, 2025
+  };
   return (
-    <div className="max-w-3xl mx-auto p-4 mt-52">
-      <h1 className="text-2xl font-bold mb-4">Tiket dan Review</h1>
+    <>
+      <ModalReview
+        open={modalOpen}
+        handleClose={handleCloseModal}
+        ticketId={selectedTicketId} // Mengoper ticketId yang dipilih
+      />
+      <section className="flex">
+        {/* Sidebar */}
+        <div className="hidden sm:block md:block lg:block">
+          <SidebarAccount />
+        </div>
+        <div className="mt-20 mx-5 md:p-8 w-full  text-hitam">
+          <h1 className="font-extrabold text-3xl mb-5">Reviews</h1>
+          <span className="font-bold border-b-4 py-2 border-blue-400">
+            Tiket Anda
+          </span>
 
-      {tickets.length === 0 ? (
-        <p>Belum ada tiket yang ditemukan.</p>
-      ) : (
-        tickets.map((ticket) => (
-          <div
-            key={ticket.ticket_code}
-            className="p-4 border rounded-md shadow-sm mb-4 bg-white"
-          >
-            <h2 className="text-xl font-semibold mb-2">
-              Tiket: {ticket.ticket_code}
-            </h2>
-            <p>Status: {ticket.status}</p>
+          {/* Cek apakah ada tiket */}
+          {tickets.length === 0 ? (
+            // Jika tidak ada tiket
 
-            {/* Menampilkan review jika sudah ada */}
-            {ticket.review_text ? (
-              <div className="mt-4">
-                <h3 className="font-semibold">Review Anda:</h3>
-                <p>{ticket.review_text}</p>
-                <p>Rating: {ticket.rating}</p>
-              </div>
-            ) : (
-              <form
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  submitReview(ticket.ticket_code);
-                }}
-                className="mt-4"
+            <div className="mt-10 w-full flex flex-col items-center ">
+              <p className="text-hitam text-xl lg:text-2xl font-extrabold">
+                Kamu Belum Memiliki Pesanan Tiket
+              </p>
+              <img
+                className="w-40 mt-7"
+                src="/public/images/agenda.png"
+                alt="Agenda"
+              />
+              <p className="text-center mt-5 font-medium">
+                Petualangan Anda berikutnya menanti.
+                <br /> Temukan bersama kami!
+              </p>
+              <Link
+                to="/seluruhwisata"
+                className="bg-hitam text-lg text-white px-6 mt-10 py-2 lg:py-2 hover:bg-hover hover:-translate-y-2 duration-300 rounded-md"
               >
-                <textarea
-                  className="w-full p-2 border rounded-md mb-2"
-                  placeholder="Bagaimana pengalaman Anda?"
-                  value={reviewText}
-                  onChange={(e) => setReviewText(e.target.value)}
-                  required
-                />
-                <div className="mb-4">
-                  <label className="block font-semibold mb-1">Rating:</label>
-                  <input
-                    type="number"
-                    min="1"
-                    max="5"
-                    className="border p-2 rounded-md w-20"
-                    value={rating}
-                    onChange={(e) => setRating(Number(e.target.value))}
-                    required
-                  />
+                Eksplor
+              </Link>
+            </div>
+          ) : (
+            // Jika ada tiket
+            tickets.map((ticket) => (
+              <div
+                key={ticket.id}
+                id={`ticket-${ticket.ticket_code}`}
+                className="ticket-card max-w-[800px]  mb-4 mt-10"
+              >
+                <div className="border flex border-gray-200 w-full rounded-lg shadow-sm">
+                  {/* Kolom kiri: Gambar */}
+                  <div className=" md:h-[200px] h-[120px] w-[120px]  md:w-[200px] md:flex items-center justify-center rounded-l-lg overflow-hidden">
+                    <img
+                      src={ticket.agrotourism_url_image}
+                      alt="Agrotourism"
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+
+                  {/* Kolom tengah: Informasi tiket */}
+                  <div className="p-4 md:p-4 flex flex-col justify-between">
+                    <div className="">
+                      <h1 className="font-bold text-lg">
+                        {ticket.agrotourism_name}
+                      </h1>
+
+                      <p className="mt-2 text-xs md:text-sm flex items-center text-hitam2 font-semibold ">
+                        <span>{formatDate(ticket.selected_date)}</span>
+                      </p>
+                    </div>
+                    {/* <p className="text-xs md:text-sm">
+                      Yuk, ceritakan keseruan pengalaman Kamu di wisata ini!
+                    </p> */}
+                    <div>
+                      <button
+                        onClick={() => handleOpenModal(ticket.id)}
+                        className="bg-hover px-4 py-2 rounded-md text-white text-xs md:text-sm"
+                      >
+                        Review
+                      </button>
+                    </div>
+                  </div>
                 </div>
-                <button
-                  type="submit"
-                  className="bg-blue-500 text-white px-4 py-2 rounded-md"
-                  disabled={loading}
-                >
-                  {loading ? "Mengirim..." : "Kirim Review"}
-                </button>
-              </form>
-            )}
-          </div>
-        ))
-      )}
-    </div>
+              </div>
+            ))
+          )}
+        </div>
+      </section>
+    </>
   );
 };
 

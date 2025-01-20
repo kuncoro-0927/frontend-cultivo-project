@@ -27,14 +27,23 @@ const DaerahWisata = () => {
   return (
     <>
       <section className="mx-7 mt-20 sm:mt-20 md:mt-20 lg:mt-28 md:mx-10 lg:mx-14">
-        <div>
+        <div className="">
           <h1 className="text-xl sm:text-3xl font-extrabold md:text-4xl text-hitam">
-            Eksplor Daerah Wisata <br />
-            di Indonesia
+            Explore the best Agrotourism
           </h1>
+          <div className="flex items-center">
+            <h1 className="text-xl sm:text-3xl font-extrabold md:text-4xl text-hitam">
+              cities in Indonesia
+            </h1>
+            <img
+              className="w-24 h-11 object-cover rounded-full ml-2"
+              src="/images/bg-home-2.jpg"
+              alt=""
+            />
+          </div>
         </div>
 
-        {/* <div className="mt-7 md:mx-0 gap-3 flex flex-wrap lg:gap-10 lg:p-1 lg:mt-16">
+        <div className="mt-7 md:mx-0 gap-3 flex flex-wrap lg:gap-10 lg:p-1 lg:mt-16">
           <div className="hidden md:hidden lg:grid lg:justify-between lg:grid-cols-4 lg:w-full lg:gap-3 lg:gap-y-10">
             {Array.isArray(city) &&
               city.map((daerahItem) => (
@@ -60,10 +69,10 @@ const DaerahWisata = () => {
                 </Link>
               ))}
           </div>
-        </div> */}
+        </div>
 
         {/* DATA DUMMY BUAT EXHIBITION */}
-        <div className="mt-7 md:mx-0 gap-3 flex flex-wrap lg:gap-10 lg:p-1 lg:mt-16">
+        {/* <div className="mt-7 md:mx-0 gap-3 flex flex-wrap lg:gap-10 lg:p-1 lg:mt-16">
           <div className="hidden md:hidden lg:grid lg:justify-between lg:grid-cols-4 lg:w-full lg:gap-3 lg:gap-y-10">
             {Array.isArray(daerahList) &&
               daerahList.map((daerahItem) => (
@@ -87,7 +96,7 @@ const DaerahWisata = () => {
                 />
               ))}
           </div>
-        </div>
+        </div> */}
       </section>
     </>
   );

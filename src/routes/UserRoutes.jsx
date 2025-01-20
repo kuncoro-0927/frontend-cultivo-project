@@ -14,7 +14,7 @@ import Login from "../pages/Login";
 import Register from "../pages/Register";
 import PrivateRoute from "./PrivateRoute";
 import Tes from "../pages/user/tes";
-import Checkout from "../component/Checkout";
+
 import PaymentPage from "../component/TesPayment";
 import Bookings from "../pages/user/Account/Bookings";
 import EmailVerify from "../pages/VerifyEmail";
@@ -28,11 +28,24 @@ import Reviews from "../pages/user/Account/Reviews";
 function UserRoutes() {
   const location = useLocation();
 
-  const shouldShowFooter = !location.pathname.startsWith("/account");
+  // Cek apakah halaman adalah login, register, atau email verify
+  const isAuthPage =
+    location.pathname === "/login" ||
+    location.pathname === "/register" ||
+    location.pathname === "/email/verify";
+
+  // Cek apakah halaman adalah bagian dari /account
+  const isAccountPage = location.pathname.startsWith("/account");
+
+  // Tentukan kapan NavBar dan Footer ditampilkan
+  const shouldShowNavBar = !isAuthPage;
+  const shouldShowFooter = !isAuthPage && !isAccountPage;
 
   return (
     <>
-      <NavBar />
+      {/* Render NavBar jika bukan di halaman login/register */}
+      {shouldShowNavBar && <NavBar />}
+
       <Routes>
         <Route path="/" element={<Home />} />
         <Route
@@ -90,12 +103,14 @@ function UserRoutes() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/email/verify" element={<EmailVerify />} />
-        <Route path="/checkout" element={<Checkout />} />
+
         <Route
           path="/payment/:namawisata/:hashedToken"
           element={<PaymentPage />}
         />
       </Routes>
+
+      {/* Render Footer jika bukan halaman login/register dan bukan bagian dari /account */}
       {shouldShowFooter && <Footer />}
     </>
   );

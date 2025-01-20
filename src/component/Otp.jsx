@@ -52,7 +52,7 @@ export default function Otp() {
 
 const InputElement = styled("input")(
   ({ theme }) => `
-  width: 40px;
+  width: 30px;
   font-size: 1rem;
   text-align: center;
   padding: 8px;

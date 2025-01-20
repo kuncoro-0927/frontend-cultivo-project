@@ -12,9 +12,10 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState(null);
-  const [isLoading, setIsLoading] = useState(true); // Tambahkan state loading
+  const [isLoading, setIsLoading] = useState(true);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [wishlist, setWishlist] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -22,8 +23,7 @@ export const AuthProvider = ({ children }) => {
       try {
         const response = await instance.get("/verify-token", {
           withCredentials: true,
-        }); // Mengirim cookie ke backend
-
+        });
         if (response.status === 200) {
           setUser(response.data.user);
           setIsLoggedIn(true);
@@ -35,28 +35,25 @@ export const AuthProvider = ({ children }) => {
     checkAuth();
   }, []);
   const login = (userData) => {
-    // Menyimpan token dan user di state serta cookie (jika diperlukan)
     setUser(userData);
     setIsLoggedIn(true);
-
-    // Cookies.set("token", token); // Jika kamu ingin menyimpan token di cookie
   };
   const logout = async () => {
     try {
-      // Hapus token dari cookie
       Cookies.remove("token");
 
-      // Kirim request untuk logout ke backend
       await instance.post("/logout", {});
 
-      // Segera set status isLoggedIn ke false dan set user ke null di AuthContext
       setIsLoggedIn(false);
       setUser(null);
       localStorage.removeItem("isLoggedIn");
+      setWishlist(null);
+      localStorage.removeItem("wishlist");
       document.cookie =
         "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-      // Arahkan ke halaman login setelah logout
+
       navigate("/login", { replace: true });
+      window.location.reload();
     } catch (error) {
       console.error(
         "Error saat logout:",
@@ -113,6 +110,8 @@ export const AuthProvider = ({ children }) => {
         snackbarOpen,
         snackbarMessage,
         closeSnackbar,
+        wishlist,
+        setWishlist,
       }}
     >
       {children}

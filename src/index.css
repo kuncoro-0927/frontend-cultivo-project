@@ -4,6 +4,6 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  font-family: "Manrope", sans-serif;
+body {
+  @apply font-sans;
 }

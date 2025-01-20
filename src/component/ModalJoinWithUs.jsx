@@ -24,14 +24,16 @@ const ModalJoinWithUs = () => {
       <button
         className={
           isActive
-            ? "lg:text-white lg:bg-hitam lg:py-2 lg:px-4 lg:rounded-full font-medium text-sm md:text-sm lg:text-base lg:hover:bg-hover lg:duration-200 flex items-center justify-between w-full"
-            : "text-hitam lg:py-2 lg:px-4 font-medium text-sm md:text-sm lg:text-base lg:hover:text-white lg:hover:py-2 lg:hover:px-4 rounded-full lg:hover:bg-hitam duration-200 flex items-center justify-between w-full"
+            ? "font-bold md:font-medium text-sm md:text-sm lg:text-base lg:relative lg:shadow-[0_1px_0_0px_black] lg:shadow-b-[2px]shadow-hitam duration-200 flex items-center justify-between w-full"
+            : "text-hitam  font-medium text-sm md:text-sm lg:text-base lg:relative lg:duration-200 flex items-center justify-between w-full"
         }
         onClick={handleButtonClick}
       >
         <GoPeople className="text-base mr-2 lg:hidden" />
 
-        <span className="flex-1 text-left">Bergabung</span>
+        <span className="flex-1 text-left text-sm lg:relative lg:hover:shadow-[0_1px_0_0px_black] lg:hover:shadow-b-[2px] lg:hover:shadow-hitam">
+          Bergabung
+        </span>
 
         <MdKeyboardArrowRight className="text-2xl ml-2 lg:hidden" />
       </button>
@@ -48,14 +50,14 @@ const ModalJoinWithUs = () => {
             bgcolor: "background.paper",
             boxShadow: 24,
             borderRadius: 2,
-            width: "450px",
+            width: { xs: "350px", sm: "450px" },
             maxWidth: "100%",
             maxHeight: "90vh",
           }}
         >
           <div className="">
             <div className="flex p-4 rounded-t-lg items-center justify-between border-b">
-              <h2 className="text-xl font-bold">Bergabung Dengan Kami</h2>
+              <h2 className="text-xl font-bold">Bergabung</h2>
               <button onClick={handleClose} className="text-xl">
                 <IoClose />
               </button>

@@ -1,29 +1,38 @@
+/* eslint-disable no-unused-vars */
 import { useState, useEffect } from "react";
 import { Link, NavLink } from "react-router-dom";
-import {
-  IoMdArrowDropdown,
-  IoIosInformationCircleOutline,
-} from "react-icons/io";
-import { PiTreeEvergreenLight } from "react-icons/pi";
+import { IoIosInformationCircleOutline } from "react-icons/io";
+// import { PiTreeEvergreenLight } from "react-icons/pi";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import { CiHeart, CiMap, CiUser, CiLogout } from "react-icons/ci";
-import { IoCallOutline, IoTicketOutline } from "react-icons/io5";
+import { IoCallOutline } from "react-icons/io5";
 import { CiSearch } from "react-icons/ci";
 import { useAuth } from "../contexts/AuthContext";
 import ModalJoinWithUs from "./ModalJoinWithUs";
 import Avatar from "./Avatar";
 import { instance } from "../utils/axios";
+import { PiNotepadThin, PiTicketThin } from "react-icons/pi";
+import ModalSearch from "./ModalSearch";
 export default function NavBar() {
   const [isOpen, setIsOpen] = useState(false);
-
   const toggleDropdown = () => {
     setIsOpen((prev) => !prev);
   };
   const { isLoggedIn, logout } = useAuth();
-
   const [navbar, setNavbar] = useState(false);
   const [scrolling, setScrolling] = useState(false);
-
+  const [isModalSearchOpen, setModalSearchOpen] = useState(false);
+  const [selectedAgrotourism, setSelectedAgrotourism] = useState(null);
+  const handleOpenModalSearch = () => {
+    setModalSearchOpen(true);
+  };
+  const handleSelectAgrotourism = (agrotourism) => {
+    setSelectedAgrotourism(agrotourism);
+    setModalSearchOpen(false);
+  };
+  const handleCloseModalSearch = () => {
+    setModalSearchOpen(false);
+  };
   const handleScroll = () => {
     setScrolling(window.scrollY > 50);
   };
@@ -64,9 +73,8 @@ export default function NavBar() {
       try {
         const data = await getUserData();
         setName(data.name);
-        console.log(data); // Lakukan sesuatu dengan data user
       } catch (error) {
-        console.error(error); // Menangani error
+        console.error(error);
       }
     };
 
@@ -76,14 +84,12 @@ export default function NavBar() {
   return (
     <nav
       className={`fixed w-full top-0 md:px-7 transition-colors duration-300 ${
-        scrolling
-          ? "shadow-lg bg-white text-black"
-          : "bg-white shadow-md text-black"
+        scrolling ? "shadow-lg bg-white text-black" : "bg-white  text-black"
       } z-50`}
     >
-      <div className="justify-between lg:pr-2 lg:ml-0 lg:max-w-7xl lg:items-center lg:flex md:px-0">
+      <div className="justify-start lg:pr-2 lg:ml-0 lg:max-w-7xl lg:items-center lg:flex md:px-0">
         <div className="">
-          <div className="flex   items-center justify-between py-3 lg:py-4 lg:block">
+          <div className="flex items-center justify-between py-3 lg:py-4 lg:block">
             <div className={`${scrolling ? "scrolled" : " lg:ml-0"}`}>
               <div className="flex  ml-3 lg:ml-0 md:ml-0 items-center">
                 <Link
@@ -101,12 +107,20 @@ export default function NavBar() {
                       <span className="ml-1 sm:ml-2 absolute left-3 top-1/2 transform -translate-y-1/2 text-hover pointer-events-none">
                         <CiSearch className="text-2xl font-bold" />
                       </span>
-                      <input
+                      <button
+                        onClick={handleOpenModalSearch}
                         type="text"
                         placeholder="Wisata, atraksi, atau aktivitas"
-                        className="pl-11 sm:pl-14 text-xs lg:text-base px-6 py-2.5 md:py-3 text-hover border border-hover rounded-full w-[250px] sm:w-[400px] md:w-[400px] lg:w-[500px] focus:outline-none focus:border-hover"
-                      />
+                        className="pl-11 text-left sm:pl-14 text-xs lg:text-base px-6 py-2.5 md:py-3 text-hover border border-hover rounded-full w-[250px] sm:w-[400px] md:w-[400px] lg:w-[500px] focus:outline-none focus:border-hover"
+                      >
+                        Cari Destinasi
+                      </button>
                     </div>
+                    <ModalSearch
+                      isOpen={isModalSearchOpen}
+                      handleClose={handleCloseModalSearch}
+                      onSelect={handleSelectAgrotourism}
+                    />
                   </>
                 )}
               </div>
@@ -181,7 +195,7 @@ export default function NavBar() {
                           }
                         >
                           <CiUser className="text-base mr-2" />
-                          <span className="flex-1">Profile</span>{" "}
+                          <span className="flex-1">Profil</span>{" "}
                           <MdKeyboardArrowRight className="lg:hidden text-2xl" />{" "}
                         </NavLink>
                       </li>
@@ -196,8 +210,8 @@ export default function NavBar() {
                               : "font-normal text-sm md:text-sm flex items-center justify-between text-hitam"
                           }
                         >
-                          <IoTicketOutline className="text-base mr-2" />
-                          <span className="flex-1">Pesan</span>{" "}
+                          <PiTicketThin className="text-base mr-2" />
+                          <span className="flex-1">Tiket</span>{" "}
                           <MdKeyboardArrowRight className="lg:hidden text-2xl" />{" "}
                         </NavLink>
                       </li>
@@ -212,7 +226,22 @@ export default function NavBar() {
                           }
                         >
                           <CiHeart className="text-base mr-2" />
-                          <span className="flex-1">Wishlist</span>{" "}
+                          <span className="flex-1">Favorit</span>{" "}
+                          <MdKeyboardArrowRight className="lg:hidden text-2xl ml-2" />{" "}
+                        </NavLink>
+                      </li>
+                      {/* REVIEW */}
+                      <li className="">
+                        <NavLink
+                          to="/account/review"
+                          className={({ isActive }) =>
+                            isActive
+                              ? "font-bold text-sm md:text-sm flex items-center justify-between text-hitam "
+                              : "font-normal text-sm md:text-sm flex items-center justify-between text-hitam"
+                          }
+                        >
+                          <PiNotepadThin className="text-base mr-2" />
+                          <span className="flex-1">Ulasan</span>{" "}
                           <MdKeyboardArrowRight className="lg:hidden text-2xl ml-2" />{" "}
                         </NavLink>
                       </li>
@@ -267,7 +296,7 @@ export default function NavBar() {
               )}
             </div>
             <div className="border-b border-gray-400 ml-4 mr-2 my-6 lg:hidden"></div>
-            <ul className="lg:items-center ml-4 mr-2 items-baseline lg:px-5 lg:py-4 lg:rounded-full justify-start space-y-6 lg:flex  lg:space-x-1 lg:space-y-0">
+            <ul className="lg:items-center gap-7 ml-4 mr-2 items-baseline lg:px-5 lg:py-4 lg:rounded-full justify-start space-y-6 lg:flex  lg:space-x-1 lg:space-y-0">
               <span className="font-bold text-xl text-hitam lg:hidden">
                 Menu
               </span>
@@ -276,57 +305,14 @@ export default function NavBar() {
                   to="/seluruhwisata"
                   className={({ isActive }) =>
                     isActive
-                      ? "lg:text-white lg:bg-hitam lg:py-2 lg:px-4 lg:rounded-full font-medium text-sm md:text-sm lg:text-base lg:hover:bg-hover lg:duration-200 flex items-center justify-between"
-                      : "text-hitam lg:py-2 lg:px-4 font-medium text-sm md:text-sm lg:text-base lg:hover:text-white lg:hover:py-2 lg:hover:px-4 rounded-full lg:hover:bg-hitam duration-200 flex items-center justify-between"
+                      ? "lg:font-medium font-bold text-sm md:text-sm lg:text-base lg:relative lg:shadow-[0_1px_0_0px_black] lg:shadow-b-[2px] lg:shadow-hitam  lg:duration-200 flex items-center justify-between"
+                      : "text-hitam  font-medium text-sm md:text-sm lg:text-base lg:relative lg:hover:shadow-[0_1px_0_0px_black] lg:hover:shadow-b-[2px] lg:hover:shadow-hitam duration-200 flex items-center justify-between"
                   }
                 >
                   <CiMap className="text-base mr-2 lg:hidden" />
-                  <span className="flex-1">Eksplor Destinasi</span>{" "}
+                  <span className="flex-1 text-sm">Eksplor</span>{" "}
                   <MdKeyboardArrowRight className="lg:hidden text-2xl ml-2" />{" "}
                 </NavLink>
-              </li>
-
-              <li className="dropdown w-full lg:w-auto dropdown-hover md:mx-0">
-                <label
-                  tabIndex="0"
-                  className="cursor-pointer lg:px-4 lg:py-2 text-hitam font-medium text-sm md:text-sm lg:text-base lg:hover:text-white lg:hover:py-2 lg:hover:px-4 rounded-full lg:hover:bg-hitam duration-200 flex items-center justify-between"
-                >
-                  <PiTreeEvergreenLight className="text-base mr-2 lg:hidden" />
-                  <span className="flex-1">Aktivitas</span>
-                  <MdKeyboardArrowRight className="lg:hidden text-2xl ml-auto" />{" "}
-                  <IoMdArrowDropdown className="text-2xl hidden lg:block" />
-                </label>
-
-                {/* Dropdown Menu */}
-                <ul
-                  tabIndex="0"
-                  className="dropdown-content menu shadow bg-white rounded-box w-52"
-                >
-                  <li>
-                    <Link
-                      to="/aktivitas/pertanian"
-                      className="hover:bg-hover hover:text-white"
-                    >
-                      Pertanian
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      to="/aktivitas/perkebunan"
-                      className="hover:bg-hover hover:text-white"
-                    >
-                      Perkebunan
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      to="/aktivitas/perikanan"
-                      className="hover:bg-hover hover:text-white"
-                    >
-                      Perikanan
-                    </Link>
-                  </li>
-                </ul>
               </li>
 
               <li className="">
@@ -337,12 +323,12 @@ export default function NavBar() {
                   to="/tentang"
                   className={({ isActive }) =>
                     isActive
-                      ? "lg:text-white lg:bg-hitam lg:py-2 lg:px-4 lg:rounded-full font-medium text-sm md:text-sm lg:text-base lg:hover:bg-hover lg:duration-200 flex items-center justify-between"
-                      : "text-hitam lg:py-2 lg:px-4  font-medium text-sm md:text-sm lg:text-base lg:hover:text-white lg:hover:py-2 lg:hover:px-4 rounded-full lg:hover:bg-hitam duration-200 flex items-center justify-between"
+                      ? "lg:font-medium font-bold text-sm md:text-sm lg:text-base lg:relative lg:shadow-[0_1px_0_0px_black] lg:shadow-b-[2px] lg:shadow-hitam  lg:duration-200 flex items-center justify-between"
+                      : "text-hitam  font-medium text-sm md:text-sm lg:text-base lg:relative lg:hover:shadow-[0_1px_0_0px_black] lg:hover:shadow-b-[2px] lg:hover:shadow-hitam duration-200 flex items-center justify-between"
                   }
                 >
                   <IoIosInformationCircleOutline className="text-base mr-2 lg:hidden" />
-                  <span className="flex-1">Tentang</span>{" "}
+                  <span className="flex-1 text-sm">Tentang Kami</span>{" "}
                   <MdKeyboardArrowRight className="lg:hidden text-2xl ml-2" />{" "}
                 </NavLink>
               </li>
@@ -351,12 +337,12 @@ export default function NavBar() {
                   to="/kontak"
                   className={({ isActive }) =>
                     isActive
-                      ? "lg:text-white lg:bg-hitam lg:py-2 lg:px-4 lg:rounded-full font-medium text-sm md:text-sm lg:text-base lg:hover:bg-hover lg:duration-200 flex items-center justify-between"
-                      : "text-hitam lg:py-2 lg:px-4  font-medium text-sm md:text-sm lg:text-base lg:hover:text-white lg:hover:py-2 lg:hover:px-4 rounded-full lg:hover:bg-hitam duration-200 flex items-center justify-between"
+                      ? "lg:font-medium font-bold text-sm md:text-sm lg:text-base lg:relative lg:shadow-[0_1px_0_0px_black] lg:shadow-b-[2px] lg:shadow-hitam  lg:duration-200 flex items-center justify-between"
+                      : "text-hitam  font-medium text-sm md:text-sm lg:text-base lg:relative lg:hover:shadow-[0_1px_0_0px_black] lg:hover:shadow-b-[2px] lg:hover:shadow-hitam duration-200 flex items-center justify-between"
                   }
                 >
                   <IoCallOutline className="text-base mr-2 lg:hidden" />
-                  <span className="flex-1">Kontak</span>{" "}
+                  <span className="flex-1 text-sm">Kontak</span>{" "}
                   <MdKeyboardArrowRight className="lg:hidden text-2xl ml-2" />{" "}
                 </NavLink>
               </li>
@@ -364,7 +350,7 @@ export default function NavBar() {
           </div>
         </div>
 
-        <div className="hidden space-x-2 lg:inline-block">
+        <div className="hidden ml-auto space-x-2 lg:inline-block">
           {isLoggedIn ? (
             <>
               <div className="relative">
@@ -392,7 +378,7 @@ export default function NavBar() {
                           }
                         >
                           <CiUser className="text-base mr-2" />
-                          Profile
+                          Profil
                         </NavLink>
                       </li>
                       <li>
@@ -400,8 +386,8 @@ export default function NavBar() {
                           to="/account/bookings"
                           className="w-full flex items-center  px-6 py-4 text-left hover:bg-gray-100"
                         >
-                          <IoTicketOutline className="text-base mr-2" />
-                          Pesan
+                          <PiTicketThin className="text-base mr-2" />
+                          Tiket
                         </NavLink>
                       </li>
                       <li>
@@ -410,7 +396,16 @@ export default function NavBar() {
                           className="w-full flex items-center  px-6 py-4 text-left hover:bg-gray-100"
                         >
                           <CiHeart className="text-base mr-2" />
-                          Wishlist
+                          Favorit
+                        </NavLink>
+                      </li>
+                      <li>
+                        <NavLink
+                          to="/account/review"
+                          className="w-full flex items-center  px-6 py-4 text-left hover:bg-gray-100"
+                        >
+                          <PiNotepadThin className="text-base mr-2" />
+                          Ulasan
                         </NavLink>
                       </li>
                       <li>
@@ -422,7 +417,7 @@ export default function NavBar() {
                           onClick={handleLogout}
                         >
                           <CiLogout className="text-base mr-2" />
-                          Logout
+                          Keluar
                         </button>
                       </li>
                     </ul>
@@ -439,18 +434,20 @@ export default function NavBar() {
             </>
           ) : (
             <>
-              <Link
-                to="/login"
-                className="text-black mr-4 md:mr-2 md:text-sm lg:text-base font-medium"
-              >
-                Masuk
-              </Link>
-              <Link
-                to="/register"
-                className="px-5 py-2 text-white bg-hitam md:text-sm lg:text-base font-medium rounded-full shadow hover:bg-hover"
-              >
-                Daftar
-              </Link>
+              <div className="bg-gray-200 rounded-full py-3 pl-5 pr-2">
+                <Link
+                  to="/login"
+                  className="text-black mr-4 md:mr-2 md:text-sm  font-medium"
+                >
+                  Masuk
+                </Link>
+                <Link
+                  to="/register"
+                  className="px-4 ml-2 py-2 text-white bg-hitam md:text-sm  font-medium rounded-full shadow hover:bg-hover"
+                >
+                  Daftar
+                </Link>
+              </div>
             </>
           )}
         </div>

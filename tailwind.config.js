@@ -7,7 +7,7 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        poppins: ["Poppins", "sans-serif"],
+        sans: ['"Nunito Sans"', "Helvetica", "Arial", "sans-serif"],
       },
       colors: {
         primary: "#F2F3ED",
@@ -22,6 +22,7 @@ export default {
         button: "#2B2B2B",
         nav: "#",
         "ghost-white": "#f6f5fa",
+        footer: "#EAEAEA",
       },
     },
   },

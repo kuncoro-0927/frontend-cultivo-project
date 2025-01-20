@@ -1,88 +1,54 @@
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
-import Typography from "@mui/material/Typography";
-import CardActionArea from "@mui/material/CardActionArea";
+/* eslint-disable react/prop-types */
+import { FaStar } from "react-icons/fa6";
 import { LuArrowRight } from "react-icons/lu";
-// eslint-disable-next-line react/prop-types
-export default function CardAktivitas({ title, description, image, price }) {
+
+export default function CardRekomendasi({
+  title,
+  image,
+  price,
+  average_rating,
+}) {
   return (
-    <Card
-      sx={{
-        width: { xs: 200, sm: 220, md: 260, lg: 280 },
-        height: { xs: 240, sm: 280, md: 310, lg: 350 },
-        borderRadius: { xs: 3, md: 3, lg: 5 },
-        transition: "transform 0.2s, box-shadow 0.2s", // Transisi untuk efek
-        "&:hover": {
-          transform: "translateY(-4px)", // Naik sedikit
-          boxShadow: "0px 4px 20px rgba(0, 0, 0, 0.2)", // Bayangan lebih dalam
-        },
-      }}
-    >
-      <CardActionArea>
-        <CardMedia
-          sx={{
-            width: { xs: 200, sm: 220, md: 260, lg: 280 },
-            height: { xs: 125, sm: 140, md: 160, lg: 180 },
-          }}
-          component="img"
-          image={image}
-          alt={title}
+    <div className="border border-gray-300 rounded-xl md:w-[260px] w-[160px] h-full max-h[250px] md:max-h-[300px] relative overflow-hidden group  flex flex-col">
+      {/* Bagian Gambar */}
+      <div className="relative md:w-[260px] w-[160px] overflow-hidden flex-shrink-0">
+        <img
+          className="md:h-[175px] md:w-[260px] w-[160px] h-[120px] object-cover rounded-t-xl transform transition-transform duration-300 group-hover:scale-105"
+          src={image}
+          alt="Image"
         />
-        <CardContent
-          sx={{
-            width: { xs: 200, sm: 220, md: 260, lg: 280 },
-            height: { xs: 120, sm: 140, md: 160, lg: 180 },
-            paddingY: { lg: 2 },
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "space-between",
-          }}
-        >
-          <Typography
-            gutterBottom
-            variant="h4"
-            fontFamily="Poppins"
-            component="div"
-            sx={{
-              fontSize: { xs: "0.8rem", sm: "0.9rem", md: "1rem" },
-              fontWeight: "medium",
-              marginTop: { xs: 1, md: 0.5, lg: 1 },
-            }}
-          >
-            {title}
-          </Typography>
-          <Typography
-            variant=""
-            sx={{
-              color: "text.secondary",
-              fontFamily: "Poppins",
-              fontSize: { xs: "0.5rem", md: "0.7rem" },
 
-              marginBottom: { lg: 2 },
-              display: { xs: "none", lg: "block" },
-            }}
-          >
-            {description}
-          </Typography>
+        {/* Rating di pojok kiri bawah */}
+        <div className="absolute bottom-0 left-0 py-1 px-5 backdrop-blur-lg text-white rounded-tr-lg text-sm font-medium flex items-center">
+          <span className="mr-1 flex items-center gap-1">
+            <FaStar className="text-yellow-300" /> {average_rating || "0.0"}
+          </span>
+        </div>
+      </div>
 
-          <div className="flex items-center md:mb-4 mt-auto">
-            <div className="mt-auto">
-              <p className="text-[0.5rem] md:text-[0.7rem] md:font-normal">
-                Dari
-              </p>
-              <p className="text-[0.8rem] sm:text-base font-semibold md:text-sm lg:text-base lg:font-bold">
-                IDR {price}
-              </p>
-            </div>
-            <div className="flex items-center ml-auto mt-2">
-              <div className="py-2 px-2  rounded-full md:px-3 md:py-3 bg-button text-white md:rounded-full md:ml-2 lg:ml-2 lg:py-3 lg:px-3 items-center">
-                <LuArrowRight className="lg:text-sm" />
-              </div>
+      {/* Bagian Konten */}
+      <div className="flex flex-col px-5 py-2 md:py-2 flex-grow">
+        <h1 className="text-sm md:text-base mb-2 md:mb-4 font-bold text-hitam2">
+          {title}
+        </h1>
+
+        {/* Bagian Bawah: From dan Harga */}
+        <div className="flex items-center mt-auto">
+          <div>
+            <p className="text-[0.5rem] md:text-[0.7rem] md:font-normal">
+              Dari
+            </p>
+            <p className="text-[0.8rem] sm:text-base font-semibold md:text-sm lg:text-base lg:font-bold">
+              IDR {price}
+            </p>
+          </div>
+          <div className="flex items-center ml-auto">
+            <div className="py-2 px-2 rounded-full md:px-3 md:py-3 bg-button text-white md:rounded-full md:ml-2 lg:ml-2 lg:py-3 lg:px-3 items-center">
+              <LuArrowRight className="lg:text-sm" />
             </div>
           </div>
-        </CardContent>
-      </CardActionArea>
-    </Card>
+        </div>
+      </div>
+    </div>
   );
 }

@@ -74,13 +74,13 @@ const Bookings = () => {
             // Jika ada tiket
             tickets.map((ticket) => (
               <div
-                key={ticket.ticket_code}
+                key={ticket.id}
                 id={`ticket-${ticket.ticket_code}`}
                 className="ticket-card max-w-[800px] mb-4 mt-10"
               >
-                <div className="border flex border-gray-200 w-full rounded-lg shadow-sm">
+                <div className="border lg:flex border-gray-200 w-full rounded-lg shadow-sm">
                   {/* Kolom kiri: Gambar */}
-                  <div className="h-[200px] hidden w-[200px] md:flex items-center justify-center rounded-l-lg overflow-hidden">
+                  <div className="lg:h-[200px] h-[120px] rounded-t-lg lg:rounded-tr-none w-full lg:w-[200px] items-center justify-center lg:rounded-l-lg overflow-hidden">
                     <img
                       src={ticket.agrotourism_url_image}
                       alt="Agrotourism"
@@ -116,8 +116,8 @@ const Bookings = () => {
                   </div>
 
                   {/* Kolom kanan: ID dan status tiket */}
-                  <div className="text-right p-4 md:p-4 ml-auto flex flex-col justify-between">
-                    <div>
+                  <div className="lg:text-right  p-4 md:p-4 ml-auto items-center flex lg:flex-col justify-between">
+                    <div className="">
                       <p className="text-xs">ID Tiket: {ticket.ticket_code}</p>
                       <p
                         className={`text-xs mt-2 font-bold ${
@@ -133,7 +133,7 @@ const Bookings = () => {
                         {ticket.status}
                       </p>
                     </div>
-                    <div>
+                    <div className="">
                       {/* <button className="py-2 px-3 flex ml-auto items-center font-semibold">
                         <span className="text-sm mr-2">Unduh Tiket</span>
                         <IoMdDownload />

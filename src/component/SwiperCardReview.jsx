@@ -10,11 +10,28 @@ export default function SwiperCardReview() {
   return (
     <Swiper
       breakpoints={{
-        340: {
+        // xs (extra small devices, phones)
+        0: {
+          slidesPerView: 1,
+          spaceBetween: 15,
+        },
+        // sm (small devices, phones in landscape mode)
+        576: {
           slidesPerView: 2,
           spaceBetween: 15,
         },
-        700: {
+        // md (medium devices, tablets)
+        768: {
+          slidesPerView: 3,
+          spaceBetween: 15,
+        },
+        // lg (large devices, desktops)
+        992: {
+          slidesPerView: 3,
+          spaceBetween: 15,
+        },
+        // xl (extra larg devices, large desktops)
+        1200: {
           slidesPerView: 3,
           spaceBetween: 15,
         },
@@ -24,7 +41,7 @@ export default function SwiperCardReview() {
         clickable: true,
       }}
       modules={[FreeMode, Pagination]}
-      className="max-w-full lg:max-w-full "
+      className="max-w-full lg:max-w-full"
     >
       {ServiceData.map((item) => (
         <SwiperSlide

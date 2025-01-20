@@ -6,7 +6,7 @@ import { FaXTwitter } from "react-icons/fa6";
 const Footer = () => {
   return (
     <>
-      <footer className="bg-hijau-muda text-hitam  mt-7 lg:mt-20 mx-7 md:mx-7 rounded-2xl md:rounded-3xl mb-10 ">
+      <footer className="bg-hijau-muda text-hitam  mt-7 lg:mt-20 mx-4 md:mx-7 rounded-2xl md:rounded-3xl mb-4 ">
         <div className="py-5 mx-5 md:mx-10 lg:mx-14 sm:mt-7 md:mt-10">
           <div className="sm:flex justify-between sm:mt-3 md:mt-5">
             <div className="space-y-1 sm:space-y-2 md:space-y-2">
@@ -14,34 +14,34 @@ const Footer = () => {
                 <h2 className="text-base font-bold lg:text-2xl">Cultivo</h2>
               </Link>
               <p className="text-xs lg:text-base">
-                Temukan berbagai kegiatan Agrowisata di <br></br>
-                daerah Indonesia bersama Cultivo.
+                Discover various Agrotourism activities<br></br>
+                in Indonesia with Cultivo.
               </p>
             </div>
             <div className="mt-8 sm:mt-0 md:mt-0 text-sm font-semibold flex justify-between md:justify-end sm:gap-10 md:gap-10 lg:gap-24 ">
               <ul className="space-y-2">
                 <li className="font-bold md:text-base ">Cultivo</li>
                 <li className="font-normal text-[0.6rem] md:text-[0.8rem] lg:text-[0.9rem]">
-                  Tentang Kami
+                  About Us
                 </li>
                 <li className="font-normal text-[0.6rem] md:text-[0.8rem] lg:text-[0.9rem]">
-                  Bergabung
+                  Join With Us
                 </li>
               </ul>
               <ul className="space-y-2">
-                <li className="font-bold md:text-base ">Aktivitas</li>
+                <li className="font-bold md:text-base ">Activities</li>
                 <li className="font-normal text-[0.6rem] md:text-[0.8rem] lg:text-[0.9rem]">
-                  Pertanian
+                  Agriculture
                 </li>
                 <li className="font-normal text-[0.6rem] md:text-[0.8rem] lg:text-[0.9rem]">
-                  Perkebunan
+                  Nature
                 </li>
                 <li className="font-normal text-[0.6rem] md:text-[0.8rem] lg:text-[0.9rem]">
-                  Perikanan
+                  Plantation
                 </li>
               </ul>
               <ul className="space-y-2">
-                <li className="font-bold md:text-base ">Hubungi Kami</li>
+                <li className="font-bold md:text-base ">Contact Us</li>
                 <li className="font-normal text-[0.6rem] md:text-[0.8rem] lg:text-[0.9rem]">
                   cultivo@gmail.com
                 </li>
