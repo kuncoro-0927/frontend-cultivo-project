@@ -79,7 +79,7 @@ export default function ModalSearch({ isOpen, handleClose, onSelect }) {
           borderRadius: 5,
           width: { xs: "350px", sm: "550px" },
           maxWidth: "100%",
-          maxHeight: "90vh",
+          maxHeight: { xs: "70vh", md: "90vh" },
         }}
       >
         <div className="p-5 md:p-7 h-screen">

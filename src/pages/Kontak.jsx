@@ -91,7 +91,7 @@ const Kontak = () => {
         </div>
       </section>
 
-      <section className="lg:mx-40 mx-4 mt-10 lg:mt-28 flex flex-col-reverse gap-10">
+      <section className="lg:mx-40 mx-4 mt-10 lg:mt-28 flex flex-col-reverse md:grid md:grid-cols-2 gap-10">
         <div className="bg-gray-100 rounded-lg p-6 w-full">
           <h2 className="text-lg font-semibold mb-4">Hubungi tim kami</h2>
           <form onSubmit={handleSubmit}>
