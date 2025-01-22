@@ -172,7 +172,7 @@ const Home = () => {
         </div>
       </section>
       <section
-        className="mx-5 md:mx-10 px-7 lg:h-[600px] xl:h-screen h-screen bg-cover bg-center lg:mx-10 rounded-2xl md:rounded-3xl flex items-center justify-center lg:px-12 mt-[20px] sm:mt-[20px]  lg:mt-[30px]"
+        className="mx-5 md:mx-10 px-7 lg:h-[600px] xl:h-screen h-[550px] bg-cover bg-center lg:mx-10 rounded-2xl md:rounded-3xl flex items-center justify-center lg:px-12 mt-[20px] sm:mt-[20px]  lg:mt-[30px]"
         style={{ backgroundImage: "url('images/bg-home-5.jpg')" }}
       >
         <div className="text-center max-w-5xl">
