@@ -172,16 +172,16 @@ const Home = () => {
         </div>
       </section>
       <section
-        className="mx-5 md:mx-10 px-7 lg:h-[600px] xl:h-screen h-96 bg-cover bg-center lg:mx-10 rounded-2xl md:rounded-3xl flex items-center justify-center lg:px-12 mt-[20px] sm:mt-[20px]  lg:mt-[30px]"
+        className="mx-5 md:mx-10 px-7 lg:h-[600px] xl:h-screen h-screen bg-cover bg-center lg:mx-10 rounded-2xl md:rounded-3xl flex items-center justify-center lg:px-12 mt-[20px] sm:mt-[20px]  lg:mt-[30px]"
         style={{ backgroundImage: "url('images/bg-home-5.jpg')" }}
       >
         <div className="text-center max-w-5xl">
           <h1 className="text-white mb-5 text-2xl md:text-3xl lg:text-6xl font-medium lg:font-medium">
-            Extraordinary natural and <br />
-            cultural charm
+            Jelajahi pengalaman Agrowisata <br /> di Indonesia
           </h1>
           <span className="text-white">
-            Exploring Indonesia is an unforgettable adventure
+            Temukan keindahan alam dan nikmati berbagai kegiatan pertanian yang
+            menarik.
           </span>
           <div className="backdrop-blur-xl rounded-lg flex items-center justify-center mt-16 w-auto">
             <div className="flex w-full max-w-3xl">
@@ -205,18 +205,18 @@ const Home = () => {
       <section className="mx-5 sm:mt-20 mt-14 md:mx-10 lg:mx-10 md:mt-20 lg:mt-28">
         <div className="md:flex md:items-start md:justify-between">
           <div>
-            <span>Best Location</span>
+            <span>Destinasi populer</span>
             <p className="text-xl font-extrabold text-hitam sm:text-3xl md:text-4xl">
-              Indonesian{" "}
-              <span className="bg-hijau-muda inline-block px-5 rounded-full py-2">
-                Agrotourism
+              Agrowisata
+              <span className="bg-hijau-muda ml-3 inline-block px-5 rounded-full py-2">
+                Cultivo
               </span>
             </p>
           </div>
           <div className="max-w-lg mt-2 md:mt-0 md:text-right">
             <span className="text-sm text-gray-400">
-              Discover top agrotourism destinations from Cultivo, offering
-              unique nature and cultural experiences.
+              Temukan destinasi agrowisata populer dari Cultivo, yang menawarkan
+              pengalaman alam yang beragam.
             </span>
           </div>
         </div>
@@ -321,9 +321,9 @@ const Home = () => {
         <div className="flex items-center ">
           <div>
             <h1 className="text-2xl sm:text-3xl font-extrabold md:text-4xl text-hitam">
-              Explore the best Agrotourism
+              Jelajahi tujuan kami
             </h1>
-            <div className="flex items-center">
+            {/* <div className="flex items-center">
               <h1 className="text-2xl sm:text-3xl font-extrabold md:text-4xl text-hitam">
                 cities in Indonesia
               </h1>
@@ -332,14 +332,14 @@ const Home = () => {
                 src="/images/bg-home-2.jpg"
                 alt=""
               />
-            </div>
+            </div> */}
           </div>
-          <div className="mt-5 ml-auto lg:mt-14 transition-transform duration-200 ease-in-out transform hover:-translate-y-0.5 hidden md:block">
+          <div className="mt-5 ml-auto lg:mt-0 transition-transform duration-200 ease-in-out transform hover:-translate-y-0.5 hidden md:block">
             <Link
               to="/seluruhwisata"
               className="text-base py-1 text-center w-full border-b  text-hitam border-black block"
             >
-              See all cities
+              Lihat semua destinasi
             </Link>
           </div>
         </div>
@@ -377,14 +377,14 @@ const Home = () => {
             to="/seluruhwisata"
             className="text-xs py-2 text-center w-full md:text-sm lg:text-sm border text-hitam border-black rounded-md block"
           >
-            See all cities
+            Lihat semua destinasi
           </Link>
         </div>
       </section>
 
       <section className="mt-10 sm:mt-14 mx-4 md:mt-10 md:mx-6 lg:mx-10 lg:mt-20 ">
         <h1 className="text-2xl sm:text-3xl font-extrabold md:text-4xl text-hitam">
-          Recomended for you
+          Rekomendasi untuk Anda
         </h1>
         <div className="mt-7 md:mt-14 lg:mt-14 grid grid-cols-2 md:flex lg:justify-between lg:p-1 xl:mt-14 ">
           <div className="hidden md:hidden lg:flex lg:justify-between lg:w-full lg:gap-3">
@@ -493,7 +493,7 @@ const Home = () => {
 
       <section className="mx-7 md:mx-10 lg:mx-14 bg-cover mt-10 justify-center lg:mt-20">
         <h1 className="text-xl sm:text-3xl font-extrabold md:text-4xl mb-7 md:mb-10 lg:mb-20 text-hitam">
-          What guests are saying
+          Apa kata pengunjung
         </h1>
 
         <SwiperCardReview />
