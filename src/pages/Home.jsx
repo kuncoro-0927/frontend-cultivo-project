@@ -358,7 +358,7 @@ const Home = () => {
           </div>
         </div>
 
-        <div className="carousel carousel-center max-w-full lg:hidden ">
+        <div className="carousel carousel-center max-w-full lg:hidden my-3 ">
           <div className="carousel-item gap-3">
             {Array.isArray(daerahList) &&
               daerahList.slice(0, 5).map((daerahItem) => (
