@@ -2,7 +2,7 @@
 import CardAktivitas from "../component/card/CardAktivitas";
 import CardDaerah from "../component/card/CardDaerah";
 import CardRekomendasi from "../component/card/CardRekomendasi";
-
+import { daerahList } from "../data_sementara/DataWisata";
 import SwiperCardReview from "../component/SwiperCardReview";
 import { FiSearch } from "react-icons/fi";
 import { FaTractor } from "react-icons/fa";
@@ -187,15 +187,15 @@ const Home = () => {
             <div className="flex w-full max-w-3xl">
               <div className="text-white border-r px-5 py-3 flex-1 text-center ">
                 <h1 className="text-xl md:text-2xl font-bold">10K</h1>
-                <span className="text-xs md:text-sm">Total Customers</span>
+                <span className="text-xs md:text-sm">Total Pengguna</span>
               </div>
               <div className="text-white border-r px-5 py-3 flex-1 text-center ">
                 <h1 className="text-xl md:text-2xl font-bold">50+</h1>
-                <span className="text-xs md:text-sm">Total Destination</span>
+                <span className="text-xs md:text-sm">Total Agrowisata</span>
               </div>
               <div className=" text-white px-5 py-3 flex-1 text-center">
                 <h1 className="text-xl md:text-2xl font-bold">5.0</h1>
-                <span className="text-xs md:text-sm">Average Rating</span>
+                <span className="text-xs md:text-sm">Rating rata-rata</span>
               </div>
             </div>
           </div>
@@ -346,13 +346,13 @@ const Home = () => {
 
         <div className="mt-7 md:mx-0 gap-3 flex flex-wrap lg:gap-10 lg:p-1 lg:mt-16">
           <div className="hidden md:hidden lg:flex lg:justify-between lg:w-full lg:gap-3">
-            {Array.isArray(city) &&
-              city.slice(0, 4).map((daerahItem) => (
+            {Array.isArray(daerahList) &&
+              daerahList.slice(0, 4).map((daerahItem) => (
                 <Link
                   key={daerahItem.id}
                   to={`/wisata/daerah/${daerahItem.id}`}
                 >
-                  <CardDaerah title={daerahItem.name} img={daerahItem.url} />
+                  <CardDaerah title={daerahItem.title} img={daerahItem.image} />
                 </Link>
               ))}
           </div>
