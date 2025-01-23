@@ -319,7 +319,7 @@ const Home = () => {
 
       <section className="mx-4  mt-14 md:mt-10 lg:mt-28 md:mx-6 lg:mx-14">
         <div className="flex items-center ">
-          <div className="bg-red-100">
+          <div className="">
             <h1 className="text-2xl sm:text-3xl font-extrabold md:text-4xl text-hitam">
               Jelajahi tujuan kami
             </h1>
@@ -358,7 +358,7 @@ const Home = () => {
           </div>
         </div>
 
-        <div className="carousel carousel-center max-w-full bg-red-200 lg:hidden pt-4 ">
+        <div className="carousel carousel-center max-w-full lg:hidden pt-2 ">
           <div className="carousel-item gap-3">
             {Array.isArray(daerahList) &&
               daerahList.slice(0, 5).map((daerahItem) => (
