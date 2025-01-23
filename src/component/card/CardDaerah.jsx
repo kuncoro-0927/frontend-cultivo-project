@@ -1,70 +1,25 @@
 /* eslint-disable react/prop-types */
 // src/components/CardDaerah.jsx
-//import { Link } from "react-router-dom";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
-import Typography from "@mui/material/Typography";
-import CardActionArea from "@mui/material/CardActionArea";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
 
+import { FaLocationDot } from "react-icons/fa6";
 export default function CardDaerah({ title, img }) {
   return (
     <>
-      <Card
-        sx={{
-          width: { xs: 180, sm: 195, md: 210, lg: 250 },
-          borderRadius: { xs: 3, lg: 5 },
-          transition: "transform 0.2s, box-shadow 0.2s", // Transisi untuk efek
-          "&:hover": {
-            transform: "translateY(-4px)", // Naik sedikit
-          },
-        }}
-      >
-        <CardActionArea>
-          <CardMedia
-            sx={{
-              height: { xs: 170, sm: 180, md: 185, lg: 250 },
-              objectFit: "cover",
-            }}
-            component="img"
-            image={img} // Menggunakan image dari props
-            alt={title}
-          />
-          <CardContent sx={{ maxHeight: { xs: 100, md: 300 } }}>
-            <Typography
-              gutterBottom
-              variant="h4"
-              fontFamily="Poppins"
-              component="div"
-              sx={{
-                fontSize: { xs: "0.7rem", md: "1rem" },
-                fontWeight: "medium",
-                display: "flex",
-                alignItems: "center",
-              }}
-              marginTop={""}
-            >
-              <FontAwesomeIcon
-                icon={faLocationDot}
-                style={{ marginRight: "0.7rem" }}
-              />
-              {title}
-            </Typography>
+      <div className="border  border-gray-300 rounded-lg w-full h-full max-h[250px] md:max-w-[250px] lg:max-w-[270px] lg:max-h-[380px] md:max-h-[300px] relative overflow-hidden group  flex flex-col">
+        <img
+          className="lg:h-[200px] md:h-[175px] w-[170px] md:w-full h-[180px] object-cover rounded-t-lg transform transition-transform duration-300 group-hover:scale-105"
+          src={img}
+          alt="Image"
+        />
+        <div>
+          <div className="p-4 flex items-center gap-2 text-hitam2">
+            <FaLocationDot />
+            {title}
+          </div>
 
-            <Typography
-              variant=""
-              sx={{
-                color: "text.secondary",
-                fontFamily: "Poppins",
-                fontSize: { xs: "0.8rem", md: "0.7rem" },
-                display: { xs: "none", md: "block" },
-              }}
-            ></Typography>
-          </CardContent>
-        </CardActionArea>
-      </Card>
+          <div></div>
+        </div>
+      </div>
     </>
   );
 }
