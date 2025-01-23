@@ -360,13 +360,13 @@ const Home = () => {
 
         <div className="carousel carousel-center max-w-full space-x-3 px-8 py-3 lg:hidden ">
           <div className="carousel-item gap-3">
-            {Array.isArray(city) &&
-              city.slice(0, 4).map((daerahItem) => (
+            {Array.isArray(daerahList) &&
+              daerahList.slice(0, 4).map((daerahItem) => (
                 <Link
                   key={daerahItem.id}
                   to={`/wisata/daerah/${daerahItem.id}`}
                 >
-                  <CardDaerah title={daerahItem.name} img={daerahItem.url} />
+                  <CardDaerah title={daerahItem.title} img={daerahItem.image} />
                 </Link>
               ))}
           </div>
