@@ -361,7 +361,7 @@ const Home = () => {
         <div className="carousel carousel-center max-w-full lg:hidden ">
           <div className="carousel-item gap-3">
             {Array.isArray(daerahList) &&
-              daerahList.slice(0, 4).map((daerahItem) => (
+              daerahList.slice(0, 5).map((daerahItem) => (
                 <Link
                   key={daerahItem.id}
                   to={`/wisata/daerah/${daerahItem.id}`}
