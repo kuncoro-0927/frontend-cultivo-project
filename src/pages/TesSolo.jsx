@@ -319,7 +319,7 @@ const TesSolo = () => {
               onClick={handleShowMore}
               className="underline text-hitam2 hover:-translate-y-2 duration-200"
             >
-              Muat lebih banyak
+              Muat lebih banyak update 1
             </button>
           </div>
         )}
