@@ -303,7 +303,7 @@ export default function NavBar() {
               </span>
               <li className="">
                 <NavLink
-                  to="/eksplor"
+                  to="/tes/eksplor"
                   className={({ isActive }) =>
                     isActive
                       ? "lg:font-medium font-bold text-sm md:text-sm lg:text-base lg:relative lg:shadow-[0_1px_0_0px_black] lg:shadow-b-[2px] lg:shadow-hitam  lg:duration-200 flex items-center justify-between"

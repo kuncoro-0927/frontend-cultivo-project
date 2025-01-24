@@ -156,23 +156,43 @@ export const soloList = [
     title: "Selo Tumpang, Boyolali",
     description:
       "Wisatawan dapat mengikuti kegiatan petik buah dan belajar tentang pertanian di daerah pegunungan. ",
-    image: "/public/images/solo/selotumpang.svg",
+    image: "/images/solo/selotumpang.svg",
     price: "5.000",
     path: "/wisata/selotumpangboyolali",
   },
   {
     title: "Kampoeng Karet, Karanganyar",
     description:
-      "Tempat ini menawarkan pengalaman belajar budidaya karet, dari penyadapan hingga pengolahan getah.",
-    image: "/public/images/solo/kampungkaret.svg",
+      "Kampoeng Karet Karanganyar menawarkan wisata edukatif yang unik, di mana pengunjung dapat belajar langsung tentang budidaya karet dari awal hingga akhir. Wisatawan akan diajak menyaksikan proses penyadapan karet, dari teknik penyadapan pohon hingga pengolahan getah menjadi bahan dasar produk industri. Pengalaman ini memberikan wawasan mendalam tentang pentingnya industri karet di Indonesia, sekaligus membuka kesempatan untuk berinteraksi dengan petani setempat, memahami tantangan, dan belajar mengenai teknik pengelolaan perkebunan karet. Selain pengalaman edukatif, Kampoeng Karet Karanganyar juga menawarkan berbagai aktivitas rekreasi yang menyenangkan. Pengunjung dapat menikmati kegiatan outbond seperti flying fox, berkemah di alam terbuka, hingga menyusuri sungai menggunakan ban karet. Aktivitas ini cocok bagi mereka yang ingin merasakan petualangan seru di tengah suasana alam yang sejuk dan hijau. Dengan kombinasi edukasi dan rekreasi, tempat ini menjadi pilihan ideal bagi keluarga, sekolah, atau komunitas yang ingin merasakan liburan sekaligus belajar tentang pertanian karet.",
+    image: "/images/solo/kampungkaret.svg",
     price: "10.000",
     path: "#",
+    url_gallery: [
+      "/images/kampoengkaret.png",
+      "/images/kampungkaret.svg",
+      "/images/solo/kampungkaret.svg",
+    ],
+    fasilitas: {
+      included: [
+        "Berfoto di kebun karet",
+        "Kolam renang",
+        "Playground",
+        "Spot foto",
+      ],
+      not_included: [
+        "Camping",
+        "Terapi Kolam Ikan",
+        "Naik Kuda",
+        "Resto",
+        "Outbound",
+      ],
+    },
   },
   {
     title: "Agrowisata Pasung, Klaten",
     description:
       "Desa Pasung memiliki lebih dari 1.000 tanaman buah yang berada di pinggir jalan utama",
-    image: "/public/images/solo/desapasung.svg",
+    image: "/images/solo/desapasung.svg",
     price: "Free",
     path: "#",
   },
@@ -180,7 +200,7 @@ export const soloList = [
     title: "Agrowisata Jambu Merah",
     description:
       "Wisatawan dapat memetik jambu sepuasnya, belajar merawatnya, dan mendapatkan bibit jambu merah.",
-    image: "/public/images/solo/puja.svg",
+    image: "/images/solo/puja.svg",
     price: "5.000",
     path: "#",
   },
@@ -188,7 +208,7 @@ export const soloList = [
     title: "Agrowisata Amanah",
     description:
       "Tempat ini tidak hanya menawarkan sektor pertanian dan peternakan, namun juga unsur wisata edukasi didalamnya.",
-    image: "/public/images/solo/amanah.svg",
+    image: "/images/solo/amanah.svg",
     price: "115.000",
     path: "#",
   },

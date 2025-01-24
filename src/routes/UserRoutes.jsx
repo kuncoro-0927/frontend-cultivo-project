@@ -26,6 +26,8 @@ import Wishlist from "../pages/user/Account/Wishlists";
 import Testiket from "../pages/user/Account/testiket";
 import Reviews from "../pages/user/Account/Reviews";
 import TesEksplor from "../pages/TesEksplor";
+import TesSolo from "../pages/TesSolo";
+import TesDetailSolo from "../pages/TesDetailSolo";
 function UserRoutes() {
   const location = useLocation();
 
@@ -92,7 +94,9 @@ function UserRoutes() {
         <Route path="/tentang" element={<About />} />
         <Route path="/sales" element={<Sales />} />
         <Route path="/tes" element={<Tes />} />
-        <Route path="/eksplor" element={<TesEksplor />} />
+        <Route path="/tes/eksplor" element={<TesEksplor />} />
+        <Route path="/tes/solo" element={<TesSolo />} />
+        <Route path="/tes/detail/solo" element={<TesDetailSolo />} />
         <Route path="/aktivitas" element={<Aktivitas />} />
         <Route path="/aktivitas/pertanian" element={<Pertanian />} />
         <Route path="/aktivitas/perkebunan" element={<Perkebunan />} />

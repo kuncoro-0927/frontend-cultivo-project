@@ -175,10 +175,7 @@ const TesEksplor = () => {
           <div className="carousel-item gap-3">
             {Array.isArray(daerahList) &&
               daerahList.slice(0, 5).map((daerahItem) => (
-                <Link
-                  key={daerahItem.id}
-                  to={`/wisata/daerah/${daerahItem.id}`}
-                >
+                <Link key={daerahItem.id} to="/tes/solo">
                   <CardDaerah title={daerahItem.title} img={daerahItem.image} />
                 </Link>
               ))}
