@@ -118,7 +118,7 @@ const DaerahWisata = () => {
     <>
       <ModalSignUp open={isModalOpen} handleClose={handleCloseModal} />
       <section
-        className="relative mt-[80px] sm:mt-[80px] lg:mt-[75px] px-7 lg:h-[200px] xl:h-[400px] h-[250px] bg-cover bg-bottom flex flex-col items-center justify-center lg:px-12"
+        className="relative mt-[63px] sm:mt-[80px] lg:mt-[75px] px-7 lg:h-[200px] xl:h-[400px] h-[250px] bg-cover bg-bottom flex flex-col items-center justify-center lg:px-12"
         style={{ backgroundImage: "url('/images/eksplorr.jpg')" }}
       >
         {/* Overlay Gradasi */}
