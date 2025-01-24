@@ -16,6 +16,10 @@ export default function CardRekomendasi({
           className="lg:h-[200px] md:h-[175px] w-full h-[160px] object-cover rounded-t-lg transform transition-transform duration-300 group-hover:scale-105"
           src={image}
           alt="Image"
+          style={{
+            imageRendering: "auto",
+            WebkitOptimizeContrast: "high",
+          }}
         />
 
         {/* Rating di pojok kiri bawah */}
