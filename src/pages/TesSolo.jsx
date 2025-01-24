@@ -215,8 +215,8 @@ const TesSolo = () => {
 
         <div className="md:flex lg:justify-between lg:p-1 mt-5 lg:mt-14">
           <div className="hidden md:hidden lg:grid lg:grid-cols-4 lg:justify-between lg:w-full lg:gap-3">
-            {soloList.map((wisata) => (
-              <div key={wisata.id} className="relative">
+            {soloList.map((wisata, index) => (
+              <div key={index} className="relative">
                 <Link to="/tes/detail/solo">
                   <CardRekomendasi
                     title={wisata.title}
@@ -273,8 +273,8 @@ const TesSolo = () => {
       </div> */}
         <div className="lg:hidden md:carousel md:carousel-center md:space-x-3 md:px-8 md:py-3  md:max-w-full ">
           <div className="md:carousel-item justify-between grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 gap-3">
-            {soloList.slice(0, visibleSoloCount).map((wisata) => (
-              <div key={wisata.id} className="relative">
+            {soloList.slice(0, visibleSoloCount).map((wisata, index) => (
+              <div key={index} className="relative">
                 <Link to="/tes/detail/solo">
                   <CardRekomendasi
                     title={wisata.title}
@@ -332,8 +332,8 @@ const TesSolo = () => {
         <div className="mt-7 md:mt-14 lg:mt-14 grid grid-cols-2 md:flex lg:justify-between lg:p-1 xl:mt-14 ">
           <div className="hidden md:hidden lg:flex lg:justify-between lg:w-full lg:gap-3">
             {Array.isArray(rekomendasiList) &&
-              rekomendasiList.map((agrotourismItem) => (
-                <div key={agrotourismItem.id} className="relative">
+              rekomendasiList.map((agrotourismItem, index) => (
+                <div key={index} className="relative">
                   {/* Link hanya membungkus card tanpa ikon wishlist */}
                   <Link to={`/wisata/detail/${agrotourismItem.id}`}>
                     <CardRekomendasi
@@ -380,8 +380,8 @@ const TesSolo = () => {
         <div className="lg:hidden md:carousel md:carousel-center md:space-x-3 md:px-8 md:py-3  md:max-w-full ">
           <div className="md:carousel-item justify-between grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 gap-3">
             {Array.isArray(rekomendasiList) &&
-              rekomendasiList.map((agrotourismItem) => (
-                <div key={agrotourismItem.id} className="relative">
+              rekomendasiList.map((agrotourismItem, index) => (
+                <div key={index} className="relative">
                   {/* Link hanya membungkus card tanpa ikon wishlist */}
                   <Link to={`/wisata/detail/${agrotourismItem.id}`}>
                     <CardRekomendasi

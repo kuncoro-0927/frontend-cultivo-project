@@ -211,15 +211,15 @@ const TesDetailSolo = () => {
 
   return (
     <>
-      <div className="md:hidden  h-[300px] mt-10 relative">
+      <div className="md:hidden  h-[300px] mt-16 relative">
         <img
           className="mt-5 max-w-3xl h-full object-cover w-full "
           src="/images/solo/kampungkaret.svg"
           alt=""
         />
         <div className="absolute top-2 right-2 p-2">
-          <IconButton onClick={() => toggleWishlist(wisataDetail.id)}>
-            {isInWishlist(wisataDetail.id) ? (
+          <IconButton onClick={() => toggleWishlist(soloList.id)}>
+            {isInWishlist(soloList.id) ? (
               <FavoriteIcon
                 className="text-red-500"
                 sx={{ width: 35, height: 35 }}
@@ -257,18 +257,15 @@ const TesDetailSolo = () => {
               <p></p>
             )}
             <div className="underline font-semibold">
-              <Link
-                to={`/wisata/daerah/${wisataDetail.city_id}`}
-                className=" hover:font-bold duration-200"
-              >
-                {wisataDetail.city_name}
+              <Link to="#" className=" hover:font-bold duration-200">
+                Solo
               </Link>
             </div>
           </div>
           <div className="hidden md:block">
             <img
               className="mt-5 max-w-3xl rounded-xl w-full"
-              src={wisataDetail.url_image}
+              src="/images/solo/kampungkaret.svg"
               alt=""
             />
           </div>
@@ -490,9 +487,7 @@ const TesDetailSolo = () => {
             <div className="fixed bottom-0 left-0 right-0 bg-white border-t shadow-md p-4 flex justify-between items-center z-10 lg:hidden md:hidden">
               <div className="text-sm">
                 Mulai dari
-                <div className="text-lg font-extrabold">
-                  IDR {wisataDetail.price}
-                </div>
+                <div className="text-lg font-extrabold">IDR 10.000</div>
               </div>
               <button
                 onClick={handleButtonClick}
@@ -586,7 +581,7 @@ const TesDetailSolo = () => {
             <div className="px-5 items-center justify-center w-[270px] border shadow-sm">
               <p className="text-[0.8rem] mt-5">Mulai dari</p>
               <div className="flex justify-start text-2xl font-extrabold">
-                IDR {Number(wisataDetail.price).toLocaleString("id-ID")}
+                IDR 10.000
               </div>
               <button
                 onClick={handleButtonClick}
@@ -598,11 +593,11 @@ const TesDetailSolo = () => {
                 open={isModalOpen}
                 handleClose={() => setIsModalOpen(false)}
               />
-              <PopUpPesan
+              {/* <PopUpPesan
                 open={isPopUpOpen}
                 onClose={() => {
                   setIsPopUpOpen(false);
-                  setModalStep(1); // Reset ke langkah pertama saat modal ditutup
+                  setModalStep(1);
                 }}
                 wisataName={wisataDetail?.name || ""}
                 onConfirm={handleNextStep}
@@ -613,7 +608,7 @@ const TesDetailSolo = () => {
                 setQuantity={setQuantity}
                 total={total}
                 price={wisataDetail?.price.toLocaleString()}
-              />
+              /> */}
             </div>
 
             <div className="px-5 border text-sm font-medium max-w-72 text-hitam flex items-center justify-between py-5 rounded-br-lg rounded-bl-lg">
@@ -622,10 +617,10 @@ const TesDetailSolo = () => {
               </button>
               <div>
                 <IconButton
-                  onClick={() => toggleWishlist(wisataDetail.id)}
+                  onClick={() => toggleWishlist(soloList.id)}
                   className=""
                 >
-                  {isInWishlist(wisataDetail.id) ? (
+                  {isInWishlist(soloList.id) ? (
                     <FavoriteIcon className="text-red-500" />
                   ) : (
                     <FavoriteBorderIcon />
