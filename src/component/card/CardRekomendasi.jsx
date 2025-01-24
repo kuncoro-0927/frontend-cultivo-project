@@ -14,12 +14,10 @@ export default function CardRekomendasi({
       <div className="relative  w-full overflow-hidden flex-shrink-0">
         <img
           className="lg:h-[200px] md:h-[175px] w-full h-[160px] object-cover rounded-t-lg transform transition-transform duration-300 group-hover:scale-105"
-          src={image}
+          src={image} // Gambar default, bisa diganti dengan gambar biasa atau variabel
+          srcSet={`${image} 1x, ${image.replace(".jpg", "@2x.jpg")} 2x`} // Menyediakan gambar 2x untuk layar retina
+          sizes="(max-width: 768px) 100vw, 50vw" // Menyesuaikan ukuran gambar berdasarkan lebar layar
           alt="Image"
-          style={{
-            imageRendering: "auto",
-            WebkitOptimizeContrast: "high",
-          }}
         />
 
         {/* Rating di pojok kiri bawah */}
