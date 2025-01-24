@@ -11,22 +11,28 @@ export default function CardRekomendasi({
   return (
     <div className="border  border-gray-300 rounded-lg w-full h-full  max-h[250px] md:max-w-[250px] lg:max-w-[270px] lg:max-h-[380px] md:max-h-[300px] relative overflow-hidden group  flex flex-col">
       {/* Bagian Gambar */}
-      <div
-        className="relative lg:h-[200px] md:h-[175px] w-full h-[160px] object-cover rounded-t-lg transform transition-transform duration-300 group-hover:scale-105"
-        style={{
-          backgroundImage: `url(${image})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-      >
+      <div className="relative  w-full overflow-hidden flex-shrink-0">
+        <picture>
+          {/* Untuk perangkat dengan lebar layar lebih dari 768px (Tablet ke atas) menggunakan gambar resolusi tinggi */}
+          <source
+            srcSet="image@2x.jpg 2x, image@3x.jpg 3x"
+            media="(min-width: 768px)"
+          />
+
+          {/* Gambar default untuk perangkat dengan resolusi lebih rendah atau jika tidak ada media query yang cocok */}
+          <img
+            className="lg:h-[200px] md:h-[175px] w-full h-[160px] object-cover rounded-t-lg transform transition-transform duration-300 group-hover:scale-105"
+            src={image} // Variabel image yang menyimpan sumber gambar default
+            alt="Image"
+          />
+        </picture>
+
         {/* Rating di pojok kiri bawah */}
-        <div className="absolute bottom-0 left-0 py-1 px-5 backdrop-blur-lg text-white rounded-tr-lg text-sm font-medium flex items-center">
+        <div className="absolute  bottom-0 left-0 py-1 px-5 backdrop-blur-lg text-white rounded-tr-lg text-sm font-medium flex items-center">
           <span className="mr-1 flex items-center gap-1">
             <FaStar className="text-yellow-300" /> {average_rating || "0.0"}
           </span>
         </div>
-
-        {/* Konten lainnya */}
       </div>
 
       {/* Bagian Konten */}
