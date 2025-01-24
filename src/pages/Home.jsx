@@ -126,7 +126,7 @@ const Home = () => {
   return (
     <>
       <ModalSignUp open={isModalOpen} handleClose={handleCloseModal} />
-      <section className="mt-[80px] sm:mt-[80px] grid  lg:mt-[75px] mx-4 md:mx-10 md:flex items-center space-x-0 md:space-x-4">
+      <section className="mt-[80px] sm:mt-[80px] grid  lg:mt-[75px] mx-4 md:mx-6 md:flex items-center space-x-0 md:space-x-4">
         <div className="relative">
           <span className="ml-0 bg-white p-1.5 rounded-full sm:ml-2 absolute left-2 md:left-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none">
             <FiSearch className="md:text-lg font-extrabold" />
@@ -172,7 +172,7 @@ const Home = () => {
         </div>
       </section>
       <section
-        className="mx-4 md:mx-10 px-7 lg:h-[600px] xl:h-screen h-[550px] bg-cover bg-center lg:mx-10 rounded-2xl md:rounded-3xl flex items-center justify-center lg:px-12 mt-[20px] sm:mt-[20px]  lg:mt-[30px]"
+        className="mx-4 md:mx-6 px-7 lg:h-[600px] xl:h-screen h-[550px] bg-cover bg-center lg:mx-10 rounded-2xl md:rounded-3xl flex items-center justify-center lg:px-12 mt-[20px] sm:mt-[20px]  lg:mt-[30px]"
         style={{ backgroundImage: "url('images/bg-home-5.jpg')" }}
       >
         <div className="text-center max-w-5xl">
@@ -202,18 +202,18 @@ const Home = () => {
         </div>
       </section>
 
-      <section className="mx-4 sm:mt-20 mt-14 md:mx-10 lg:mx-10 md:mt-20 lg:mt-28">
+      <section className="mx-4 sm:mt-20 mt-14 md:mx-6 lg:mx-10 md:mt-20 lg:mt-28">
         <div className="md:flex md:items-start md:justify-between">
           <div>
             <span>Destinasi populer</span>
-            <p className="text-xl font-extrabold text-hitam sm:text-3xl md:text-4xl">
+            <p className="text-xl font-extrabold text-hitam sm:text-3xl  md:text-4xl">
               Agrowisata
-              <span className="bg-hijau-muda ml-3 inline-block px-5 rounded-full py-2">
+              <p className="bg-hijau-muda ml-2 inline-block px-5 rounded-full py-2">
                 Cultivo
-              </span>
+              </p>
             </p>
           </div>
-          <div className="max-w-lg mt-2 md:mt-0 md:text-right">
+          <div className="max-w-lg md:max-w-[300px] lg:max-w-lg mt-2 md:mt-0 md:text-right">
             <span className="text-sm text-gray-400">
               Temukan destinasi agrowisata populer dari Cultivo, yang menawarkan
               pengalaman alam yang beragam.
@@ -317,7 +317,7 @@ const Home = () => {
         </div>
       </section>
 
-      <section className="mx-4  mt-14 md:mt-10 lg:mt-28 md:mx-6 lg:mx-14">
+      <section className="mx-4  mt-14 md:mt-10 lg:mt-28 md:mx-6 lg:mx-10">
         <div className="flex items-center ">
           <div className="">
             <h1 className="text-2xl sm:text-3xl font-extrabold md:text-4xl text-hitam">
@@ -335,12 +335,12 @@ const Home = () => {
             </div> */}
           </div>
           <div className="mt-5 ml-auto lg:mt-0 transition-transform duration-200 ease-in-out transform hover:-translate-y-0.5 hidden md:block">
-            <Link
-              to="/seluruhwisata"
+            <button
+              onClick={handleOpenModalSearch}
               className="text-base py-1 text-center w-full border-b  text-hitam border-black block"
             >
               Lihat semua destinasi
-            </Link>
+            </button>
           </div>
         </div>
 
@@ -360,8 +360,8 @@ const Home = () => {
 
         <div className="carousel carousel-center max-w-full lg:hidden pt-2 ">
           <div className="carousel-item gap-3">
-            {Array.isArray(daerahList) &&
-              daerahList.slice(0, 5).map((daerahItem) => (
+            {Array.isArray(city) &&
+              city.slice(0, 5).map((daerahItem) => (
                 <Link
                   key={daerahItem.id}
                   to={`/wisata/daerah/${daerahItem.id}`}
@@ -373,12 +373,12 @@ const Home = () => {
         </div>
 
         <div className="mt-5 lg:mt-14 transition-transform duration-200 ease-in-out transform hover:-translate-y-0.5 md:hidden">
-          <Link
-            to="/seluruhwisata"
+          <button
+            onClick={handleOpenModalSearch}
             className="text-xs py-2 text-center w-full md:text-sm lg:text-sm border text-hitam border-black rounded-md block"
           >
             Lihat semua destinasi
-          </Link>
+          </button>
         </div>
       </section>
 
@@ -491,7 +491,7 @@ const Home = () => {
         </div>
       </section>
 
-      <section className="mx-7 md:mx-10 lg:mx-14 bg-cover mt-10 justify-center lg:mt-20">
+      <section className="mx-7 md:mx-6 lg:mx-10 bg-cover mt-10 justify-center lg:mt-20">
         <h1 className="text-xl sm:text-3xl font-extrabold md:text-4xl mb-7 md:mb-10 lg:mb-20 text-hitam">
           Apa kata pengunjung
         </h1>

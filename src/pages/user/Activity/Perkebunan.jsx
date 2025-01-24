@@ -28,7 +28,7 @@ const Perkebunan = () => {
     }
   };
   return (
-    <section className="mt-20 sm:mt-20 mx-7 md:mt-20 md:mx-10 lg:mx-14 lg:mt-24">
+    <section className="mt-20 sm:mt-20 mx-7 md:mt-20 md:mx-6 lg:mx-14 lg:mt-24">
       <div>
         <h1 className="text-xl sm:text-3xl font-extrabold md:text-4xl text-hitam">
           Eksplor Aktivitas Wisata Perkebunan

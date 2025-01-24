@@ -124,7 +124,7 @@ export default function ModalSearch({ isOpen, handleClose, onSelect }) {
                 {/* col-span-2 untuk membuat teks lebar sesuai dengan kolom grid */}
                 Temukan destinasi agrowisata anda di:
               </p>
-              <ul className="max-h-[450px] text-hitam2 grid md:grid-cols-2 overflow-y-auto">
+              <ul className="max-h-[320px] text-hitam2 grid md:grid-cols-2 overflow-y-auto">
                 {regions.map((region) => (
                   <li
                     key={region.id} // Pastikan key menggunakan id unik dari region

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useParams } from "react-router-dom";
 
 import { useState, useEffect } from "react";
@@ -10,14 +11,30 @@ import { showSnackbar } from "../component/CustomSnackbar";
 import { useAuth } from "../contexts/AuthContext";
 import ModalSignUp from "../component/ModalSignUp";
 import FavoriteIcon from "@mui/icons-material/Favorite";
+import ModalSearch from "../component/ModalSearch";
+import { FiSearch } from "react-icons/fi";
 const DaerahDetail = () => {
   const { daerahId } = useParams();
+  const [city, setDaerah] = useState([]);
+  const [cityName, setCityName] = useState(""); // State untuk nama kota
+  const [cityImage, setCityImage] = useState("");
   const [agrotourism, setAgrotourism] = useState([]);
   const [wisataList, setWisataList] = useState([]);
-  const [cityName, setCityName] = useState(""); // Gunakan state hanya untuk cityName
   const { isLoggedIn } = useAuth();
   const { wishlist, setWishlist } = useWishlist();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalSearchOpen, setModalSearchOpen] = useState(false);
+  const [selectedAgrotourism, setSelectedAgrotourism] = useState(null);
+  const handleOpenModalSearch = () => {
+    setModalSearchOpen(true);
+  };
+  const handleCloseModalSearch = () => {
+    setModalSearchOpen(false);
+  };
+  const handleSelectAgrotourism = (agrotourism) => {
+    setSelectedAgrotourism(agrotourism);
+    setModalSearchOpen(false);
+  };
   const isInWishlist = (agrotourismId) => {
     return wishlist.some((item) => item.agrotourism_id === agrotourismId);
   };
@@ -119,9 +136,66 @@ const DaerahDetail = () => {
     }
   };
 
+  useEffect(() => {
+    instance
+      .get(`/daerah`)
+      .then((response) => {
+        const dataDaerah = Array.isArray(response.data.data)
+          ? response.data.data
+          : [response.data.data];
+        setDaerah(dataDaerah);
+
+        // Cari daerah berdasarkan daerahId dari URL
+        const selectedCity = dataDaerah.find(
+          (daerahItem) => daerahItem.id === parseInt(daerahId)
+        );
+        if (selectedCity) {
+          setCityName(selectedCity.name); // Set nama kota
+          setCityImage(selectedCity.url); // Set gambar kota
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching data daerah:", error);
+      });
+  }, [daerahId]);
+
   return (
     <>
-      <section className="mt-20 sm:mt-20 mx-4 md:mt-20 md:mx-10 lg:mx-10 lg:mt-24">
+      <section
+        className="relative mt-[63px] sm:mt-[80px] lg:mt-[75px] px-7 lg:h-[200px] xl:h-[400px] h-[250px] bg-cover bg-bottom flex flex-col items-center justify-center lg:px-12"
+        style={{
+          backgroundImage: `url('${cityImage}')`,
+        }}
+      >
+        {/* Overlay Gradasi */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+        {/* Text */}
+        <h1 className="relative text-white font-bold text-base text-left mr-auto mt-10 md:mt-0 md:mr-0 md:text-4xl md:text-center">
+          Pesan kegiatan Agrowisata di kota <br />{" "}
+          <span className="text-3xl">{cityName}</span>
+        </h1>
+        <div className="absolute mt-5 bottom-5 w-full px-7">
+          <span className="ml-0 bg-hitam2 h-full w-16 flex items-center justify-center rounded-full sm:ml-0 absolute right-7 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none">
+            <FiSearch className="md:text-lg text-white font-extrabold" />
+          </span>
+
+          <button
+            onClick={handleOpenModalSearch}
+            type="text"
+            className="text-left pl-6 md:pl-6 text-xs lg:text-base px-6 py-3 md:py-3 text-gray-400 bg-gray-100 rounded-full w-full focus:outline-none focus:border-gray-500"
+          >
+            Cari Destinasi
+          </button>
+
+          <ModalSearch
+            isOpen={isModalSearchOpen}
+            handleClose={handleCloseModalSearch}
+            onSelect={handleSelectAgrotourism}
+          />
+        </div>
+      </section>
+
+      <section className="mt-10 sm:mt-20 mx-4 md:mt-20 md:mx-6 lg:mx-10 lg:mt-24">
         <div>
           <h1 className="text-2xl sm:text-3xl font-extrabold md:text-4xl text-hitam">
             Daerah Wisata {cityName}
@@ -183,8 +257,8 @@ const DaerahDetail = () => {
           ))}
         </div>
       </div> */}
-        <div className="lg:hidden carousel carousel-center md:space-x-3 md:px-8 md:py-3 md:max-w-full ">
-          <div className="carousel-item justify-between flex flex-wrap gap-4">
+        <div className="lg:hidden md:carousel md:carousel-center md:space-x-3 md:px-8 md:py-3  md:max-w-full ">
+          <div className="md:carousel-item justify-between grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 gap-3">
             {wisataList.map((wisata) => (
               <div key={wisata.id} className="relative">
                 <Link to={`/wisata/detail/${wisata.id}`}>
@@ -280,7 +354,7 @@ const DaerahDetail = () => {
         </div>
 
         <div className="lg:hidden md:carousel md:carousel-center md:space-x-3 md:px-8 md:py-3  md:max-w-full ">
-          <div className="md:carousel-item justify-between flex flex-wrap gap-4">
+          <div className="md:carousel-item justify-between grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 gap-3">
             {Array.isArray(agrotourism) &&
               agrotourism
                 .filter((agrotourismItem) =>

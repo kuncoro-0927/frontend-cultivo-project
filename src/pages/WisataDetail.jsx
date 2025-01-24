@@ -197,7 +197,7 @@ const WisataDetail = () => {
         </div>
       </div>
 
-      <section className="text-hitam2 sm:mt-0 mx-7 md:mt-20 md:mx-10 lg:mx-14 lg:mt-24 md:pt-0 flex flex-col md:flex-row ">
+      <section className="text-hitam2 sm:mt-0 mx-7 md:mt-20 md:mx-6 lg:mx-14 lg:mt-24 md:pt-0 flex flex-col md:flex-row ">
         <div className="flex-1 ">
           <h1 className="text-2xl sm:text-3xl hidden md:block font-extrabold md:text-3xl text-hitam2">
             {wisataDetail.name}

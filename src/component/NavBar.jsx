@@ -18,6 +18,7 @@ export default function NavBar() {
   const toggleDropdown = () => {
     setIsOpen((prev) => !prev);
   };
+
   const { isLoggedIn, logout } = useAuth();
   const [navbar, setNavbar] = useState(false);
   const [scrolling, setScrolling] = useState(false);
@@ -103,7 +104,7 @@ export default function NavBar() {
                 {scrolling && (
                   <>
                     {" "}
-                    <div className="relative mx-3 lg:hidden">
+                    <div className="relative  lg:hidden">
                       <span className="ml-1 sm:ml-2 absolute left-3 top-1/2 transform -translate-y-1/2 text-hover pointer-events-none">
                         <CiSearch className="text-2xl font-bold" />
                       </span>
@@ -127,7 +128,7 @@ export default function NavBar() {
             </div>
             <div className="lg:hidden">
               <button
-                className="p-2 mr-4 text-gray-700 rounded-md outline-none focus:border-gray-400 focus:border"
+                className="py-2 mr-3 md:mr-0 text-gray-700 rounded-md outline-none focus:border-gray-400 focus:border"
                 onClick={() => setNavbar(!navbar)}
               >
                 {navbar ? (

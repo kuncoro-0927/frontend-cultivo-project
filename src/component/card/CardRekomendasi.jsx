@@ -9,7 +9,7 @@ export default function CardRekomendasi({
   average_rating,
 }) {
   return (
-    <div className="border  border-gray-300 rounded-lg w-full h-full max-h[250px] md:max-w-[250px] lg:max-w-[270px] lg:max-h-[380px] md:max-h-[300px] relative overflow-hidden group  flex flex-col">
+    <div className="border  border-gray-300 rounded-lg w-full h-full  max-h[250px] md:max-w-[250px] lg:max-w-[270px] lg:max-h-[380px] md:max-h-[300px] relative overflow-hidden group  flex flex-col">
       {/* Bagian Gambar */}
       <div className="relative  w-full overflow-hidden flex-shrink-0">
         <img

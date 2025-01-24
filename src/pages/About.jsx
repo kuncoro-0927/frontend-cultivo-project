@@ -3,7 +3,7 @@ const About = () => {
   return (
     <>
       <div
-        className="mx-7 md:mx-10 px-7 lg:h-[600px] xl:h-[300px] h-96 bg-cover bg-center lg:mx-10 rounded-2xl md:rounded-3xl flex items-center justify-center lg:px-12 mt-[66px] sm:mt-[73px]  lg:mt-[72px]"
+        className="mx-7 md:mx-6 px-7 lg:h-[600px] xl:h-[300px] h-96 bg-cover bg-center lg:mx-10 rounded-2xl md:rounded-3xl flex items-center justify-center lg:px-12 mt-[66px] sm:mt-[73px]  lg:mt-[72px]"
         style={{ backgroundImage: "url('images/header-about.jpg')" }}
       ></div>
 
