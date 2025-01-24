@@ -32,10 +32,7 @@ const TesDetailSolo = () => {
     return wishlist.some((item) => item.agrotourism_id === agrotourismId);
   };
   const [isPopUpOpen, setIsPopUpOpen] = useState(false);
-  const [modalStep, setModalStep] = useState(1); // 1: Pilih Tanggal, 2: Konfirmasi
-  const [selectedDate, setSelectedDate] = useState(null);
-  const [quantity, setQuantity] = useState(1);
-  const [total, setTotal] = useState(0);
+
   const [showNavbar, setShowNavbar] = useState(false);
   const [scrollPosition, setScrollPosition] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -44,9 +41,8 @@ const TesDetailSolo = () => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const [reviews, setReviews] = useState([]);
-  const [wisataDetail, setWisataDetail] = useState(null);
+
   const [isExpanded, setIsExpanded] = useState(false);
-  const [error, setError] = useState("");
 
   const toggleExpanded = () => {
     setIsExpanded(!isExpanded);
@@ -67,77 +63,9 @@ const TesDetailSolo = () => {
       setIsPopUpOpen(true);
     }
   };
-  const toggleWishlist = async (agrotourismId) => {
-    if (!isLoggedIn) {
-      setIsModalOpen(true);
-      return;
-    }
-
-    try {
-      if (isInWishlist(agrotourismId)) {
-        await instance.delete(`/delete/wishlist/${agrotourismId}`);
-        const updatedWishlist = wishlist.filter(
-          (item) => item.agrotourism_id !== agrotourismId
-        );
-        setWishlist(updatedWishlist);
-        localStorage.setItem("wishlist", JSON.stringify(updatedWishlist));
-        showSnackbar("Wishlist berhasil dihapus", "success");
-      } else {
-        // Tambahkan ke wishlist
-        await instance.post("/add/wishlist", { agrotourism_id: agrotourismId });
-        const updatedWishlist = [
-          ...wishlist,
-          { agrotourism_id: agrotourismId },
-        ];
-        setWishlist(updatedWishlist);
-        localStorage.setItem("wishlist", JSON.stringify(updatedWishlist));
-        showSnackbar("Wishlist berhasil ditambahkan", "success");
-      }
-    } catch (error) {
-      console.error("Error toggling wishlist:", error);
-    }
+  const toggleWishlist = (agrotourismId) => {
+    setIsModalOpen(true); // Langsung buka modal saat fungsi dipanggil
   };
-
-  useEffect(() => {
-    // Memuat wishlist dari localStorage saat komponen dimuat
-    const savedWishlist = JSON.parse(localStorage.getItem("wishlist"));
-    if (savedWishlist) {
-      setWishlist(savedWishlist);
-    }
-  }, [setWishlist]);
-
-  useEffect(() => {
-    if (wisataDetail?.price) {
-      setTotal(wisataDetail.price * quantity);
-    }
-  }, [quantity, wisataDetail]);
-  const handleNextStep = (date) => {
-    setSelectedDate(date);
-    setModalStep(2); // Pindah ke langkah Konfirmasi
-  };
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const wisataResponse = await instance.get(`/agrotourism`);
-        setWisataDetail(wisataResponse.data.data[0]);
-
-        // Fetch review data
-        const reviewResponse = await instance.get(`/review/agrotourism`);
-
-        setReviews(reviewResponse.data); // Coba ini jika tidak ada .data di dalam data
-        // Menyimpan data review ke state
-      } catch (err) {
-        console.error("Error fetching data:", err);
-        setError("Gagal memuat data wisata atau review.");
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  useEffect(() => {}, [reviews]); // Ini akan terpicu setiap kali `reviews` diperbarui
-
-  useEffect(() => {}, [wisataDetail]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -158,10 +86,6 @@ const TesDetailSolo = () => {
   const handleToggleImages = () => {
     setShowAllImages(!showAllImages);
   };
-
-  if (!wisataDetail) {
-    return <div></div>;
-  }
 
   const totalReviews = reviews.length;
   const ratingCount = [1, 2, 3, 4, 5].map((rating) => {
