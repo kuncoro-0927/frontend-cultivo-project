@@ -379,8 +379,8 @@ const Home = () => {
                   to={`/wisata/daerah/${daerahItem.id}`}
                 >
                   <CardDaerah
-                    title={daerahItem.name}
-                    img={daerahItem.url}
+                    title={daerahItem.title}
+                    img={daerahItem.image}
                     isLoading={isLoading}
                   />
                 </Link>
