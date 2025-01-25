@@ -233,7 +233,7 @@ const ModalReview = ({ open, handleClose, ticketId }) => {
           bgcolor: "background.paper",
           boxShadow: 24,
           borderRadius: 5,
-          padding: 3,
+          padding: 2,
           width: { xs: "350px", sm: "450px" },
           maxWidth: "100%",
           maxHeight: "90vh",
@@ -247,7 +247,7 @@ const ModalReview = ({ open, handleClose, ticketId }) => {
         </button>
         <div className="px-5 pb-2 text-center rounded-t-lg border-b">
           <h2 className="text-xl mb-2 font-bold text-hitam2">
-            Bagaimana Pengalaman Anda?
+            Yuk, ceritakan keseruanmu!
           </h2>
 
           <Rating
@@ -261,7 +261,7 @@ const ModalReview = ({ open, handleClose, ticketId }) => {
 
         <TextField
           fullWidth
-          label="Tulis Review"
+          label="Tulis ulasan"
           multiline
           rows={4}
           value={reviewText}
@@ -308,7 +308,7 @@ const ModalReview = ({ open, handleClose, ticketId }) => {
             className="bg-hover text-white px-4 py-2 rounded-md w-full"
             disabled={loading}
           >
-            {loading ? "Mengirim..." : "Kirim Review"}
+            {loading ? "Mengirim..." : "Kirim"}
           </button>
         </div>
       </Box>

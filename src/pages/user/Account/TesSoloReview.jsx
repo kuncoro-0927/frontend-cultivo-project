@@ -41,7 +41,7 @@ const SoloReview = () => {
           <SidebarAccount />
         </div>
         <div className="mt-20 mx-4 w-full  text-hitam">
-          <h1 className="font-extrabold text-3xl mb-5">Reviews</h1>
+          <h1 className="font-extrabold text-3xl mb-5">Ulasan</h1>
           <span className="font-bold border-b-4 py-2 border-blue-400">
             Tiket Anda
           </span>
