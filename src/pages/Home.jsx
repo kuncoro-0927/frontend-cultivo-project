@@ -173,7 +173,7 @@ const Home = () => {
       </section>
       <section
         className="mx-4 md:mx-6 px-7 lg:h-[600px] xl:h-screen h-[550px] bg-cover bg-center lg:mx-10 rounded-2xl md:rounded-3xl flex items-center justify-center lg:px-12 mt-[20px] sm:mt-[20px]  lg:mt-[30px]"
-        style={{ backgroundImage: "url('images/bg-home-5.jpg')" }}
+        style={{ backgroundImage: "url('images/bg-home-kids.jpg')" }}
       >
         <div className="text-center max-w-5xl">
           <h1 className="text-white mb-5 text-2xl md:text-3xl lg:text-6xl font-medium lg:font-medium">
