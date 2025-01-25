@@ -6,6 +6,8 @@ import { daerahList } from "../data_sementara/DataWisata";
 import SwiperCardReview from "../component/SwiperCardReview";
 import { FiSearch } from "react-icons/fi";
 import { FaTractor } from "react-icons/fa";
+
+import { PiPottedPlantFill } from "react-icons/pi";
 import { useAuth } from "../contexts/AuthContext";
 import { GiForestCamp } from "react-icons/gi";
 import { Link } from "react-router-dom";
@@ -159,44 +161,49 @@ const Home = () => {
         <div className="flex-row flex mt-3 md:mt-0 space-x-3 ">
           <button className="py-2 pl-3 pr-4 flex text-xs md:text-sm items-center gap-x-2 bg-gray-100 rounded-full hover:bg-hover hover:text-white group duration-200">
             <FaTractor className="bg-white rounded-full p-1.5 text-3xl text-current group-hover:text-black duration-200" />
-            Agriculture
+            Pertanian
           </button>
-          <div className="py-2 pl-3 pr-4 flex text-xs md:text-sm items-center gap-x-2 bg-gray-100 rounded-full hover:bg-hover hover:text-white group duration-200">
+          {/* <div className="py-2 pl-3 pr-4 flex text-xs md:text-sm items-center gap-x-2 bg-gray-100 rounded-full hover:bg-hover hover:text-white group duration-200">
             <GiForestCamp className="bg-white rounded-full p-1.5 text-3xl text-current group-hover:text-black duration-200" />
             Nature
-          </div>
-          {/* <div className="py-2 pl-3 pr-4 flex text-xs md:text-sm items-center gap-x-2 bg-gray-100 rounded-full hover:bg-hover hover:text-white group duration-200">
-            <PiPottedPlantFill className="bg-white rounded-full p-1.5 text-3xl text-current group-hover:text-black duration-200" />
-            Plantation
           </div> */}
+          <div className="py-2 pl-3 pr-4 flex text-xs md:text-sm items-center gap-x-2 bg-gray-100 rounded-full hover:bg-hover hover:text-white group duration-200">
+            <PiPottedPlantFill className="bg-white rounded-full p-1.5 text-3xl text-current group-hover:text-black duration-200" />
+            Perkebunan
+          </div>
         </div>
       </section>
       <section
-        className="mx-4 md:mx-6 px-7 lg:h-[600px] xl:h-screen h-[550px] bg-cover bg-center lg:mx-10 rounded-2xl md:rounded-3xl flex items-center justify-center lg:px-12 mt-[20px] sm:mt-[20px]  lg:mt-[30px]"
+        className="mx-4 md:mx-6 px-7 lg:h-[600px] xl:h-screen h-[550px] bg-cover bg-center lg:mx-10 rounded-2xl md:rounded-3xl flex items-center justify-center lg:px-12 mt-[20px] sm:mt-[20px] lg:mt-[30px] relative"
         style={{ backgroundImage: "url('images/bg-home-kids.jpg')" }}
       >
-        <div className="text-center max-w-5xl">
-          <h1 className="text-white mb-5 text-2xl md:text-3xl lg:text-6xl font-medium lg:font-medium">
-            Jelajahi pengalaman Agrowisata <br /> di Indonesia
+        {/* Gradien Background */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent rounded-2xl md:rounded-3xl"></div>
+
+        <div className="text-center max-w-5xl relative z-10">
+          <h1 className="text-white mb-5 text-3xl md:text-3xl lg:text-6xl font-bold lg:font-medium">
+            Jelajahi pengalaman Agrowisata di Indonesia
           </h1>
           <span className="text-white">
             Temukan keindahan alam dan nikmati berbagai kegiatan pertanian yang
             menarik.
           </span>
-          <div className="backdrop-blur-xl rounded-lg flex items-center justify-center mt-16 w-auto">
-            <div className="flex w-full max-w-3xl">
-              <div className="text-white border-r px-5 py-3 flex-1 text-center ">
-                <h1 className="text-xl md:text-2xl font-bold">10K</h1>
-                <span className="text-xs md:text-sm">Total Pengguna</span>
-              </div>
-              <div className="text-white border-r px-5 py-3 flex-1 text-center ">
-                <h1 className="text-xl md:text-2xl font-bold">50+</h1>
-                <span className="text-xs md:text-sm">Total Agrowisata</span>
-              </div>
-              <div className=" text-white px-5 py-3 flex-1 text-center">
-                <h1 className="text-xl md:text-2xl font-bold">5.0</h1>
-                <span className="text-xs md:text-sm">Rating rata-rata</span>
-              </div>
+        </div>
+
+        {/* Stats Container */}
+        <div className="absolute bottom-8 md:bottom-20 w-full max-w-xs md:max-w-2xl backdrop-blur-xl rounded-lg flex items-center justify-center mt-auto">
+          <div className="flex w-full max-w-3xl">
+            <div className="text-white border-r px-5 py-3 flex-1 text-center">
+              <h1 className="text-xl md:text-2xl font-bold">10+</h1>
+              <span className="text-xs md:text-sm">Total Kota Tersedia</span>
+            </div>
+            <div className="text-white border-r px-5 py-3 flex-1 text-center">
+              <h1 className="text-xl md:text-2xl font-bold">50+</h1>
+              <span className="text-xs md:text-sm">Total Agrowisata</span>
+            </div>
+            <div className="text-white px-5 py-3 flex-1 text-center">
+              <h1 className="text-xl md:text-2xl font-bold">5.0</h1>
+              <span className="text-xs md:text-sm">Rating rata-rata</span>
             </div>
           </div>
         </div>
