@@ -22,9 +22,10 @@ import LinearProgress from "@mui/material/LinearProgress";
 import Rating from "@mui/material/Rating";
 import { Link } from "react-router-dom";
 import { soloList } from "../data_sementara/DataWisata";
+import { Skeleton } from "@mui/material";
 const TesDetailSolo = () => {
   const reviewRef = useRef(null);
-
+  const [isLoading, setIsLoading] = useState(true);
   const { isLoggedIn } = useAuth();
 
   const { wishlist, setWishlist } = useWishlist();
@@ -92,6 +93,12 @@ const TesDetailSolo = () => {
     return reviews.filter((review) => review.rating === rating).length;
   });
 
+  useEffect(() => {
+    // Simulasi proses pengambilan data
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 2000); // 3 detik untuk simulasi loading
+  }, []);
   const review = [
     {
       review_id: 1,
@@ -135,24 +142,48 @@ const TesDetailSolo = () => {
 
   return (
     <>
-      <div className="md:hidden  h-[300px] mt-16 relative">
-        <img
-          className="mt-5 max-w-3xl h-full object-cover w-full "
-          src="/images/solo/kampungkaret.svg"
-          alt=""
-        />
-        <div className="absolute top-2 right-2 p-2">
-          <IconButton onClick={() => toggleWishlist(soloList.id)}>
-            {isInWishlist(soloList.id) ? (
-              <FavoriteIcon
-                className="text-red-500"
-                sx={{ width: 35, height: 35 }}
+      <div className="md:hidden h-[300px] mt-16 relative">
+        {isLoading ? (
+          <>
+            {/* Skeleton untuk gambar */}
+            <Skeleton
+              variant="rectangular"
+              animation="wave"
+              className="mt-5 w-full"
+              style={{ height: "300px" }} // Tinggi 300px agar sesuai
+            />
+            {/* Skeleton untuk tombol wishlist */}
+            <div className="absolute top-2 right-2 p-2">
+              <Skeleton
+                variant="circular"
+                width={35}
+                height={35}
+                animation="wave"
               />
-            ) : (
-              <FavoriteIcon sx={{ width: 35, height: 35 }} />
-            )}
-          </IconButton>
-        </div>
+            </div>
+          </>
+        ) : (
+          <>
+            {/* Konten asli */}
+            <img
+              className="mt-5 max-w-3xl h-full object-cover w-full"
+              src="/images/solo/kampungkaret.svg"
+              alt=""
+            />
+            <div className="absolute top-2 right-2 p-2">
+              <IconButton onClick={() => toggleWishlist(soloList.id)}>
+                {isInWishlist(soloList.id) ? (
+                  <FavoriteIcon
+                    className="text-red-500"
+                    sx={{ width: 35, height: 35 }}
+                  />
+                ) : (
+                  <FavoriteIcon sx={{ width: 35, height: 35 }} />
+                )}
+              </IconButton>
+            </div>
+          </>
+        )}
       </div>
 
       <section className="text-hitam2 sm:mt-0 mx-4 md:mt-20 md:mx-6 lg:mx-14 lg:mt-24 md:pt-0 flex flex-col md:flex-row ">
@@ -238,47 +269,62 @@ const TesDetailSolo = () => {
             </button>
           )}
           <div className="flex-wrap justify-start mt-4 lg:mt-10 gap-4 flex">
-            {(() => {
-              // Temukan objek Kampoeng Karet dalam soloList
-              const kampoengKaret = soloList.find(
-                (item) => item.title === "Kampoeng Karet, Karanganyar"
-              );
+            {isLoading ? (
+              // Skeleton untuk gambar
+              <>
+                {[...Array(4)].map((_, index) => (
+                  <div key={index} className="flex justify-center">
+                    <Skeleton
+                      variant="rectangular"
+                      width={150}
+                      height={100}
+                      className="rounded-lg"
+                    />
+                  </div>
+                ))}
+              </>
+            ) : (
+              // Gambar asli jika sudah dimuat
+              (() => {
+                const kampoengKaret = soloList.find(
+                  (item) => item.title === "Kampoeng Karet, Karanganyar"
+                );
 
-              // Pastikan objek Kampoeng Karet ditemukan dan memiliki url_gallery yang valid
-              if (
-                kampoengKaret &&
-                Array.isArray(kampoengKaret.url_gallery) &&
-                kampoengKaret.url_gallery.length > 0
-              ) {
-                return kampoengKaret.url_gallery
-                  .slice(0, 4)
-                  .map((url, index) => (
-                    <div key={index} className="flex justify-center">
-                      <CardImg img={url.trim()} />
-                    </div>
-                  ));
-              } else if (
-                kampoengKaret &&
-                typeof kampoengKaret.url_gallery === "string" &&
-                kampoengKaret.url_gallery.length > 0
-              ) {
-                // Jika url_gallery berupa string, coba parsing JSON-nya
-                try {
-                  const parsedUrls = JSON.parse(kampoengKaret.url_gallery);
-                  return parsedUrls.slice(0, 4).map((url, index) => (
-                    <div key={index} className="flex justify-center">
-                      <CardImg img={url.trim()} />
-                    </div>
-                  ));
-                } catch (e) {
-                  console.error("Error parsing url_gallery:", e);
+                if (
+                  kampoengKaret &&
+                  Array.isArray(kampoengKaret.url_gallery) &&
+                  kampoengKaret.url_gallery.length > 0
+                ) {
+                  return kampoengKaret.url_gallery
+                    .slice(0, 4)
+                    .map((url, index) => (
+                      <div key={index} className="flex justify-center">
+                        <CardImg img={url.trim()} />
+                      </div>
+                    ));
+                } else if (
+                  kampoengKaret &&
+                  typeof kampoengKaret.url_gallery === "string" &&
+                  kampoengKaret.url_gallery.length > 0
+                ) {
+                  try {
+                    const parsedUrls = JSON.parse(kampoengKaret.url_gallery);
+                    return parsedUrls.slice(0, 4).map((url, index) => (
+                      <div key={index} className="flex justify-center">
+                        <CardImg img={url.trim()} />
+                      </div>
+                    ));
+                  } catch (e) {
+                    console.error("Error parsing url_gallery:", e);
+                    return <p>No images available</p>;
+                  }
+                } else {
                   return <p>No images available</p>;
                 }
-              } else {
-                return <p>No images available</p>;
-              }
-            })()}
+              })()
+            )}
           </div>
+
           <button className="mt-7 text-hitam underline" onClick={handleOpen}>
             Lihat semua
           </button>
@@ -395,7 +441,7 @@ const TesDetailSolo = () => {
 
                   {/* Review details */}
                   <div className="lg:max-w-3xl">
-                    <h1 className="text-xs font-semibold">
+                    <h1 className="text-sm font-semibold">
                       {review.user_name || "Anonymous"}
                     </h1>
                     <p className="text-base border-b pb-5 mt-2">

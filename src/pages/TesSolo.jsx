@@ -254,7 +254,7 @@ const TesSolo = () => {
         </div>
 
         <div className="md:flex lg:justify-between lg:p-1 mt-5 lg:mt-14">
-          <div className="hidden md:hidden lg:grid lg:grid-cols-4 lg:justify-between lg:w-full lg:gap-3">
+          <div className="hidden md:hidden lg:grid lg:grid-cols-4 lg:justify-between lg:w-full lg:gap-8">
             {soloList.map((wisata, index) => (
               <div key={index} className="relative">
                 <Link to="/tes/detail/solo">
@@ -372,7 +372,7 @@ const TesSolo = () => {
           Mungkin Anda suka
         </h1>
         <div className="mt-7 md:mt-14 lg:mt-14 grid grid-cols-2 md:flex lg:justify-between lg:p-1 xl:mt-14 ">
-          <div className="hidden md:hidden lg:flex lg:justify-between lg:w-full lg:gap-3">
+          <div className="hidden md:hidden lg:grid lg:grid-cols-4 lg:justify-between lg:w-full lg:gap-8">
             {Array.isArray(rekomendasiList) &&
               rekomendasiList.map((agrotourismItem, index) => (
                 <div key={index} className="relative">
@@ -393,6 +393,7 @@ const TesSolo = () => {
                             )
                           : "0.0"
                       }
+                      isLoading={isLoading}
                     />
                   </Link>
 
@@ -441,6 +442,7 @@ const TesSolo = () => {
                             )
                           : "0.0"
                       }
+                      isLoading={isLoading}
                     />
                   </Link>
 
