@@ -454,7 +454,7 @@ export default function NavBar() {
                     <ul className="py-2 text-sm text-hitam">
                       <li className="">
                         <NavLink
-                          to="/account/profile"
+                          to="/tes/profile"
                           className={({ isActive }) =>
                             isActive
                               ? "w-full font-extrabold flex items-center px-6 py-4 text-left hover:bg-gray-100"
@@ -467,7 +467,7 @@ export default function NavBar() {
                       </li>
                       <li>
                         <NavLink
-                          to="/account/bookings"
+                          to="/tes/bookings"
                           className="w-full flex items-center  px-6 py-4 text-left hover:bg-gray-100"
                         >
                           <PiTicketThin className="text-base mr-2" />
@@ -476,7 +476,7 @@ export default function NavBar() {
                       </li>
                       <li>
                         <NavLink
-                          to="/account/wishlist"
+                          to="/tes/wishlist"
                           className="w-full flex items-center  px-6 py-4 text-left hover:bg-gray-100"
                         >
                           <CiHeart className="text-base mr-2" />
@@ -485,7 +485,7 @@ export default function NavBar() {
                       </li>
                       <li>
                         <NavLink
-                          to="/account/review"
+                          to="/tes/review"
                           className="w-full flex items-center  px-6 py-4 text-left hover:bg-gray-100"
                         >
                           <PiNotepadThin className="text-base mr-2" />
@@ -548,7 +548,7 @@ export default function NavBar() {
                     <ul className="py-2 text-sm text-hitam">
                       <li className="">
                         <NavLink
-                          to="/account/profile"
+                          to="/tes/profile"
                           className={({ isActive }) =>
                             isActive
                               ? "w-full font-extrabold flex items-center px-6 py-4 text-left hover:bg-gray-100"
@@ -561,7 +561,7 @@ export default function NavBar() {
                       </li>
                       <li>
                         <NavLink
-                          to="/account/bookings"
+                          to="/tes/bookings"
                           className="w-full flex items-center  px-6 py-4 text-left hover:bg-gray-100"
                         >
                           <PiTicketThin className="text-base mr-2" />
@@ -570,7 +570,7 @@ export default function NavBar() {
                       </li>
                       <li>
                         <NavLink
-                          to="/account/wishlist"
+                          to="/tes/wishlist"
                           className="w-full flex items-center  px-6 py-4 text-left hover:bg-gray-100"
                         >
                           <CiHeart className="text-base mr-2" />
@@ -579,7 +579,7 @@ export default function NavBar() {
                       </li>
                       <li>
                         <NavLink
-                          to="/account/review"
+                          to="/tes/review"
                           className="w-full flex items-center  px-6 py-4 text-left hover:bg-gray-100"
                         >
                           <PiNotepadThin className="text-base mr-2" />
