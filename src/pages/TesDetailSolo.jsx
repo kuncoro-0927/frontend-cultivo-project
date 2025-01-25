@@ -600,7 +600,7 @@ const TesDetailSolo = () => {
             </div>
           </div>
 
-          <div className="mt-10 mb-5 lg:mt-10">
+          <div className="mt-3 mb-5 lg:mt-10">
             <h1 className="font-semibold text-lg">Mengapa Cultivo?</h1>
             <div className="space-y-3 mt-5">
               <p className="flex items-center gap-2">

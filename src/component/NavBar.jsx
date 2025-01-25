@@ -92,7 +92,7 @@ export default function NavBar() {
         <div className="">
           <div className="flex items-center justify-between py-3 lg:py-4 lg:block">
             <div className={`${scrolling ? "scrolled" : " lg:ml-0"}`}>
-              <div className="flex  ml-3 lg:ml-0 md:ml-0 items-center">
+              <div className="flex  lg:ml-0 md:ml-0 items-center">
                 <Link
                   to="/"
                   className={`${
@@ -104,7 +104,7 @@ export default function NavBar() {
                 {scrolling && (
                   <>
                     {" "}
-                    <div className="relative  lg:hidden">
+                    <div className="relative mx-4 lg:hidden">
                       <span className="ml-1 sm:ml-2 absolute left-3 top-1/2 transform -translate-y-1/2 text-hover pointer-events-none">
                         <CiSearch className="text-2xl font-bold" />
                       </span>

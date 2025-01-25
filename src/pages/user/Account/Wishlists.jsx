@@ -57,7 +57,7 @@ const Wishlist = () => {
               </p>
               <img
                 className="w-40 mt-7"
-                src="/public/images/ticket-wishlist.png"
+                src="/images/ticket-wishlist.png"
                 alt="Agenda"
               />
               <p className="text-center mt-5 font-medium">
