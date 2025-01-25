@@ -151,7 +151,7 @@ const TesDetailSolo = () => {
 
   return (
     <>
-      <div className="md:hidden h-[300px] mt-16 relative">
+      <div className="lg:hidden h-[300px] mt-16 relative">
         {isLoading ? (
           <>
             {/* Skeleton untuk gambar */}
@@ -175,7 +175,7 @@ const TesDetailSolo = () => {
           <>
             {/* Konten asli */}
             <img
-              className="mt-5 max-w-3xl h-full object-cover w-full"
+              className="mt-5  h-full object-cover w-full"
               src="/images/solo/kampungkaret.svg"
               alt=""
             />
@@ -195,12 +195,12 @@ const TesDetailSolo = () => {
         )}
       </div>
 
-      <section className="text-hitam2 sm:mt-0 mx-4 md:mt-20 md:mx-6 lg:mx-14 lg:mt-24 md:pt-0 flex flex-col md:flex-row ">
+      <section className="text-hitam2 sm:mt-0 mx-4 md:mt-5 md:mx-10 lg:mx-14 lg:mt-24 lg:pt-0 flex flex-col lg:flex-row ">
         <div className="flex-1 ">
-          <h1 className="text-2xl mt-20 sm:text-3xl hidden md:block font-extrabold md:text-3xl text-hitam2">
+          <h1 className="text-2xl mt-0 sm:text-3xl hidden lg:block font-extrabold md:text-3xl text-hitam2">
             Kampoeng Karet
           </h1>
-          <div className="items-center hidden md:flex text-hitam2">
+          <div className="items-center hidden lg:flex text-hitam2">
             {reviews.length > 0 ? (
               <>
                 <p className="mr-1 flex text-base font-semibold items-center gap-1">
@@ -226,17 +226,17 @@ const TesDetailSolo = () => {
               </Link>
             </div>
           </div>
-          <div className="hidden md:block">
+          <div className="hidden lg:block">
             <img
               className="mt-5 max-w-3xl rounded-xl w-full"
               src="/images/solo/kampungkaret.svg"
               alt=""
             />
           </div>
-          <h1 className="text-2xl mt-5 md:hidden sm:text-3xl font-extrabold md:text-3xl text-hitam2">
+          <h1 className="text-2xl mt-5 lg:hidden sm:text-3xl font-extrabold md:text-3xl text-hitam2">
             Kampoeng Karet
           </h1>
-          <div className="flex md:hidden mt-2 items-center text-hitam2 ">
+          <div className="flex lg:hidden mt-2 items-center text-hitam2 ">
             <>
               <p className="mr-1 flex text-base font-semibold items-center ">
                 <FaStar className="text-yellow-300" />
@@ -398,7 +398,7 @@ const TesDetailSolo = () => {
                 Ulasan Pengguna
               </h2>
             </div>
-            <div className="mt-3 md:flex items-start justify-between text-hitam2 lg:max-w-3xl">
+            <div className="mt-3 lg:flex items-start justify-between text-hitam2 lg:max-w-3xl">
               {/* Bagian Kiri - Total Review */}
               <div className="flex items-end gap-3">
                 <h1 className="flex items-center text-3xl md:text-4xl font-extrabold text-hitam2">
@@ -463,7 +463,7 @@ const TesDetailSolo = () => {
           </div>
 
           {showNavbar && (
-            <div className="fixed bottom-0 left-0 right-0 bg-white border-t shadow-md p-4 flex justify-between items-center z-10 lg:hidden md:hidden">
+            <div className="fixed bottom-0 left-0 right-0 bg-white border-t shadow-md p-4 flex justify-between items-center z-10 lg:hidden ">
               <div className="text-sm">
                 Mulai dari
                 <div className="text-lg font-extrabold">IDR 10.000</div>
@@ -553,7 +553,7 @@ const TesDetailSolo = () => {
         </div>
 
         <div className=" ">
-          <div className="md:flex flex-col hidden w-[270px]">
+          <div className="lg:flex flex-col hidden w-[270px]">
             <div className="bg-hijau-opa font-medium w-[270px] lg:text-sm text-white flex items-center justify-center py-2 rounded-tr-lg rounded-tl-lg">
               Harga terbaik
             </div>

@@ -14,40 +14,40 @@ const Footer = () => {
                 <h2 className="text-base font-bold lg:text-2xl">Cultivo</h2>
               </Link>
               <p className="text-xs lg:text-base">
-                Discover various Agrotourism activities<br></br>
-                in Indonesia with Cultivo.
+                Temukan berbagai kegiatan Agrowisata <br />
+                di Indonesia bersama Cultivo.
               </p>
             </div>
             <div className="mt-8 sm:mt-0 md:mt-0 text-sm font-semibold flex justify-between md:justify-end sm:gap-10 md:gap-10 lg:gap-24 ">
               <ul className="space-y-2">
                 <li className="font-bold md:text-base ">Cultivo</li>
                 <li className="font-normal text-[0.6rem] md:text-[0.8rem] lg:text-[0.9rem]">
-                  About Us
+                  Tentang kami
                 </li>
                 <li className="font-normal text-[0.6rem] md:text-[0.8rem] lg:text-[0.9rem]">
-                  Join With Us
+                  Bergabung
                 </li>
               </ul>
               <ul className="space-y-2">
-                <li className="font-bold md:text-base ">Activities</li>
+                <li className="font-bold md:text-base ">Aktivitas</li>
                 <li className="font-normal text-[0.6rem] md:text-[0.8rem] lg:text-[0.9rem]">
-                  Agriculture
+                  Pertanian
                 </li>
                 <li className="font-normal text-[0.6rem] md:text-[0.8rem] lg:text-[0.9rem]">
-                  Nature
+                  Perkebunan
                 </li>
-                <li className="font-normal text-[0.6rem] md:text-[0.8rem] lg:text-[0.9rem]">
+                {/* <li className="font-normal text-[0.6rem] md:text-[0.8rem] lg:text-[0.9rem]">
                   Plantation
-                </li>
+                </li> */}
               </ul>
               <ul className="space-y-2">
-                <li className="font-bold md:text-base ">Contact Us</li>
+                <li className="font-bold md:text-base ">Hubungi kami</li>
                 <li className="font-normal text-[0.6rem] md:text-[0.8rem] lg:text-[0.9rem]">
                   cultivo@gmail.com
                 </li>
-                <li className="font-normal text-[0.6rem] md:text-[0.8rem] lg:text-[0.9rem]">
+                {/* <li className="font-normal text-[0.6rem] md:text-[0.8rem] lg:text-[0.9rem]">
                   08777564646
-                </li>
+                </li> */}
               </ul>
             </div>
           </div>

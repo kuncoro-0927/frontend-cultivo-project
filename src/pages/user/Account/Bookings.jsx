@@ -94,22 +94,22 @@ const Bookings = () => {
                       <h1 className="font-bold text-lg">
                         {ticket.agrotourism_name}
                       </h1>
-                      <p className="text-xs w-64 md:w-96 max-w-xl font-medium">
+                      <p className="text-sm w-64 md:w-96 max-w-xl font-medium">
                         {ticket.agrotourism_address}
                       </p>
-                      <p className="text-xs md:text-sm mt-4 flex items-center">
+                      <p className="text-sm md:text-sm mt-4 flex items-center">
                         <IoTicketOutline className="text-sm md:text-lg mr-1 font-extrabold" />{" "}
                         <span className="mr-1 font-bold">Jumlah tiket:</span>{" "}
                         <span>{ticket.quantity}</span>
                       </p>
-                      <p className="mt-2 text-xs md:text-sm flex items-center">
+                      <p className="mt-2 text-sm md:text-sm flex items-center">
                         <CiCalendar className=" text-sm md:text-lg mr-1 font-extrabold" />{" "}
                         <span className="mr-1 font-bold">Tanggal Tiket: </span>{" "}
                         <span>{formatDate(ticket.selected_date)}</span>
                       </p>
                     </div>
                     <div>
-                      <button className="underline text-xs md:text-sm">
+                      <button className="underline text-sm md:text-sm">
                         Lihat Tiket
                       </button>
                     </div>
@@ -118,9 +118,9 @@ const Bookings = () => {
                   {/* Kolom kanan: ID dan status tiket */}
                   <div className="lg:text-right  p-4 md:p-4 ml-auto items-center flex lg:flex-col justify-between">
                     <div className="">
-                      <p className="text-xs">ID Tiket: {ticket.ticket_code}</p>
+                      <p className="text-sm">ID Tiket: {ticket.ticket_code}</p>
                       <p
-                        className={`text-xs mt-2 font-bold ${
+                        className={`text-sm mt-2 font-bold ${
                           ticket.status === "Active"
                             ? "text-green-500"
                             : ticket.status === "Used"

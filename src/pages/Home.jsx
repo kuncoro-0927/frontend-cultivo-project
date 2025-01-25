@@ -30,6 +30,7 @@ const Home = () => {
   const { wishlist, setWishlist } = useWishlist();
   const [isModalSearchOpen, setModalSearchOpen] = useState(false);
   const [selectedAgrotourism, setSelectedAgrotourism] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
   const isInWishlist = (agrotourismId) => {
     return wishlist.some((item) => item.agrotourism_id === agrotourismId);
   };
@@ -125,6 +126,22 @@ const Home = () => {
   const handleCloseModalSearch = () => {
     setModalSearchOpen(false);
   };
+  useEffect(() => {
+    // Cek apakah data sudah pernah dimuat sebelumnya
+    const isAlreadyLoaded = localStorage.getItem("hasVisitedBefore");
+
+    if (isAlreadyLoaded) {
+      // Jika sudah pernah dibuka, set isLoading false langsung
+      setIsLoading(false);
+    } else {
+      // Jika belum pernah dibuka, mulai loading dan simpan status ke localStorage
+      setTimeout(() => {
+        setIsLoading(false);
+        localStorage.setItem("hasVisitedBefore", "true"); // Simpan status agar tidak loading lagi
+      }, 2000); // Waktu simulasi loading
+    }
+  }, []);
+
   return (
     <>
       <ModalSignUp open={isModalOpen} handleClose={handleCloseModal} />
@@ -249,6 +266,7 @@ const Home = () => {
                             )
                           : "0.0"
                       }
+                      isLoading={isLoading}
                     />
                   </Link>
 
@@ -297,6 +315,7 @@ const Home = () => {
                             )
                           : "0.0"
                       }
+                      isLoading={isLoading}
                     />
                   </Link>
 
@@ -353,13 +372,17 @@ const Home = () => {
 
         <div className="mt-7 md:mx-0  gap-3 flex flex-wrap lg:gap-10 lg:p-1 lg:mt-16">
           <div className="hidden md:hidden lg:flex lg:justify-between lg:w-full lg:gap-5">
-            {Array.isArray(city) &&
-              city.slice(0, 5).map((daerahItem) => (
+            {Array.isArray(daerahList) &&
+              daerahList.slice(0, 5).map((daerahItem) => (
                 <Link
                   key={daerahItem.id}
                   to={`/wisata/daerah/${daerahItem.id}`}
                 >
-                  <CardDaerah title={daerahItem.name} img={daerahItem.url} />
+                  <CardDaerah
+                    title={daerahItem.name}
+                    img={daerahItem.url}
+                    isLoading={isLoading}
+                  />
                 </Link>
               ))}
           </div>
@@ -367,13 +390,17 @@ const Home = () => {
 
         <div className="carousel carousel-center max-w-full lg:hidden pt-2 ">
           <div className="carousel-item gap-3">
-            {Array.isArray(city) &&
-              city.slice(0, 5).map((daerahItem) => (
+            {Array.isArray(daerahList) &&
+              daerahList.slice(0, 5).map((daerahItem) => (
                 <Link
                   key={daerahItem.id}
                   to={`/wisata/daerah/${daerahItem.id}`}
                 >
-                  <CardDaerah title={daerahItem.title} img={daerahItem.image} />
+                  <CardDaerah
+                    title={daerahItem.title}
+                    img={daerahItem.image}
+                    isLoading={isLoading}
+                  />
                 </Link>
               ))}
           </div>
@@ -395,22 +422,22 @@ const Home = () => {
         </h1>
         <div className="mt-7 md:mt-14 lg:mt-14 grid grid-cols-2 md:flex lg:justify-between lg:p-1 xl:mt-14 ">
           <div className="hidden md:hidden lg:flex lg:justify-between lg:w-full lg:gap-3">
-            {Array.isArray(agrotourism) &&
-              agrotourism
-                .filter((agrotourismItem) =>
-                  [1, 2, 9, 10].includes(agrotourismItem.id)
-                )
+            {Array.isArray(rekomendasiList) &&
+              rekomendasiList
+                // .filter((agrotourismItem) =>
+                //   [1, 2, 9, 10].includes(agrotourismItem.id)
+                // )
                 .map((agrotourismItem) => (
                   <div key={agrotourismItem.id} className="relative">
                     {/* Link hanya membungkus card tanpa ikon wishlist */}
                     <Link to={`/wisata/detail/${agrotourismItem.id}`}>
                       <CardRekomendasi
-                        title={agrotourismItem.name}
+                        title={agrotourismItem.title}
                         description={truncateDescriptionByChar(
                           agrotourismItem.description,
                           70
                         )}
-                        image={agrotourismItem.url_image}
+                        image={agrotourismItem.image}
                         price={agrotourismItem.price}
                         average_rating={
                           agrotourismItem.average_rating
@@ -419,6 +446,7 @@ const Home = () => {
                               ).toFixed(1)
                             : "0.0"
                         }
+                        isLoading={isLoading}
                       />
                     </Link>
 
@@ -447,22 +475,22 @@ const Home = () => {
 
         <div className="lg:hidden md:carousel md:carousel-center md:space-x-3 md:px-8 md:py-3  md:max-w-full ">
           <div className="md:carousel-item justify-between grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 gap-3">
-            {Array.isArray(agrotourism) &&
-              agrotourism
-                .filter((agrotourismItem) =>
-                  [1, 2, 9, 10].includes(agrotourismItem.id)
-                )
+            {Array.isArray(rekomendasiList) &&
+              rekomendasiList
+                // .filter((agrotourismItem) =>
+                //   [1, 2, 9, 10].includes(agrotourismItem.id)
+                // )
                 .map((agrotourismItem) => (
                   <div key={agrotourismItem.id} className="relative">
                     {/* Link hanya membungkus card tanpa ikon wishlist */}
                     <Link to={`/wisata/detail/${agrotourismItem.id}`}>
                       <CardRekomendasi
-                        title={agrotourismItem.name}
+                        title={agrotourismItem.title}
                         description={truncateDescriptionByChar(
                           agrotourismItem.description,
                           70
                         )}
-                        image={agrotourismItem.url_image}
+                        image={agrotourismItem.image}
                         price={agrotourismItem.price}
                         average_rating={
                           agrotourismItem.average_rating
@@ -471,6 +499,7 @@ const Home = () => {
                               ).toFixed(1)
                             : "0.0"
                         }
+                        isLoading={isLoading}
                       />
                     </Link>
 

@@ -6,8 +6,8 @@ import { Link } from "react-router-dom";
 const SoloPaymentPage = () => {
   return (
     <>
-      <section className="flex flex-col-reverse md:flex-col lg:flex-row mx-5 mt-10 md:mt-24 md:mx-14 space-y-10 lg:space-y-0 ">
-        <div className="md:w-[700px]  md:pr-10 ">
+      <section className="flex flex-col-reverse lg:flex-col xl:flex-row mx-5 mt-10 md:mt-10 md:mx-10 space-y-10 lg:space-y-0 ">
+        <div className="md:w-[700px] md:mt-10 lg:mt-10 md:pr-10 ">
           <div className="font-extrabold mt-10 md:mt-0 text-3xl md:text-4xl text-hitam">
             Pembayaran
           </div>
@@ -79,16 +79,14 @@ const SoloPaymentPage = () => {
           </button>
         </div>
 
-        <div className="md:mt-20 w-full md:w-[400px] px-10 bg-gray-300 bg-opacity-20 py-10 md:pt-14">
+        <div className="lg:mt-20 w-full lg:w-[400px] px-10 bg-gray-300 bg-opacity-20 py-10 lg:pt-14">
           <div>
-            <h2 className="font-extrabold text-2xl">Order Details</h2>
-            <p className="text-sm mt-1">
-              Make sure your order details are correct
-            </p>
+            <h2 className="font-extrabold text-2xl">Detail Pesanan</h2>
+            <p className="text-sm mt-1">Pastikan pesananmu sudah sesuai, ya!</p>
             <p className="font-bold text-lg mt-5">Kampoeng Karet</p>
             <div className="border-b border-gray-400 my-6"></div>
             <div className="flex items-center mt-5 justify-between">
-              <p className="font-normal">Date </p>{" "}
+              <p className="font-normal">Tanggal </p>{" "}
               <p className="font-bold">29 Januari 2025</p>
             </div>
             <div className="border-b border-gray-400 my-6"></div>
@@ -98,7 +96,7 @@ const SoloPaymentPage = () => {
             </div>
             <div className="border-b border-gray-400 my-6"></div>
             <div className="flex items-center mt-5 justify-between">
-              <p className="font-bold">Total price</p>
+              <p className="font-bold">Total harga</p>
               <p className="font-bold">IDR 10.000</p>
             </div>
           </div>

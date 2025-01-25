@@ -34,23 +34,23 @@ const SoloBookings = () => {
               <div className="p-4 md:p-4 flex flex-col justify-between">
                 <div className="">
                   <h1 className="font-bold text-lg">Kampoeng Karet</h1>
-                  <p className="text-xs w-64 md:w-96 max-w-xl font-medium">
+                  <p className="text-sm w-full md:w-96 max-w-xl font-medium">
                     Dukuh Kenteng, Desa Putukrejo, Kecamatan Ngargoyoso,
                     Kabupaten Karanganyar, Jawa Tengah
                   </p>
-                  <p className="text-xs md:text-sm mt-4 flex items-center">
+                  <p className="text-sm md:text-sm mt-4 flex items-center">
                     <IoTicketOutline className="text-sm md:text-lg mr-1 font-extrabold" />{" "}
                     <span className="mr-1 font-bold">Jumlah tiket:</span>{" "}
                     <span>1</span>
                   </p>
-                  <p className="mt-2 text-xs md:text-sm flex items-center">
+                  <p className="mt-2 text-sm md:text-sm flex items-center">
                     <CiCalendar className=" text-sm md:text-lg mr-1 font-extrabold" />{" "}
                     <span className="mr-1 font-bold">Tanggal Tiket: </span>{" "}
                     <span>29 Januari 2025</span>
                   </p>
                 </div>
                 <div>
-                  <button className="underline text-xs md:text-sm">
+                  <button className="underline text-sm md:text-sm">
                     Lihat Tiket
                   </button>
                 </div>
@@ -59,14 +59,15 @@ const SoloBookings = () => {
               {/* Kolom kanan: ID dan status tiket */}
               <div className="lg:text-right  p-4 md:p-4 ml-auto items-center flex lg:flex-col justify-between">
                 <div className="">
-                  <p className="text-xs">ID Tiket: CV02973191</p>
-                  <p className="text-green-500 text-xs mt-2 font-bold">Aktif</p>
+                  <p className="text-sm">ID Tiket: CV02973191</p>
+                  <p className="text-green-500 text-sm mt-2 font-bold">Aktif</p>
                 </div>
                 <div className="">
                   {/* <button className="py-2 px-3 flex ml-auto items-center font-semibold">
-                        <span className="text-sm mr-2">Unduh Tiket</span>
-                        <IoMdDownload />
-                      </button> */}
+                    <span className="text-sm mr-2">
+                      Unduh Tiket <TicketPdf />
+                    </span>
+                  </button> */}
                   <TicketPdf />
                 </div>
               </div>
