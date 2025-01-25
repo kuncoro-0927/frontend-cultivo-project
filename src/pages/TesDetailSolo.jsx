@@ -10,6 +10,7 @@ import { FaStar } from "react-icons/fa6";
 import { IoShareSocial } from "react-icons/io5";
 import { FaCheck } from "react-icons/fa";
 import PopUpPesan from "../component/TesPesan";
+import PopUpSoloPesan from "../component/TesSoloPesan";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import { IconButton } from "@mui/material";
@@ -57,13 +58,12 @@ const TesDetailSolo = () => {
   const kampoengKaretDescription = kampoengKaret?.description || "";
   const isLongDescription = kampoengKaretDescription.split(" ").length > 60;
   const { url_gallery } = kampoengKaret;
+
   const handleButtonClick = () => {
-    if (!isLoggedIn) {
-      setIsModalOpen(true);
-    } else {
-      setIsPopUpOpen(true);
-    }
+    // Langsung buka modal atau pop-up tanpa pemeriksaan login
+    setIsPopUpOpen(true); // atau setIsPopUpOpen(true); sesuai kebutuhanmu
   };
+
   const toggleWishlist = (agrotourismId) => {
     setIsModalOpen(true); // Langsung buka modal saat fungsi dipanggil
   };
@@ -572,22 +572,12 @@ const TesDetailSolo = () => {
                 open={isModalOpen}
                 handleClose={() => setIsModalOpen(false)}
               />
-              {/* <PopUpPesan
+              <PopUpSoloPesan
                 open={isPopUpOpen}
                 onClose={() => {
                   setIsPopUpOpen(false);
-                  setModalStep(1);
                 }}
-                wisataName={wisataDetail?.name || ""}
-                onConfirm={handleNextStep}
-                modalStep={modalStep}
-                selectedDate={selectedDate}
-                setSelectedDate={setSelectedDate}
-                quantity={quantity}
-                setQuantity={setQuantity}
-                total={total}
-                price={wisataDetail?.price.toLocaleString()}
-              /> */}
+              />
             </div>
 
             <div className="px-5 border text-sm font-medium max-w-72 text-hitam flex items-center justify-between py-5 rounded-br-lg rounded-bl-lg">

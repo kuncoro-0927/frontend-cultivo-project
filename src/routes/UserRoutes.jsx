@@ -14,7 +14,7 @@ import Login from "../pages/Login";
 import Register from "../pages/Register";
 import PrivateRoute from "./PrivateRoute";
 import Tes from "../pages/user/tes";
-
+import SoloPaymentPage from "../component/TesSoloPayment";
 import PaymentPage from "../component/TesPayment";
 import Bookings from "../pages/user/Account/Bookings";
 import EmailVerify from "../pages/VerifyEmail";
@@ -114,6 +114,7 @@ function UserRoutes() {
           path="/payment/:namawisata/:hashedToken"
           element={<PaymentPage />}
         />
+        <Route path="/tes/payment/solo" element={<SoloPaymentPage />} />
       </Routes>
 
       {/* Render Footer jika bukan halaman login/register dan bukan bagian dari /account */}
