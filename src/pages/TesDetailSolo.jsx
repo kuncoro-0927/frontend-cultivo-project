@@ -94,10 +94,19 @@ const TesDetailSolo = () => {
   });
 
   useEffect(() => {
-    // Simulasi proses pengambilan data
-    setTimeout(() => {
+    // Cek apakah data sudah pernah dimuat sebelumnya
+    const isAlreadyLoaded = localStorage.getItem("hasVisitedBefore");
+
+    if (isAlreadyLoaded) {
+      // Jika sudah pernah dibuka, set isLoading false langsung
       setIsLoading(false);
-    }, 2000); // 3 detik untuk simulasi loading
+    } else {
+      // Jika belum pernah dibuka, mulai loading dan simpan status ke localStorage
+      setTimeout(() => {
+        setIsLoading(false);
+        localStorage.setItem("hasVisitedBefore", "true"); // Simpan status agar tidak loading lagi
+      }, 2000); // Waktu simulasi loading
+    }
   }, []);
   const review = [
     {
