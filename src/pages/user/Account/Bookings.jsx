@@ -40,7 +40,7 @@ const Bookings = () => {
         <div className="hidden sm:block md:block lg:block">
           <SidebarAccount />
         </div>
-        <div className="mt-20 p-8 w-full  text-hitam">
+        <div className="mt-20 mx-4 w-full  text-hitam">
           <h1 className="font-extrabold text-3xl mb-5">Pesanan Anda</h1>
           <span className="font-bold border-b-4 py-2 border-blue-400">
             Tiket Anda
@@ -52,7 +52,7 @@ const Bookings = () => {
 
             <div className="mt-10 w-full flex flex-col items-center ">
               <p className="text-hitam text-xl lg:text-2xl font-extrabold">
-                Kamu Belum Memiliki Pesanan Tiket
+                Anda belum memiliki pesanan
               </p>
               <img
                 className="w-40 mt-7"

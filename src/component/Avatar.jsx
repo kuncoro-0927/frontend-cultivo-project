@@ -2,14 +2,14 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../contexts/AuthContext"; // pastikan ini sesuai dengan path Anda
 
 const getInitials = (firstname, lastname) => {
-  const firstInitial = firstname ? firstname.charAt(0).toUpperCase() : "";
-  const lastInitial = lastname ? lastname.charAt(0).toUpperCase() : "";
+  const firstInitial = firstname ? firstname.charAt(0).toUpperCase() : "N";
+  const lastInitial = lastname ? lastname.charAt(0).toUpperCase() : "N";
   return `${firstInitial}${lastInitial}` || "NN";
 };
 
 const Avatar = () => {
   const { user, isLoading } = useAuth(); // Mengambil user dan isLoading dari AuthContext
-  const [initials, setInitials] = useState("");
+  const [initials, setInitials] = useState("K");
 
   // Gunakan useEffect untuk mengupdate inisial ketika user berubah
   useEffect(() => {

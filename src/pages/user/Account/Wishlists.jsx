@@ -37,23 +37,23 @@ const Wishlist = () => {
   return (
     <>
       <section className="flex">
-        <div className="mt-20 p-8 w-full text-hitam">
+        <div className="mt-20 mx-4 w-full  text-hitam">
           <Link
             className="flex text-base font-bold items-center gap-2"
             to="/account/profile"
           >
             <IoMdArrowBack className="text-lg" />
-            Kembali ke Profile
+            Kembali ke Profil
           </Link>
           <h1 className="font-extrabold text-3xl mt-5 mb-5">
-            Favorit Wisata Kamu
+            Favorit wisata Anda
           </h1>
 
           {/* Menampilkan pesan jika wishlist kosong */}
           {wishlist.length === 0 ? (
             <div className="mt-10 w-full flex flex-col items-center ">
               <p className="text-hitam text-xl lg:text-2xl font-extrabold">
-                Kamu Belum Memiliki Favorit Wisata
+                Anda belum memiliki favorit wisata
               </p>
               <img
                 className="w-40 mt-7"

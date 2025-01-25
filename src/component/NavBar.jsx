@@ -263,7 +263,7 @@ export default function NavBar() {
               ) : (
                 <>
                   {" "}
-                  <div className="flex mx-3 bg-hijau-muda bg-opacity-40 rounded-lg py-4 px-2 items-end gap-3">
+                  {/* <div className="flex mx-3 bg-hijau-muda bg-opacity-40 rounded-lg py-4 px-2 items-end gap-3">
                     <div>
                       <img
                         className="w-36"
@@ -292,6 +292,89 @@ export default function NavBar() {
                         </Link>
                       </div>
                     </div>
+                  </div> */}
+                  <div
+                    className="flex mt-3 mx-3 items-center gap-3 cursor-pointer"
+                    onClick={toggleDropdown}
+                  >
+                    <Avatar />
+                    <span>Hai, Kamu!</span>
+                  </div>
+                  <div className="ml-4 mr-2">
+                    <ul className="mt-5 space-y-6">
+                      {/* PROFILE */}
+                      <li className="">
+                        <NavLink
+                          to="/tes/profile"
+                          className={({ isActive }) =>
+                            isActive
+                              ? "font-bold text-sm md:text-sm flex items-center justify-between text-hitam "
+                              : "font-normal text-sm md:text-sm flex items-center justify-between text-hitam"
+                          }
+                        >
+                          <CiUser className="text-base mr-2" />
+                          <span className="flex-1">Profil</span>{" "}
+                          <MdKeyboardArrowRight className="lg:hidden text-2xl" />{" "}
+                        </NavLink>
+                      </li>
+
+                      {/* PESAN */}
+                      <li className="">
+                        <NavLink
+                          to="/tes/bookings"
+                          className={({ isActive }) =>
+                            isActive
+                              ? "font-bold text-sm md:text-sm flex items-center justify-between text-hitam "
+                              : "font-normal text-sm md:text-sm flex items-center justify-between text-hitam"
+                          }
+                        >
+                          <PiTicketThin className="text-base mr-2" />
+                          <span className="flex-1">Tiket</span>{" "}
+                          <MdKeyboardArrowRight className="lg:hidden text-2xl" />{" "}
+                        </NavLink>
+                      </li>
+                      {/* WISHLIST */}
+                      <li className="">
+                        <NavLink
+                          to="/tes/wishlist"
+                          className={({ isActive }) =>
+                            isActive
+                              ? "font-bold text-sm md:text-sm flex items-center justify-between text-hitam "
+                              : "font-normal text-sm md:text-sm flex items-center justify-between text-hitam"
+                          }
+                        >
+                          <CiHeart className="text-base mr-2" />
+                          <span className="flex-1">Favorit</span>{" "}
+                          <MdKeyboardArrowRight className="lg:hidden text-2xl ml-2" />{" "}
+                        </NavLink>
+                      </li>
+                      {/* REVIEW */}
+                      <li className="">
+                        <NavLink
+                          to="/tes/review"
+                          className={({ isActive }) =>
+                            isActive
+                              ? "font-bold text-sm md:text-sm flex items-center justify-between text-hitam "
+                              : "font-normal text-sm md:text-sm flex items-center justify-between text-hitam"
+                          }
+                        >
+                          <PiNotepadThin className="text-base mr-2" />
+                          <span className="flex-1">Ulasan</span>{" "}
+                          <MdKeyboardArrowRight className="lg:hidden text-2xl ml-2" />{" "}
+                        </NavLink>
+                      </li>
+                      {/* Logout */}
+                      <li className="">
+                        <button
+                          onClick={handleLogout}
+                          className="text-hitam font-normal text-sm md:text-sm lg:text-base lg:hover:text-white lg:hover:py-2 lg:hover:px-4 rounded-full lg:hover:bg-hitam duration-200 flex items-center justify-between w-full"
+                        >
+                          <CiLogout className="text-base mr-2" />
+                          <span className="flex-1 text-left">Keluar</span>
+                          <MdKeyboardArrowRight className="lg:hidden text-2xl" />
+                        </button>
+                      </li>
+                    </ul>
                   </div>
                 </>
               )}
@@ -435,7 +518,7 @@ export default function NavBar() {
             </>
           ) : (
             <>
-              <div className="bg-gray-200 rounded-full py-3 pl-5 pr-2">
+              {/* <div className="bg-gray-200 rounded-full py-3 pl-5 pr-2">
                 <Link
                   to="/login"
                   className="text-black mr-4 md:mr-2 md:text-sm  font-medium"
@@ -448,6 +531,83 @@ export default function NavBar() {
                 >
                   Daftar
                 </Link>
+              </div> */}
+              <div className="relative">
+                {/* Avatar and Greeting */}
+                <div
+                  className="flex  hover:bg-gray-300 hover:duration-200 hover:bg-opacity-30 hover:rounded-full  items-center gap-3 cursor-pointer"
+                  onClick={toggleDropdown}
+                >
+                  {/* <span>Hai, {user?.name}!</span> */}
+                  <Avatar />
+                </div>
+
+                {/* Dropdown Menu */}
+                {isOpen && (
+                  <div className="absolute right-0 mt-2 w-48 bg-white border rounded-lg shadow-lg z-50">
+                    <ul className="py-2 text-sm text-hitam">
+                      <li className="">
+                        <NavLink
+                          to="/account/profile"
+                          className={({ isActive }) =>
+                            isActive
+                              ? "w-full font-extrabold flex items-center px-6 py-4 text-left hover:bg-gray-100"
+                              : "w-full flex items-center px-6 py-4 text-left hover:bg-gray-100"
+                          }
+                        >
+                          <CiUser className="text-base mr-2" />
+                          Profil
+                        </NavLink>
+                      </li>
+                      <li>
+                        <NavLink
+                          to="/account/bookings"
+                          className="w-full flex items-center  px-6 py-4 text-left hover:bg-gray-100"
+                        >
+                          <PiTicketThin className="text-base mr-2" />
+                          Tiket
+                        </NavLink>
+                      </li>
+                      <li>
+                        <NavLink
+                          to="/account/wishlist"
+                          className="w-full flex items-center  px-6 py-4 text-left hover:bg-gray-100"
+                        >
+                          <CiHeart className="text-base mr-2" />
+                          Favorit
+                        </NavLink>
+                      </li>
+                      <li>
+                        <NavLink
+                          to="/account/review"
+                          className="w-full flex items-center  px-6 py-4 text-left hover:bg-gray-100"
+                        >
+                          <PiNotepadThin className="text-base mr-2" />
+                          Ulasan
+                        </NavLink>
+                      </li>
+                      <li>
+                        <hr className="my-1" />
+                      </li>
+                      <li>
+                        <button
+                          className="w-full flex items-center  px-6 py-4 text-left text-hitam hover:bg-gray-100"
+                          onClick={handleLogout}
+                        >
+                          <CiLogout className="text-base mr-2" />
+                          Keluar
+                        </button>
+                      </li>
+                    </ul>
+                  </div>
+                )}
+
+                {isOpen && (
+                  <div
+                    className="fixed inset-0 z-40"
+                    onClick={() => setIsOpen(false)}
+                  ></div>
+                )}
               </div>
             </>
           )}

@@ -99,6 +99,14 @@ export const rekomendasiList = [
   },
 ];
 
+export const tiketSolo = [
+  {
+    title: "Kampoeng Karet",
+    address:
+      "Dukuh Kenteng, Desa Putukrejo, Kecamatan Ngargoyoso, Kabupaten Karanganyar, Jawa Tengah.",
+    date: "29 Januari 2025",
+  },
+];
 export const daerahList = [
   {
     title: "Bandung",
@@ -128,22 +136,22 @@ export const daerahList = [
     image: "/images/yogyakarta.svg",
     price: "75.000",
   },
+  // {
+  //   title: "Surabaya",
+  //   description:
+  //     "Dengan keelokan hamparan kebun teh luas yang menjadi daya tarik tersendiri..",
+  //   image: "/images/surabaya.svg",
+  //   price: "75.000",
+  // },
+  // {
+  //   title: "Bogor",
+  //   description:
+  //     "Dengan keelokan hamparan kebun teh luas yang menjadi daya tarik tersendiri..",
+  //   image: "/images/bogor.svg",
+  //   price: "75.000",
+  // },
   {
-    title: "Surabaya",
-    description:
-      "Dengan keelokan hamparan kebun teh luas yang menjadi daya tarik tersendiri..",
-    image: "/images/surabaya.svg",
-    price: "75.000",
-  },
-  {
-    title: "Bogor",
-    description:
-      "Dengan keelokan hamparan kebun teh luas yang menjadi daya tarik tersendiri..",
-    image: "/images/bogor.svg",
-    price: "75.000",
-  },
-  {
-    title: "Jakarta",
+    title: "Jabodetabek",
     description:
       "Dengan keelokan hamparan kebun teh luas yang menjadi daya tarik tersendiri..",
     image: "/images/jakarta.svg",

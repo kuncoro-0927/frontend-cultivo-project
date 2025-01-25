@@ -28,6 +28,8 @@ import Reviews from "../pages/user/Account/Reviews";
 import TesEksplor from "../pages/TesEksplor";
 import TesSolo from "../pages/TesSolo";
 import TesDetailSolo from "../pages/TesDetailSolo";
+import SoloBookings from "../pages/user/Account/TesSoloBookings";
+import SoloReview from "../pages/user/Account/TesSoloReview";
 function UserRoutes() {
   const location = useLocation();
 
@@ -97,6 +99,11 @@ function UserRoutes() {
         <Route path="/tes/eksplor" element={<TesEksplor />} />
         <Route path="/tes/solo" element={<TesSolo />} />
         <Route path="/tes/detail/solo" element={<TesDetailSolo />} />
+        <Route path="/tes/profile" element={<Profile />} />
+        <Route path="/tes/bookings" element={<SoloBookings />} />
+        <Route path="/tes/wishlist" element={<Wishlist />} />
+        <Route path="/tes/tiket" element={<Testiket />} />
+        <Route path="/tes/review" element={<SoloReview />} />
         <Route path="/aktivitas" element={<Aktivitas />} />
         <Route path="/aktivitas/pertanian" element={<Pertanian />} />
         <Route path="/aktivitas/perkebunan" element={<Perkebunan />} />

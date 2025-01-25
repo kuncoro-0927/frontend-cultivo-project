@@ -216,7 +216,7 @@ const TesSolo = () => {
         )}
 
         {/* Skeleton untuk Tombol dan Icon */}
-        <div className="absolute mt-5 md:mt-10 bottom-5 md:relative md:max-w-xl w-full px-7">
+        <div className="absolute mt-5 md:mt-10 bottom-5 md:relative md:max-w-2xl w-full px-7">
           {isLoading ? (
             <>
               <Skeleton
