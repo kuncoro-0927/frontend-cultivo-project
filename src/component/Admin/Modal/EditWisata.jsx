@@ -26,7 +26,6 @@ const EditWisata = ({ wisataId }) => {
     name: "",
     city_id: "",
     activities_id: "",
-    facility: "",
     include: "",
     exclude: "",
     description: "",
@@ -66,7 +65,6 @@ const EditWisata = ({ wisataId }) => {
           const response = await instance.get(`/agrotourism/${wisataId}`);
           const wisataData = response.data.data[0]; // Ambil objek pertama jika response berupa array
 
-          console.log("Fetched Wisata Data:", wisataData); // Cek data yang diterima
           const validCityId = cities.some(
             (city) => city.id === wisataData.city_id
           )
@@ -77,7 +75,6 @@ const EditWisata = ({ wisataId }) => {
             name: wisataData.name || "",
             city_id: validCityId || "",
             activities_id: wisataData.activities_id || "",
-            facility: wisataData.facility || "",
             include: wisataData.include || "",
             exclude: wisataData.exclude || "",
             description: wisataData.description || "",
@@ -125,7 +122,6 @@ const EditWisata = ({ wisataId }) => {
     data.append("name", formData.name);
     data.append("city_id", formData.city_id);
     data.append("activities_id", formData.activities_id);
-    data.append("facility", formData.facility);
     data.append("include", formData.include);
     data.append("exclude", formData.exclude);
     data.append("description", formData.description);
@@ -247,22 +243,7 @@ const EditWisata = ({ wisataId }) => {
                   </RadioGroup>
                 </FormControl>
               </div>
-              <div className="mt-4">
-                <TextField
-                  label="Fasilitas"
-                  variant="outlined"
-                  type="text"
-                  multiline
-                  rows={3}
-                  fullWidth
-                  helperText="Pisahkan dengan koma. Contoh: Wifi, Air, listrik"
-                  name="facility"
-                  value={formData.facility}
-                  onChange={handleInputChange}
-                  size="small"
-                  required
-                />
-              </div>
+
               <div className="mt-4">
                 <TextField
                   label="Include"

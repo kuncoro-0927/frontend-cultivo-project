@@ -43,9 +43,9 @@ export default function SwiperCardReview() {
       modules={[FreeMode, Pagination]}
       className="max-w-full lg:max-w-full"
     >
-      {ServiceData.map((item) => (
+      {ServiceData.map((item, index) => (
         <SwiperSlide
-          key={item.title}
+          key={index}
           style={{
             display: "flex",
             justifyContent: "center",

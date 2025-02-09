@@ -44,7 +44,7 @@ const Dashboard = () => {
     const fetchTotalAmount = async () => {
       try {
         const response = await instance.get("/total/amount");
-        console.log(response.data);
+
         setTotalAmount(response.data.totalAmount);
       } catch (err) {
         setError("Gagal memuat total amount");

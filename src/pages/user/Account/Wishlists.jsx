@@ -1,18 +1,69 @@
 import { useEffect, useState } from "react";
 import { instance } from "../../../utils/axios";
-//import { useParams } from "react-router-dom";
+import { IconButton } from "@mui/material";
 import { Link } from "react-router-dom";
 import { IoMdArrowBack } from "react-icons/io";
 import CardRekomendasi from "../../../component/card/CardRekomendasi";
+import { useWishlist } from "../../../contexts/WishlistsContext";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import { showSnackbar } from "../../../component/CustomSnackbar";
+import { useAuth } from "../../../contexts/AuthContext";
+import ModalSignUp from "../../../component/ModalSignUp";
 const Wishlist = () => {
-  const [wishlist, setWishlist] = useState([]);
+  const isInWishlist = (agrotourismId) => {
+    return wishlist.some((item) => item.agrotourism_id === agrotourismId);
+  };
+  const [wishlistData, setWishlistData] = useState([]);
   const [loading, setLoading] = useState(true);
-  //const { wisataId } = useParams();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const { isLoggedIn } = useAuth();
+  const { wishlist, setWishlist } = useWishlist();
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+  const toggleWishlist = async (agrotourismId) => {
+    if (!isLoggedIn) {
+      setIsModalOpen(true);
+      return;
+    }
+
+    try {
+      if (isInWishlist(agrotourismId)) {
+        await instance.delete(`/delete/wishlist/${agrotourismId}`);
+        const updatedWishlist = wishlist.filter(
+          (item) => item.agrotourism_id !== agrotourismId
+        );
+        setWishlist(updatedWishlist);
+        localStorage.setItem("wishlist", JSON.stringify(updatedWishlist));
+        showSnackbar("Wisata dihapus dari favorit", "success");
+      } else {
+        // Tambahkan ke wishlist
+        await instance.post("/add/wishlist", { agrotourism_id: agrotourismId });
+        const updatedWishlist = [
+          ...wishlist,
+          { agrotourism_id: agrotourismId },
+        ];
+        setWishlist(updatedWishlist);
+        localStorage.setItem("wishlist", JSON.stringify(updatedWishlist));
+        showSnackbar("Wisata ditambahkan ke favorit", "success");
+      }
+    } catch (error) {
+      console.error("Error toggling wishlist:", error);
+    }
+  };
+
+  useEffect(() => {
+    const savedWishlist = JSON.parse(localStorage.getItem("wishlist"));
+    if (savedWishlist) {
+      setWishlist(savedWishlist);
+    }
+  }, [setWishlist]);
+
   const getWishlist = async () => {
     try {
       const response = await instance.get("/get/wishlist"); // API endpoint untuk mendapatkan tiket
-      console.log(response.data);
-      setWishlist(response.data); // Menyimpan tiket yang diterima
+
+      setWishlistData(response.data); // Menyimpan tiket yang diterima
     } catch (error) {
       console.error("Error fetching tickets:", error);
     } finally {
@@ -36,8 +87,9 @@ const Wishlist = () => {
 
   return (
     <>
-      <section className="flex">
-        <div className="mt-20 mx-4 w-full  text-hitam">
+      <ModalSignUp open={isModalOpen} handleClose={handleCloseModal} />
+      <section className="flex 2xl:mx-32">
+        <div className="mt-10 md:p-8 mx-4 w-full  text-hitam">
           <Link
             className="flex text-base font-bold items-center gap-2"
             to="/account/profile"
@@ -74,11 +126,49 @@ const Wishlist = () => {
           ) : (
             <div className="mt-7 md:mt-14 lg:mt-14 grid grid-cols-2 md:flex lg:justify-start lg:p-1 xl:mt-14">
               <div className="hidden md:hidden lg:flex lg:justify-start lg:gap-7 lg:w-full ">
-                {wishlist.map((wish) => (
-                  <Link
-                    key={wish.agrotourism_id}
-                    to={`/wisata/detail/${wish.agrotourism_id}`}
-                  >
+                {wishlistData.map((wish) => (
+                  <div key={wish.agrotourism_id} className="relative">
+                    <Link to={`/wisata/detail/${wish.agrotourism_id}`}>
+                      <CardRekomendasi
+                        title={wish.name}
+                        description={truncateDescriptionByChar(
+                          wish.description,
+                          70
+                        )}
+                        image={wish.url_image}
+                        price={Number(wish.price).toLocaleString("id-ID")}
+                        average_rating={wish.rating}
+                      />
+                    </Link>
+                    <div className="absolute top-2 right-2">
+                      <IconButton
+                        onClick={() => toggleWishlist(wish.agrotourism_id)}
+                        className="p-2"
+                      >
+                        {isInWishlist(wish.agrotourism_id) ? (
+                          <FavoriteIcon
+                            className="text-red-500"
+                            sx={{ width: 28, height: 28 }}
+                          />
+                        ) : (
+                          <FavoriteIcon
+                            className=""
+                            sx={{ width: 28, height: 28 }}
+                          />
+                        )}
+                      </IconButton>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          <div className="lg:hidden md:carousel md:carousel-center md:space-x-3 md:px-8 md:py-3  md:max-w-full ">
+            <div className="md:carousel-item justify-between grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 gap-3">
+              {wishlistData.map((wish) => (
+                <div key={wish.agrotourism_id} className="relative">
+                  <Link to={`/wisata/detail/${wish.agrotourism_id}`}>
                     <CardRekomendasi
                       title={wish.name}
                       description={truncateDescriptionByChar(
@@ -86,31 +176,29 @@ const Wishlist = () => {
                         70
                       )}
                       image={wish.url_image}
-                      price={wish.price}
+                      price={Number(wish.price).toLocaleString("id-ID")}
+                      average_rating={wish.rating}
                     />
                   </Link>
-                ))}
-              </div>
-            </div>
-          )}
-
-          <div className="carousel carousel-center max-w-full py-2 px-2 lg:hidden">
-            <div className="carousel-item gap-3">
-              {wishlist.map((wish) => (
-                <Link
-                  key={wish.agrotourism_id}
-                  to={`/wisata/detail/${wish.agrotourism_id}`}
-                >
-                  <CardRekomendasi
-                    title={wish.name}
-                    description={truncateDescriptionByChar(
-                      wish.description,
-                      70
-                    )}
-                    image={wish.url_image}
-                    price={wish.price}
-                  />
-                </Link>
+                  <div className="absolute top-2 right-2">
+                    <IconButton
+                      onClick={() => toggleWishlist(wish.agrotourism_id)}
+                      className="p-2"
+                    >
+                      {isInWishlist(wish.agrotourism_id) ? (
+                        <FavoriteIcon
+                          className="text-red-500"
+                          sx={{ width: 28, height: 28 }}
+                        />
+                      ) : (
+                        <FavoriteIcon
+                          className=""
+                          sx={{ width: 28, height: 28 }}
+                        />
+                      )}
+                    </IconButton>
+                  </div>
+                </div>
               ))}
             </div>
           </div>

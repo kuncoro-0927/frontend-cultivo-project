@@ -5,7 +5,7 @@ import { PiNotepadThin, PiTicketThin } from "react-icons/pi";
 const SidebarAccount = () => {
   const { logout } = useAuth();
   return (
-    <div className="mt-[72px] w-44 sm:w-56 md:w-60 lg:w-72 bg-opacity-50 h-screen border-r border-hitam">
+    <div className="mt-[72px] w-44 sm:w-56 md:w-60 lg:w-72 bg-opacity-50 min-h-screen border-r border-hitam">
       <div className="">
         <ul className=" py-5 space-y-6">
           {/* PROFILE */}

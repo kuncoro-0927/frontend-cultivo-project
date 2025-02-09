@@ -8,7 +8,6 @@ import DataTicket from "../pages/admin/Ticket/DataTicket";
 import Wisata from "../pages/admin/DataAtraksi/Wisata";
 import Daerah from "../pages/admin/DataAtraksi/Daerah";
 import Aktivitas from "../pages/admin/DataAtraksi/Aktivitas";
-//import Dashboard from "../pages/admin/DashboardAdmin";
 import DataUsers from "../pages/admin/Users/DataUsers";
 
 function AdminRoutes() {

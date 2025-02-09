@@ -10,6 +10,7 @@ import CardRekomendasi from "../component/card/CardRekomendasi";
 import { IconButton } from "@mui/material";
 import { showSnackbar } from "../component/CustomSnackbar";
 import { useWishlist } from "../contexts/WishlistsContext";
+
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { useAuth } from "../contexts/AuthContext";
 import ModalSignUp from "../component/ModalSignUp";
@@ -54,7 +55,7 @@ const DaerahWisata = () => {
         );
         setWishlist(updatedWishlist);
         localStorage.setItem("wishlist", JSON.stringify(updatedWishlist));
-        showSnackbar("Wishlist berhasil dihapus", "success");
+        showSnackbar("Wisata dihapus dari favorit", "success");
       } else {
         // Tambahkan ke wishlist
         await instance.post("/add/wishlist", { agrotourism_id: agrotourismId });
@@ -64,7 +65,7 @@ const DaerahWisata = () => {
         ];
         setWishlist(updatedWishlist);
         localStorage.setItem("wishlist", JSON.stringify(updatedWishlist));
-        showSnackbar("Wishlist berhasil ditambahkan", "success");
+        showSnackbar("Wisata ditambahkan ke favorit", "success");
       }
     } catch (error) {
       console.error("Error toggling wishlist:", error);
@@ -118,17 +119,23 @@ const DaerahWisata = () => {
     <>
       <ModalSignUp open={isModalOpen} handleClose={handleCloseModal} />
       <section
-        className="relative mt-[63px] sm:mt-[80px] lg:mt-[75px] px-7 lg:h-[200px] xl:h-[400px] h-[250px] bg-cover bg-bottom flex flex-col items-center justify-center lg:px-12"
-        style={{ backgroundImage: "url('/images/eksplorr.jpg')" }}
+        className="relative mt-[63px] sm:mt-[63px] lg:mt-[65px] px-7 lg:h-[200px] xl:h-[400px] h-[250px] bg-cover bg-bottom flex flex-col items-center justify-center lg:px-12"
+        style={{
+          backgroundImage: "url('/images/eksplorr.jpg')",
+        }}
       >
         {/* Overlay Gradasi */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-        {/* Text */}
-        <h1 className="relative text-white font-bold text-base text-left mr-auto mt-10 md:mt-0 md:mr-0 md:text-4xl md:text-center">
-          Pesan kegiatan Agrowisata di kota <br />{" "}
-          <span className="text-3xl">Indonesia</span>
+
+        {/* Skeleton untuk Teks */}
+
+        <h1 className="relative text-white font-bold text-xl text-left mr-auto mt-10 md:mt-0 md:mr-0 md:text-4xl md:text-center">
+          Pesan kegiatan Agrowisata <br />
+          <span className=" md:text-4xl text-xl">Indonesia</span>
         </h1>
-        <div className="absolute mt-5 bottom-5 w-full px-7">
+
+        {/* Skeleton untuk Tombol dan Icon */}
+        <div className="absolute mt-5 md:mt-10 bottom-5 md:relative md:max-w-2xl w-full px-7">
           <span className="ml-0 bg-hitam2 h-full w-16 flex items-center justify-center rounded-full sm:ml-0 absolute right-7 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none">
             <FiSearch className="md:text-lg text-white font-extrabold" />
           </span>
@@ -149,15 +156,15 @@ const DaerahWisata = () => {
         </div>
       </section>
 
-      <section className="mx-4 mt-10 sm:mt-20 md:mt-20 lg:mt-16 md:mx-6 lg:mx-10">
+      <section className="mx-4 mt-10 2xl:mx-32 sm:mt-20 md:mt-20 lg:mt-16 md:mx-6 lg:mx-10">
         <div className="">
           <h1 className="text-2xl sm:text-3xl font-extrabold md:text-4xl text-hitam">
             Jelajahi kota Agrowisata Anda
           </h1>
         </div>
 
-        <div className="mt-7 md:mx-0  gap-3 flex flex-wrap lg:gap-10 lg:p-1 lg:mt-10">
-          <div className="hidden md:hidden lg:flex lg:justify-between lg:w-full lg:gap-5">
+        <div className=" mt-7  md:mx-0 carousel carousel-center max-w-full lg:p-1 lg:mt-7">
+          <div className="carousel-item py-2 hidden md:hidden lg:flex lg:justify-between lg:gap-5">
             {Array.isArray(city) &&
               city.map((daerahItem) => (
                 <Link
@@ -173,7 +180,7 @@ const DaerahWisata = () => {
         <div className="carousel carousel-center max-w-full lg:hidden pt-2 ">
           <div className="carousel-item gap-3">
             {Array.isArray(city) &&
-              city.slice(0, 5).map((daerahItem) => (
+              city.map((daerahItem) => (
                 <Link
                   key={daerahItem.id}
                   to={`/wisata/daerah/${daerahItem.id}`}
@@ -212,7 +219,7 @@ const DaerahWisata = () => {
         </div> */}
       </section>
 
-      <section className="mt-10 sm:mt-14 mx-4 md:mt-10 md:mx-6 lg:mx-10 lg:mt-20 ">
+      <section className="mt-10 sm:mt-14 mx-4 md:mt-10 2xl:mx-32 md:mx-6 lg:mx-10 lg:mt-20 ">
         <h1 className="text-2xl sm:text-3xl font-extrabold md:text-4xl text-hitam">
           Mungkin Anda suka
         </h1>
@@ -234,7 +241,9 @@ const DaerahWisata = () => {
                           70
                         )}
                         image={agrotourismItem.url_image}
-                        price={agrotourismItem.price}
+                        price={Number(agrotourismItem.price).toLocaleString(
+                          "id-ID"
+                        )}
                         average_rating={
                           agrotourismItem.average_rating
                             ? parseFloat(
@@ -286,7 +295,9 @@ const DaerahWisata = () => {
                           70
                         )}
                         image={agrotourismItem.url_image}
-                        price={agrotourismItem.price}
+                        price={Number(agrotourismItem.price).toLocaleString(
+                          "id-ID"
+                        )}
                         average_rating={
                           agrotourismItem.average_rating
                             ? parseFloat(

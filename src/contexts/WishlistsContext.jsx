@@ -10,7 +10,6 @@ export const WishlistProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Ambil wishlist pengguna setelah login atau saat aplikasi dimuat
     const fetchWishlist = async () => {
       try {
         const response = await instance.get("/get/wishlist");
@@ -23,7 +22,7 @@ export const WishlistProvider = ({ children }) => {
     };
 
     fetchWishlist();
-  }, []); // Hanya sekali saat komponen pertama kali dimuat
+  }, []);
 
   return (
     <WishlistContext.Provider value={{ wishlist, setWishlist, loading }}>

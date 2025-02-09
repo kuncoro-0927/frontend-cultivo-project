@@ -193,18 +193,12 @@ export default function NavBar() {
                         <div className="absolute right-0 mt-2 w-48 bg-white border rounded-lg shadow-lg z-50">
                           <ul className="py-2 text-sm text-hitam">
                             <li>
-                              <button
-                                className="w-full px-4 py-2 text-left hover:bg-gray-100"
-                                onClick={() => console.log("Go to Profile")}
-                              >
+                              <button className="w-full px-4 py-2 text-left hover:bg-gray-100">
                                 Profile
                               </button>
                             </li>
                             <li>
-                              <button
-                                className="w-full px-4 py-2 text-left hover:bg-gray-100"
-                                onClick={() => console.log("Settings")}
-                              >
+                              <button className="w-full px-4 py-2 text-left hover:bg-gray-100">
                                 Settings
                               </button>
                             </li>
@@ -274,18 +268,12 @@ export default function NavBar() {
                   <div className="absolute right-0 mt-2 w-48 bg-white border rounded-lg shadow-lg z-50">
                     <ul className="py-2 text-sm text-hitam">
                       <li>
-                        <button
-                          className="w-full px-4 py-2 text-left hover:bg-gray-100"
-                          onClick={() => console.log("Go to Profile")}
-                        >
+                        <button className="w-full px-4 py-2 text-left hover:bg-gray-100">
                           Profile
                         </button>
                       </li>
                       <li>
-                        <button
-                          className="w-full px-4 py-2 text-left hover:bg-gray-100"
-                          onClick={() => console.log("Settings")}
-                        >
+                        <button className="w-full px-4 py-2 text-left hover:bg-gray-100">
                           Settings
                         </button>
                       </li>

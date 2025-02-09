@@ -12,43 +12,37 @@ import WisataDetail from "../pages/WisataDetail";
 import Review from "../component/Review";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
+import ForgotPassword from "../pages/ForgotPassword";
+import ResetPassword from "../pages/ResetPassword";
 import PrivateRoute from "./PrivateRoute";
-import Tes from "../pages/user/tes";
-import SoloPaymentPage from "../component/TesSoloPayment";
-import PaymentPage from "../component/TesPayment";
+import PaymentPage from "../component/Payment";
 import Bookings from "../pages/user/Account/Bookings";
 import EmailVerify from "../pages/VerifyEmail";
 import Sales from "../pages/admin/Sales";
-import Pertanian from "../pages/user/Activity/Pertanian";
+import Edukasi from "../pages/user/Activity/Edukasi";
 import Perkebunan from "../pages/user/Activity/Perkebunan";
-import Perikanan from "../pages/user/Activity/Perikanan";
+import Alam from "../pages/user/Activity/Alam";
 import Wishlist from "../pages/user/Account/Wishlists";
-import Testiket from "../pages/user/Account/testiket";
+
 import Reviews from "../pages/user/Account/Reviews";
-import TesEksplor from "../pages/TesEksplor";
-import TesSolo from "../pages/TesSolo";
-import TesDetailSolo from "../pages/TesDetailSolo";
-import SoloBookings from "../pages/user/Account/TesSoloBookings";
-import SoloReview from "../pages/user/Account/TesSoloReview";
+
 function UserRoutes() {
   const location = useLocation();
 
-  // Cek apakah halaman adalah login, register, atau email verify
   const isAuthPage =
     location.pathname === "/login" ||
     location.pathname === "/register" ||
-    location.pathname === "/email/verify";
+    location.pathname === "/email/verify" ||
+    location.pathname === "/forgot-password" ||
+    location.pathname === "/reset-password";
 
-  // Cek apakah halaman adalah bagian dari /account
   const isAccountPage = location.pathname.startsWith("/account");
 
-  // Tentukan kapan NavBar dan Footer ditampilkan
   const shouldShowNavBar = !isAuthPage;
   const shouldShowFooter = !isAuthPage && !isAccountPage;
 
   return (
     <>
-      {/* Render NavBar jika bukan di halaman login/register */}
       {shouldShowNavBar && <NavBar />}
 
       <Routes>
@@ -77,14 +71,7 @@ function UserRoutes() {
             </PrivateRoute>
           }
         />
-        <Route
-          path="/account/tiket"
-          element={
-            <PrivateRoute>
-              <Testiket />
-            </PrivateRoute>
-          }
-        />
+
         <Route
           path="/account/review"
           element={
@@ -95,19 +82,10 @@ function UserRoutes() {
         />
         <Route path="/tentang" element={<About />} />
         <Route path="/sales" element={<Sales />} />
-        <Route path="/tes" element={<Tes />} />
-        <Route path="/tes/eksplor" element={<TesEksplor />} />
-        <Route path="/tes/solo" element={<TesSolo />} />
-        <Route path="/tes/detail/solo" element={<TesDetailSolo />} />
-        <Route path="/tes/profile" element={<Profile />} />
-        <Route path="/tes/bookings" element={<SoloBookings />} />
-        <Route path="/tes/wishlist" element={<Wishlist />} />
-        <Route path="/tes/tiket" element={<Testiket />} />
-        <Route path="/tes/review" element={<SoloReview />} />
         <Route path="/aktivitas" element={<Aktivitas />} />
-        <Route path="/aktivitas/pertanian" element={<Pertanian />} />
+        <Route path="/aktivitas/edukasi" element={<Edukasi />} />
         <Route path="/aktivitas/perkebunan" element={<Perkebunan />} />
-        <Route path="/aktivitas/perikanan" element={<Perikanan />} />
+        <Route path="/aktivitas/alam" element={<Alam />} />
         <Route path="/kontak" element={<Kontak />} />
         <Route path="/seluruhwisata" element={<DaerahWisata />} />
         <Route path="/wisata/daerah/:daerahId" element={<DaerahDetail />} />
@@ -115,16 +93,15 @@ function UserRoutes() {
         <Route path="/review" element={<Review />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/email/verify" element={<EmailVerify />} />
-
         <Route
           path="/payment/:namawisata/:hashedToken"
           element={<PaymentPage />}
         />
-        <Route path="/tes/payment/solo" element={<SoloPaymentPage />} />
       </Routes>
 
-      {/* Render Footer jika bukan halaman login/register dan bukan bagian dari /account */}
       {shouldShowFooter && <Footer />}
     </>
   );

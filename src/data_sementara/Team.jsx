@@ -2,7 +2,7 @@ export const TeamData = [
   {
     title: "Kansha Hasri Ainun",
     role: "Project Manager",
-    image: "/images/hasri.jpg",
+    image: "/images/hasri4.jpg",
   },
   {
     title: "Qaulan Tsaqila",

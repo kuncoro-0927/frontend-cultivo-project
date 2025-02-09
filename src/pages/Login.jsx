@@ -1,12 +1,13 @@
 /* eslint-disable no-unused-vars */
 import { useState } from "react";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import { Link } from "react-router-dom";
 import { instance } from "../../src/utils/axios";
 import { showSnackbar } from "../component/CustomSnackbar";
-import { useNavigate } from "react-router-dom"; // Import useNavigate
-
+import { TextField } from "@mui/material";
+import { IconButton, Tooltip, InputAdornment } from "@mui/material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 import CircularProgress from "@mui/material/CircularProgress";
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -14,13 +15,21 @@ const Login = () => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const { login } = useAuth();
+  const [showPassword, setShowPassword] = useState(false);
+  const [errorName, setErrorName] = useState("");
+  const [errorEmail, setErrorEmail] = useState("");
+  const [errorPassword, setErrorPassword] = useState("");
   const navigate = useNavigate();
   const { setIsLoggedIn, setUser } = useAuth();
 
   const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setError(null);
+
+    // Reset error messages
+    setErrorName("");
+    setErrorEmail("");
+    setErrorPassword("");
 
     try {
       const response = await instance.post("/login", { email, password });
@@ -29,7 +38,7 @@ const Login = () => {
         const { isverified, otpToken, role, message } = response.data;
 
         if (isverified) {
-          const checkStatus = await instance.get("verify-token", {
+          const checkStatus = await instance.get("/verify-token", {
             withCredentials: true,
           });
 
@@ -46,30 +55,42 @@ const Login = () => {
               navigate("/");
             }
           }
-        } else {
-          showSnackbar(message, "info");
+        }
+      }
+    } catch (err) {
+      if (err.response) {
+        const { field, message, isverified, otpToken } = err.response.data;
+
+        if (!isverified && otpToken) {
+          // Jika user belum verifikasi, arahkan ke halaman verifikasi
+          showSnackbar(message || "Akun belum diverifikasi!", "info");
           navigate("/email/verify", {
             state: { otpToken, email },
           });
+        } else {
+          // Tangani error umum
+          if (field === "name") setErrorName(message);
+          else if (field === "email") setErrorEmail(message);
+          else if (field === "password") setErrorPassword(message);
+          else showSnackbar(message || "Terjadi kesalahan saat login", "error");
         }
+      } else {
+        showSnackbar("Gagal menghubungi server. Coba lagi nanti!", "error");
       }
-    } catch (error) {
-      showSnackbar("Login gagal, silahkan coba lagi", "error");
-      // setError("Login failed, please try again.");
-      console.error("Login error:", error);
     } finally {
       setLoading(false);
     }
   };
 
-  // Handle Login dengan Google
   const handleGoogleLogin = () => {
-    window.location.href = "http://localhost:5000/cultivo/api/auth/google";
+    window.location.href = `${
+      import.meta.env.VITE_BACKEND_URL
+    }/cultivo/api/auth/google`;
   };
 
   return (
     <>
-      <section className=" lg:mx-10 lg:my-10 rounded-2xl lg:p-0">
+      <section className=" lg:mx-10 2xl:mx-32   lg:my-10 rounded-2xl lg:p-0">
         <Link to="/" className="lg:ml-0">
           <img
             src="/images/logo2.svg"
@@ -77,9 +98,9 @@ const Login = () => {
             alt="Logo"
           />
         </Link>
-        <div className="flex justify-center mt-16 md:mt-0 lg:ml-32 md:justify-start gap-20 items-center">
+        <div className="flex justify-center mt-16 2xl:mt-0 2xl:min-h-screen 2xl:items-center  md:mt-0 lg:justify-center md:justify-start gap-20 items-center">
           <div className="">
-            <h1 className="text-hitam text-center text-xl lg:text-2xl font-semibold">
+            <h1 className="text-hitam text-center text-xl lg:text-2xl font-extrabold">
               {" "}
               Masuk dengan akun anda
             </h1>
@@ -88,8 +109,8 @@ const Login = () => {
             </p>
 
             <div className="grid-1 grid mt-10 w-[260px] sm:w-[500px] md:w-[300px] lg:w-[350px]">
-              <form onSubmit={handleLogin} className="flex flex-col">
-                <input
+              <form onSubmit={handleLogin} className="flex flex-col space-y-5">
+                {/* <input
                   type="email"
                   placeholder="Masukkan email anda"
                   value={email}
@@ -105,12 +126,74 @@ const Login = () => {
                   onChange={(e) => setPassword(e.target.value)}
                   className="py-2 px-4 text-sm mt-7 border  rounded-md"
                   required
+                /> */}
+                <TextField
+                  fullWidth
+                  type="email"
+                  label="Email"
+                  variant="outlined"
+                  name="email"
+                  value={email}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                    if (e.target.value.trim().length >= 3) {
+                      setErrorEmail(""); // Hapus error jika sudah valid
+                    }
+                  }}
+                  size="small"
+                  error={Boolean(errorEmail)} // Jika ada error, beri warna merah
+                  helperText={errorEmail} // Tampilkan pesan error di bawah input
+                  sx={{
+                    "& .MuiOutlinedInput-root": { color: "black !important" },
+                    "& .MuiOutlinedInput-notchedOutline": {
+                      borderColor: "black !important",
+                    },
+                    "& .MuiInputLabel-root": { color: "black !important" },
+                  }}
+                />
+                <TextField
+                  fullWidth
+                  type={showPassword ? "text" : "password"} // Ubah tipe input
+                  label="Password"
+                  variant="outlined"
+                  name="password"
+                  value={password}
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                    if (e.target.value.trim().length >= 3) {
+                      setErrorPassword(""); // Hapus error jika sudah valid
+                    }
+                  }}
+                  size="small"
+                  error={Boolean(errorPassword)}
+                  helperText={errorPassword}
+                  sx={{
+                    "& .MuiOutlinedInput-root": { color: "black !important" },
+                    "& .MuiOutlinedInput-notchedOutline": {
+                      borderColor: "black !important",
+                    },
+                    "& .MuiInputLabel-root": { color: "black !important" },
+                  }}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton
+                          onClick={() => setShowPassword(!showPassword)}
+                          edge="end"
+                        >
+                          {showPassword ? <VisibilityOff /> : <Visibility />}
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
                 />
                 <div className="flex items-center justify-between">
-                  <div className="mt-3 text-sm">Lupa kata sandi?</div>
-                  <div className="text-red-500 text-sm mt-2">
-                    {error && <div>{error}</div>}
-                  </div>
+                  <Link
+                    to="/forgot-password"
+                    className="hover:text-blue-500 text-sm"
+                  >
+                    Lupa kata sandi?
+                  </Link>
                 </div>
                 <button
                   type="submit"
@@ -147,7 +230,7 @@ const Login = () => {
             </div>
           </div>
 
-          <div className="relative md:block lg:ml-auto hidden max-w-xl lg:block shadow-lg overflow-hidden rounded-[30px]">
+          <div className="relative md:block hidden max-w-xl lg:block shadow-lg overflow-hidden rounded-[30px]">
             {/* Gambar dengan efek sudut melengkung */}
             <div className="relative">
               <img

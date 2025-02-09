@@ -3,12 +3,12 @@ const About = () => {
   return (
     <>
       <div
-        className="mx-7 md:mx-6 px-7 lg:h-[600px] xl:h-[300px] h-96 bg-cover bg-center lg:mx-10 rounded-2xl md:rounded-3xl flex items-center justify-center lg:px-12 mt-[66px] sm:mt-[73px]  lg:mt-[72px]"
+        className=" px-7 lg:h-[600px] xl:h-[300px] h-96 bg-cover bg-center  flex items-center justify-center lg:px-12 mt-[66px] sm:mt-[73px]  lg:mt-[72px]"
         style={{ backgroundImage: "url('images/header-about.jpg')" }}
       ></div>
 
       {/* Konten */}
-      <div className="flex flex-col-reverse md:mt-28 md:max-w-2xl lg:max-w-3xl mt-10 lg:mt-32 mx-auto lg:flex md:flex-row items-center md:items-start gap-10">
+      <div className="flex flex-col-reverse md:mt-28 md:max-w-2xl lg:max-w-3xl lg:mt-32 mx-auto lg:flex md:flex-row items-center md:items-start gap-10">
         {/* Gambar */}
         <img
           className="w-80 h-96 rounded-xl"
@@ -17,7 +17,7 @@ const About = () => {
         />
 
         {/* Teks */}
-        <div className="text-left mx-10 md:mx-0 mt-14 lg:mt-0 lg:mx-0 text-base flex flex-col gap-5">
+        <div className="text-left mx-7 md:mx-0 mt-14 lg:mt-0 lg:mx-0 text-base flex flex-col gap-5">
           <div className="font-extrabold text-2xl text-gray lg:text-4xl mr-20 text-left md:-mt-28 lg:-mt-16">
             Apa itu Cultivo?
           </div>
@@ -87,8 +87,8 @@ const About = () => {
               />
               <h1 className="font-bold text-lg">Pemesanan tiket online</h1>
               <span className="text-center">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi,
-                iure.
+                Memudahkan Anda untuk memilih dan membeli tiket dengan cepat dan
+                aman, kapan saja dan di mana saja
               </span>
             </div>
             <div className="max-w-xs flex-col flex gap-3 items-center">
@@ -99,8 +99,8 @@ const About = () => {
               />
               <h1 className="font-bold text-lg">Beragam agrowisata menarik</h1>
               <span className="text-center">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi,
-                iure.
+                Nikmati beragam agrowisata menarik yang menawarkan pengalaman
+                yang berbeda, mulai dari perkebunan hingga peternakan.
               </span>
             </div>
             <div className="max-w-xs flex-col flex gap-3 items-center">
@@ -111,8 +111,9 @@ const About = () => {
               />
               <h1 className="font-bold text-lg">Harga terjangkau</h1>
               <span className="text-center">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi,
-                iure.
+                Dapatkan tiket dengan harga terjangkau, memungkinkan Anda untuk
+                menikmati berbagai pengalaman seru tanpa harus khawatir soal
+                biaya.
               </span>
             </div>
             <div className="max-w-xs flex-col flex gap-3 items-center">
@@ -123,8 +124,8 @@ const About = () => {
               />
               <h1 className="font-bold text-lg">Kolaborasi wisata lokal</h1>
               <span className="text-center">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi,
-                iure.
+                Memberikan kesempatan untuk menikmati kekayaan budaya dan alam
+                Indonesia dengan cara yang lebih beragam dan menarik.
               </span>
             </div>
           </div>

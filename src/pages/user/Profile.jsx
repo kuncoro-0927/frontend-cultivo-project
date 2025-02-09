@@ -90,7 +90,7 @@ const Profile = () => {
   };
 
   return (
-    <section className="flex ">
+    <section className="flex 2xl:mx-32 ">
       <div className="hidden sm:block md:block lg:block">
         <SidebarAccount />
       </div>
@@ -241,8 +241,6 @@ const Profile = () => {
             >
               Simpan
             </button>
-
-            {message && <p className="ml-4 text-green-500">{showSnackbar}</p>}
           </div>
         </form>
       </div>

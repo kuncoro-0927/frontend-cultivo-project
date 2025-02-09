@@ -216,13 +216,15 @@ const Wisata = () => {
                   <div className=" border-blue-gray-100 w-[100px] max-w-xl bg-blue-gray-50/50 p-4">
                     Tiket
                   </div>
-                  <div className=" w-[270px] max-w-xl bg-blue-gray-50/50 p-4">
-                    Fasilitas
-                  </div>
                   <div className=" border-blue-gray-100 w-[270px] max-w-xl bg-blue-gray-50/50 p-4">
                     Alamat
                   </div>
-
+                  <div className=" border-blue-gray-100 w-[130px] max-w-xl bg-blue-gray-50/50 p-4">
+                    Include
+                  </div>
+                  <div className=" border-blue-gray-100 w-[130px] max-w-xl bg-blue-gray-50/50 p-4">
+                    Exclude
+                  </div>
                   <div className=" border-blue-gray-100 w-[100px] mr-0 bg-blue-gray-50/50 p-4">
                     Aksi
                   </div>
@@ -255,10 +257,13 @@ const Wisata = () => {
                         {agro.price}
                       </div>
                       <div className="p-4  w-[270px] max-w-xl ">
-                        {truncateDescriptionByChar(agro.facility, 30)}
-                      </div>
-                      <div className="p-4  w-[270px] max-w-xl ">
                         {truncateDescriptionByChar(agro.address, 30)}
+                      </div>
+                      <div className="p-4  w-[130px] max-w-xl ">
+                        {truncateDescriptionByChar(agro.include, 10)}
+                      </div>
+                      <div className="p-4  w-[130px] max-w-xl ">
+                        {truncateDescriptionByChar(agro.exclude, 10)}
                       </div>
                       <div className="p-4 text-base flex items-center gap-2 ">
                         <MdRemoveRedEye />

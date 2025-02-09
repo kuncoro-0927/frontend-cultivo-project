@@ -2,11 +2,12 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { Box } from "@mui/system";
-import axios from "axios";
 import { showSnackbar } from "../component/CustomSnackbar";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { instance } from "../utils/axios";
+import CircularProgress from "@mui/material/CircularProgress";
+import { Tooltip } from "@mui/material";
 function OTP({ separator, length, value, onChange }) {
   const inputRefs = React.useRef(new Array(length).fill(null));
 
@@ -75,6 +76,22 @@ function OTP({ separator, length, value, onChange }) {
     }
   };
 
+  const handleKeyDown = (event, currentIndex) => {
+    if (event.key === "Backspace") {
+      let otpArray = value.split("");
+
+      if (otpArray[currentIndex]) {
+        // Hapus karakter pada posisi saat ini
+        otpArray[currentIndex] = "";
+      } else if (currentIndex > 0) {
+        // Jika kosong, pindah ke input sebelumnya dan hapus
+        otpArray[currentIndex - 1] = "";
+        focusInput(currentIndex - 1);
+      }
+
+      onChange(otpArray.join(""));
+    }
+  };
   return (
     <Box sx={{ display: "flex", gap: 0, alignItems: "center" }}>
       {new Array(length).fill(null).map((_, index) => (
@@ -86,6 +103,7 @@ function OTP({ separator, length, value, onChange }) {
             value={value[index] ?? ""}
             onChange={(event) => handleChange(event, index)}
             onPaste={(event) => handlePaste(event, index)}
+            onKeyDown={(e) => handleKeyDown(e, index)}
             type="text"
             maxLength={1}
             style={{
@@ -120,6 +138,7 @@ const EmailVerify = () => {
   const { otpToken } = location.state || {};
   const [email, setEmail] = useState("");
   const [error, setError] = useState(null);
+  const [loadingVerify, setLoadingVerify] = useState(false);
   const navigate = useNavigate();
   useEffect(() => {
     if (location.state && location.state.email) {
@@ -142,6 +161,7 @@ const EmailVerify = () => {
   const handleVerify = async (e) => {
     e.preventDefault();
     setError(null);
+    setLoadingVerify(true);
     try {
       const response = await instance.post("/verify-otp", {
         otp,
@@ -154,6 +174,8 @@ const EmailVerify = () => {
     } catch (error) {
       console.error(error);
       setError(error.response?.data?.message || "Verifikasi gagal");
+    } finally {
+      setLoadingVerify(false);
     }
   };
 
@@ -186,7 +208,7 @@ const EmailVerify = () => {
   };
 
   return (
-    <section className=" lg:mx-10  lg:my-10 rounded-2xl lg:p-0">
+    <section className=" lg:mx-10 2xl:mx-32 lg:my-10 rounded-2xl lg:p-0">
       <Link to="/" className="lg:ml-0">
         <img
           src="/images/logo2.svg"
@@ -195,7 +217,7 @@ const EmailVerify = () => {
         />
       </Link>
 
-      <div className="flex p-10 justify-center md:p-0 md:mt-0 mt-7 lg:ml-24 md:justify-start gap-20 items-center">
+      <div className="flex p-10 justify-center md:p-0 md:mt-0 mt-7 2xl:mt-0 2xl:min-h-screen 2xl:justify-center  gap-20 items-center">
         <div className="">
           <h1 className="text-hitam text-center text-2xl lg:text-2xl font-semibold">
             {" "}
@@ -229,8 +251,13 @@ const EmailVerify = () => {
               <button
                 className="p-2 w-full bg-hitam mt-10 hover:bg-hover text-white rounded-md"
                 onClick={handleVerify}
+                disabled={loadingVerify}
               >
-                Verifikasi
+                {loadingVerify ? (
+                  <CircularProgress size={17} color="inherit" /> // Show spinner when loading
+                ) : (
+                  "Verifikasi"
+                )}
               </button>
               {error && (
                 <div className="text-red-500 mt-3 text-sm">{error}</div>
@@ -238,13 +265,23 @@ const EmailVerify = () => {
             </div>
             <div className="md:mt-3 mt-10 text-sm flex justify-center">
               Belum terima kode OTP?
-              <button
-                onClick={handleResendOtp}
-                disabled={!otpExpired}
-                className="text-blue-400 ml-1"
+              <Tooltip
+                title={!otpExpired ? "Kirim ulang saat kode kadaluwarsa" : ""}
               >
-                Kirim ulang
-              </button>
+                <span>
+                  <button
+                    onClick={handleResendOtp}
+                    disabled={!otpExpired}
+                    className={`ml-1 hover:underline ${
+                      otpExpired
+                        ? "text-blue-400"
+                        : "text-gray-400 cursor-not-allowed"
+                    }`}
+                  >
+                    Kirim ulang
+                  </button>
+                </span>
+              </Tooltip>
             </div>
             <div className="mt-2 text-sm flex justify-center">
               <p>
@@ -256,13 +293,13 @@ const EmailVerify = () => {
           </div>
         </div>
 
-        <div className="relative md:block lg:ml-auto hidden max-w-xl lg:block shadow-lg overflow-hidden rounded-[30px]">
+        <div className="relative md:block  hidden max-w-xl lg:block shadow-lg overflow-hidden rounded-[30px]">
           {/* Gambar dengan efek sudut melengkung */}
           <div className="relative">
             <img
               src="/images/bg-home-3.jpg"
               alt="Furniture"
-              className="lg:h-screen  object-cover  " // Gambar dengan efek rounded khusus
+              className="lg:h-[600px]  object-cover  " // Gambar dengan efek rounded khusus
             />
 
             {/* Overlay Teks */}

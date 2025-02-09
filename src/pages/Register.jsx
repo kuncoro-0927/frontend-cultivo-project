@@ -1,13 +1,16 @@
 /* eslint-disable no-unused-vars */
-
+import { TextField } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { Box, styled } from "@mui/system";
 import CircularProgress from "@mui/material/CircularProgress";
 import { instance } from "../utils/axios";
+
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { showSnackbar } from "../component/CustomSnackbar";
+import { IconButton, Tooltip, InputAdornment } from "@mui/material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 function OTP({ separator, length, value, onChange }) {
   const inputRefs = React.useRef(new Array(length).fill(null));
 
@@ -76,6 +79,23 @@ function OTP({ separator, length, value, onChange }) {
     }
   };
 
+  const handleKeyDown = (event, currentIndex) => {
+    if (event.key === "Backspace") {
+      let otpArray = value.split("");
+
+      if (otpArray[currentIndex]) {
+        // Hapus karakter pada posisi saat ini
+        otpArray[currentIndex] = "";
+      } else if (currentIndex > 0) {
+        // Jika kosong, pindah ke input sebelumnya dan hapus
+        otpArray[currentIndex - 1] = "";
+        focusInput(currentIndex - 1);
+      }
+
+      onChange(otpArray.join(""));
+    }
+  };
+
   return (
     <Box sx={{ display: "flex", gap: 0, alignItems: "center" }}>
       {new Array(length).fill(null).map((_, index) => (
@@ -87,6 +107,7 @@ function OTP({ separator, length, value, onChange }) {
             value={value[index] ?? ""}
             onChange={(event) => handleChange(event, index)}
             onPaste={(event) => handlePaste(event, index)}
+            onKeyDown={(e) => handleKeyDown(e, index)}
             type="text"
             maxLength={1}
             style={{
@@ -123,9 +144,10 @@ const Register = () => {
   const [step, setStep] = useState(1);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
-  const [errorName, setErrorName] = useState(""); // State untuk error name
-  const [errorEmail, setErrorEmail] = useState(""); // State untuk error email
-  const [errorPassword, setErrorPassword] = useState(""); // State untuk error password
+  const [showPassword, setShowPassword] = useState(false);
+  const [errorName, setErrorName] = useState("");
+  const [errorEmail, setErrorEmail] = useState("");
+  const [errorPassword, setErrorPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [loadingVerify, setLoadingVerify] = useState(false);
   useEffect(() => {
@@ -141,6 +163,10 @@ const Register = () => {
     return () => clearInterval(interval);
   }, [timer, otpExpired]);
   const handleRegister = async () => {
+    setErrorName("");
+    setErrorEmail("");
+    setErrorPassword("");
+
     setLoading(true);
     try {
       const response = await instance.post("/register", {
@@ -153,28 +179,19 @@ const Register = () => {
       setStep(2);
       setTimer(300);
       setOtpExpired(false);
-    } catch (error) {
-      if (error.response && error.response.data) {
-        const errorMessage = error.response.data.message;
+    } catch (err) {
+      if (err.response && err.response.data) {
+        const { field, message } = err.response.data;
 
-        if (errorMessage === "Email sudah terdaftar") {
-          setErrorEmail("Email ini sudah terdaftar");
-        } else {
-          setErrorEmail(""); // Jika tidak ada error untuk email, reset
-        }
-
-        if (errorMessage === "Username sudah dipakai") {
-          setErrorName("Username ini sudah dipakai");
-        } else {
-          setErrorName(""); // Jika tidak ada error untuk username, reset
-        }
-
-        setError(errorMessage);
+        if (field === "name") setErrorName(message);
+        else if (field === "email") setErrorEmail(message);
+        else if (field === "password") setErrorPassword(message);
       }
     } finally {
-      setLoading(false); // Men-set loadingVerify kembali ke false setelah request selesai
+      setLoading(false);
     }
   };
+
   const handleVerify = async (e) => {
     e.preventDefault();
     setLoadingVerify(true);
@@ -193,20 +210,19 @@ const Register = () => {
 
       setError(error.response?.data?.message || "Verifikasi gagal");
     } finally {
-      setLoadingVerify(false); // Men-set loadingVerify kembali ke false setelah request selesai
+      setLoadingVerify(false);
     }
   };
 
   const handleResendOtp = async () => {
     try {
-      setError(null); // Reset error
+      setError(null);
       const response = await instance.post("/resend-otp", { email });
 
-      // alert("Kode OTP berhasil dikirim ulang ke email Anda");
       showSnackbar("Kode OTP dikirim ke Email Anda.", "success");
       setOtpToken(response.data.token);
-      setTimer(300); // Reset timer
-      setOtpExpired(false); // Set OTP sebagai aktif kembali
+      setTimer(300);
+      setOtpExpired(false);
     } catch (error) {
       console.error(error);
       setError(error.response?.data?.message || "Gagal mengirim ulang OTP");
@@ -220,17 +236,25 @@ const Register = () => {
   };
 
   const maskEmail = (email) => {
-    const [localPart, domainPart] = email.split("@");
-    const maskedLocalPart = localPart[0] + "*".repeat(localPart.length - 1);
-    return `${maskedLocalPart}@${domainPart}`;
+    const [local, domain] = email.split("@");
+    if (local.length <= 2) {
+      return `${local[0]}***@${domain}`;
+    }
+    return `${local[0]}${"*".repeat(local.length - 2)}${local.slice(
+      -1
+    )}@${domain}`;
   };
+
   const handleGoogleLogin = () => {
-    window.location.href = "http://localhost:5000/cultivo/api/auth/google";
+    window.location.href = `${
+      import.meta.env.VITE_BACKEND_URL
+    }/cultivo/api/auth/google`;
   };
+
   return (
     <div className="">
       {step === 1 ? (
-        <section className=" lg:mx-10 lg:my-10 rounded-2xl lg:p-0">
+        <section className=" lg:mx-10 2xl:mx-32 lg:my-10 rounded-2xl lg:p-0">
           <Link to="/" className="lg:ml-0">
             <img
               src="/images/logo2.svg"
@@ -238,9 +262,9 @@ const Register = () => {
               alt="Logo"
             />
           </Link>
-          <div className="flex justify-center mt-14  lg:ml-24 md:justify-start gap-20 items-center">
+          <div className="flex justify-center mt-14 2xl:mt-0 2xl:min-h-screen 2xl:items-center lg:justify-center  md:justify-start gap-20 items-center">
             <div className="">
-              <h1 className="text-hitam text-center text-xl lg:text-2xl font-semibold">
+              <h1 className="text-hitam text-center text-xl lg:text-2xl font-extrabold">
                 {" "}
                 Buat akun anda
               </h1>
@@ -261,43 +285,91 @@ const Register = () => {
                 <div className="mx-4 text-xs">Atau</div>
                 <div className="flex-grow border-b border-gray-300"></div>
               </div>
-              <div className="grid-1 grid mt-10 w-[260px] sm:w-[500px] md:w-[300px] lg:w-[350px]">
-                <input
-                  type="text"
-                  placeholder="Masukkan nama anda"
+              <div className="grid-1 space-y-5 grid mt-10 w-[260px] sm:w-[500px] md:w-[300px] lg:w-[350px]">
+                <TextField
+                  fullWidth
+                  label="Nama"
+                  variant="outlined"
+                  name="firstName"
                   value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  className="py-2 text-sm px-4 border rounded-md"
-                  required
+                  onChange={(e) => {
+                    setName(e.target.value);
+                    if (e.target.value.trim().length >= 3) {
+                      setErrorName("");
+                    }
+                  }}
+                  size="small"
+                  error={Boolean(errorName)}
+                  helperText={errorName}
+                  sx={{
+                    "& .MuiOutlinedInput-root": { color: "black !important" },
+                    "& .MuiOutlinedInput-notchedOutline": {
+                      borderColor: "black !important",
+                    },
+                    "& .MuiInputLabel-root": { color: "black !important" },
+                  }}
                 />
-                {errorName && (
-                  <p className="mt-2 text-xs text-red-500">{errorName}</p>
-                )}{" "}
-                <input
+
+                <TextField
+                  fullWidth
                   type="email"
-                  placeholder="Masukkan email anda"
+                  label="Email"
+                  variant="outlined"
+                  name="email"
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="py-2 text-sm px-4 mt-7 border rounded-md"
-                  required
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                    if (e.target.value.trim().length >= 3) {
+                      setErrorEmail(""); // Hapus error jika sudah valid
+                    }
+                  }}
+                  size="small"
+                  error={Boolean(errorEmail)} // Jika ada error, beri warna merah
+                  helperText={errorEmail} // Tampilkan pesan error di bawah input
+                  sx={{
+                    "& .MuiOutlinedInput-root": { color: "black !important" },
+                    "& .MuiOutlinedInput-notchedOutline": {
+                      borderColor: "black !important",
+                    },
+                    "& .MuiInputLabel-root": { color: "black !important" },
+                  }}
                 />
-                {errorEmail && (
-                  <p className="mt-2 text-xs text-red-500">{errorEmail}</p>
-                )}{" "}
-                <input
-                  type="password"
-                  placeholder="Masukkan kata sandi anda"
+                <TextField
+                  fullWidth
+                  type={showPassword ? "text" : "password"} // Ubah tipe input
+                  label="Password"
+                  variant="outlined"
+                  name="password"
                   value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="py-2 text-sm px-4 mt-7 border rounded-md"
-                  required
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                    if (e.target.value.trim().length >= 3) {
+                      setErrorPassword(""); // Hapus error jika sudah valid
+                    }
+                  }}
+                  size="small"
+                  error={Boolean(errorPassword)}
+                  helperText={errorPassword}
+                  sx={{
+                    "& .MuiOutlinedInput-root": { color: "black !important" },
+                    "& .MuiOutlinedInput-notchedOutline": {
+                      borderColor: "black !important",
+                    },
+                    "& .MuiInputLabel-root": { color: "black !important" },
+                  }}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton
+                          onClick={() => setShowPassword(!showPassword)}
+                          edge="end"
+                        >
+                          {showPassword ? <VisibilityOff /> : <Visibility />}
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
                 />
-                {errorPassword && (
-                  <p className="mt-2 text-red-500">{errorPassword}</p>
-                )}{" "}
-                {error && !errorName && !errorEmail && !errorPassword && (
-                  <p className="mt-2 text-red-500">{error}</p>
-                )}
                 <button
                   onClick={handleRegister}
                   className="p-2 text-sm bg-hitam mt-10 hover:bg-hover text-white rounded-md"
@@ -318,13 +390,13 @@ const Register = () => {
               </div>
             </div>
 
-            <div className="relative md:block lg:ml-auto hidden max-w-xl lg:block shadow-lg overflow-hidden rounded-[30px]">
+            <div className="relative md:block  hidden max-w-xl lg:block shadow-lg overflow-hidden rounded-[30px]">
               {/* Gambar dengan efek sudut melengkung */}
               <div className="relative">
                 <img
                   src="/images/bg-home-3.jpg"
                   alt="Furniture"
-                  className="lg:h-screen  object-cover  " // Gambar dengan efek rounded khusus
+                  className="lg:h-[600px]  object-cover  " // Gambar dengan efek rounded khusus
                 />
 
                 {/* Overlay Teks */}
@@ -353,7 +425,7 @@ const Register = () => {
           </div>
         </section>
       ) : (
-        <section className=" lg:mx-10  lg:my-10 rounded-2xl lg:p-0">
+        <section className=" lg:mx-10 2xl:mx-32 lg:my-10 rounded-2xl lg:p-0">
           <Link to="/" className="lg:ml-0">
             <img
               src="/images/logo2.svg"
@@ -362,7 +434,7 @@ const Register = () => {
             />
           </Link>
 
-          <div className="flex p-10 justify-center md:p-0 md:mt-0 mt-7 lg:ml-24 md:justify-start gap-20 items-center">
+          <div className="flex p-10 justify-center md:p-0 md:mt-0 mt-7 2xl:mt-0 2xl:min-h-screen 2xl:items-center lg:justify-center  md:justify-start gap-20 items-center">
             <div className="">
               <h1 className="text-hitam text-center text-2xl lg:text-2xl font-semibold">
                 {" "}
@@ -411,13 +483,25 @@ const Register = () => {
                 </div>
                 <div className="md:mt-3 mt-10 text-sm flex justify-center">
                   Belum terima kode OTP?
-                  <button
-                    onClick={handleResendOtp}
-                    disabled={!otpExpired}
-                    className="text-blue-400 ml-1"
+                  <Tooltip
+                    title={
+                      !otpExpired ? "Kirim ulang saat kode kadaluwarsa" : ""
+                    }
                   >
-                    Kirim ulang
-                  </button>
+                    <span>
+                      <button
+                        onClick={handleResendOtp}
+                        disabled={!otpExpired}
+                        className={`ml-1 hover:underline ${
+                          otpExpired
+                            ? "text-blue-400"
+                            : "text-gray-400 cursor-not-allowed"
+                        }`}
+                      >
+                        Kirim ulang
+                      </button>
+                    </span>
+                  </Tooltip>
                 </div>
                 <div className="mt-2 text-sm flex justify-center">
                   <p>
@@ -429,13 +513,13 @@ const Register = () => {
               </div>
             </div>
 
-            <div className="relative md:block lg:ml-auto hidden max-w-xl lg:block shadow-lg overflow-hidden rounded-[30px]">
+            <div className="relative md:block  hidden max-w-xl lg:block shadow-lg overflow-hidden rounded-[30px]">
               {/* Gambar dengan efek sudut melengkung */}
               <div className="relative">
                 <img
                   src="/images/bg-home-3.jpg"
                   alt="Furniture"
-                  className="lg:h-screen  object-cover  " // Gambar dengan efek rounded khusus
+                  className="lg:h-[600px]  object-cover  " // Gambar dengan efek rounded khusus
                 />
 
                 {/* Overlay Teks */}
@@ -463,60 +547,6 @@ const Register = () => {
             </div>
           </div>
         </section>
-        // <section className="mx-7 lg:mx-10  mt-24 lg:my-10 rounded-2xl p-7 lg:p-0">
-        //   <div className="flex lg:ml-24 justify-start gap-20 items-center">
-        //     <div className="bg-red- w-[260px] sm:w-[500px] md:w-[300px] lg:w-[350px]">
-        //       <h1 className="text-hitam text-4xl font-extrabold">Kode OTP</h1>
-        //       <div className="text-base mt-5">
-        //         Masukkan kode yang kami kirim ke email Anda{" "}
-        //         <span className="mr-1 text-hijau-opa">{maskEmail(email)}</span>
-        //         berhati-hatilah untuk tidak membagikan kode tersebut kepada
-        //         siapa pun.
-        //       </div>
-        //       <div className="grid-1 grid mt-5">
-        //         <div className="">
-        //           <OTP
-        //             separator={<span>-</span>}
-        //             value={otp}
-        //             onChange={setOtp}
-        //             length={6}
-        //           />
-        //           <button
-        //             className="p-2 w-full bg-hitam mt-10 hover:bg-hover text-white rounded-md"
-        //             onClick={handleVerify}
-        //           >
-        //             Verify
-        //           </button>
-        //           {error && <div>{error}</div>}
-        //         </div>
-        //         <div className="mt-3 text-base flex justify-center">
-        //           Belum terima kode OTP?{" "}
-        //           <button
-        //             onClick={handleResendOtp}
-        //             disabled={!otpExpired}
-        //             className="text-hijau-opa ml-1"
-        //           >
-        //             kirim ulang
-        //           </button>
-        //         </div>
-        //         <div className="mt-2 text-sm flex justify-center">
-        //           <p>
-        //             {otpExpired
-        //               ? "Kode OTP kadaluwarsa"
-        //               : `Kode OTP akan kadaluwarsa dalam: ${formatTime(timer)}`}
-        //           </p>
-        //         </div>
-        //       </div>
-        //     </div>
-        //     <div className="md:block hidden lg:block">
-        //       <img
-        //         className="rounded-2xl md:h-[315px] lg:h-[400px] lg:w-[400px] object-cover"
-        //         src="/images/login.svg"
-        //         alt=""
-        //       />
-        //     </div>
-        //   </div>
-        // </section>
       )}
     </div>
   );

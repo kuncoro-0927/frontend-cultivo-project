@@ -85,15 +85,9 @@ const TicketPdf = ({ ticket }) => {
     doc.text("ID Tiket", columnCenterX, 58, { align: "center" }); // Teks di tengah kolom
     doc.setFont("helvetica", "normal");
     doc.text(ticket.ticket_code, columnCenterX, 63, { align: "center" });
-    // User Information
-    // User Information
-    // const contentEndY = doc.autoTable.previous.finalY;
+
     const contentEndY = doc.autoTable.previous?.finalY || 80;
-    console.log(contentEndY); // Debugging untuk memastikan contentEndY valid
 
-    // Untuk memeriksa apakah contentEndY memiliki nilai valid
-
-    // Alamat (Bold)
     doc.setFont("helvetica", "bold");
     doc.setFontSize(10);
     doc.text(`ALAMAT`, 14, contentEndY + 10);
@@ -101,7 +95,6 @@ const TicketPdf = ({ ticket }) => {
     doc.setFontSize(8); // Ukuran lebih kecil
     doc.text(`${ticket.agrotourism_address}`, 14, contentEndY + 14);
 
-    // Garis putus-putus di bawah alamat
     const dottedLine =
       "................................................................................";
 

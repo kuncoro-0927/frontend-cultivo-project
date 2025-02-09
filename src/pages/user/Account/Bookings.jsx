@@ -35,12 +35,12 @@ const Bookings = () => {
 
   return (
     <>
-      <section className="flex">
+      <section className="flex 2xl:mx-32">
         {/* Sidebar */}
         <div className="hidden sm:block md:block lg:block">
           <SidebarAccount />
         </div>
-        <div className="mt-20 mx-4 w-full  text-hitam">
+        <div className="mt-20 md:p-8 mx-4 w-full  text-hitam">
           <h1 className="font-extrabold text-3xl mb-5">Pesanan Anda</h1>
           <span className="font-bold border-b-4 py-2 border-blue-400">
             Tiket Anda
@@ -108,11 +108,11 @@ const Bookings = () => {
                         <span>{formatDate(ticket.selected_date)}</span>
                       </p>
                     </div>
-                    <div>
+                    {/* <div>
                       <button className="underline text-sm md:text-sm">
-                        Lihat Tiket
+                        <TicketPdf ticket={ticket} />
                       </button>
-                    </div>
+                    </div> */}
                   </div>
 
                   {/* Kolom kanan: ID dan status tiket */}

@@ -1,7 +1,5 @@
 import { useState, useEffect } from "react";
-// import dayjs from "dayjs";
-import axios from "axios";
-
+import { instance } from "../../utils/axios";
 const useTodaySalesData = () => {
   const [totalTodaySales, setTotalSales] = useState(0);
   const [totalTotalOrders, setTotalOrders] = useState(0);
@@ -9,9 +7,7 @@ const useTodaySalesData = () => {
 
   const fetchTodaySalesData = async () => {
     try {
-      const response = await axios.get(
-        "http://localhost:5000/cultivo/api/total/today/sales"
-      );
+      const response = await instance.get("/total/today/sales");
 
       if (response.data.success) {
         setTotalSales(response.data.total_sales || 0); // Jika tidak ada penjualan, set ke 0

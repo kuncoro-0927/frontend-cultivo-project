@@ -9,7 +9,9 @@ import { Link } from "react-router-dom";
 
 const ModalSignUp = ({ open, handleClose }) => {
   const handleGoogleLogin = () => {
-    window.location.href = "http://localhost:5000/cultivo/api/auth/google";
+    window.location.href = `${
+      import.meta.env.VITE_BACKEND_URL
+    }/cultivo/api/auth/google`;
   };
 
   return (

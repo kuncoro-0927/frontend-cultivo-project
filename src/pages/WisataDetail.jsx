@@ -9,9 +9,15 @@ import { Modal, Box } from "@mui/material";
 import { FaStar } from "react-icons/fa6";
 import { IoShareSocial } from "react-icons/io5";
 import { FaCheck } from "react-icons/fa";
-import PopUpPesan from "../component/TesPesan";
+import PopUpPesan from "../component/Orders";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import {
+  Share as ShareIcon,
+  Favorite,
+  FavoriteBorder,
+} from "@mui/icons-material";
+
 import { IconButton } from "@mui/material";
 import { useWishlist } from "../contexts/WishlistsContext";
 import { showSnackbar } from "../component/CustomSnackbar";
@@ -21,6 +27,9 @@ import ModalSignUp from "../component/ModalSignUp";
 import LinearProgress from "@mui/material/LinearProgress";
 import Rating from "@mui/material/Rating";
 import { Link } from "react-router-dom";
+import { Menu, MenuItem } from "@mui/material";
+import { FiCopy } from "react-icons/fi";
+import { FaWhatsapp, FaFacebook, FaTwitter } from "react-icons/fa";
 const WisataDetail = () => {
   const reviewRef = useRef(null);
   const { wisataId } = useParams();
@@ -30,7 +39,7 @@ const WisataDetail = () => {
     return wishlist.some((item) => item.agrotourism_id === agrotourismId);
   };
   const [isPopUpOpen, setIsPopUpOpen] = useState(false);
-  const [modalStep, setModalStep] = useState(1); // 1: Pilih Tanggal, 2: Konfirmasi
+  const [modalStep, setModalStep] = useState(1);
   const [selectedDate, setSelectedDate] = useState(null);
   const [quantity, setQuantity] = useState(1);
   const [total, setTotal] = useState(0);
@@ -45,14 +54,33 @@ const WisataDetail = () => {
   const [wisataDetail, setWisataDetail] = useState(null);
   const [isExpanded, setIsExpanded] = useState(false);
   const [error, setError] = useState("");
+  const [anchorEl, setAnchorEl] = useState(null);
+  const openModalShare = Boolean(anchorEl);
+  const shareUrl = window.location.href; // URL halaman saat ini
 
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleCloseModalShare = () => {
+    setAnchorEl(null);
+  };
+
+  const handleCopyLink = async () => {
+    try {
+      await navigator.clipboard.writeText(shareUrl);
+      showSnackbar("Link berhasil disalin!", "success");
+    } catch (error) {
+      console.error("Gagal menyalin link:", error);
+    }
+    handleCloseModalShare();
+  };
   const toggleExpanded = () => {
     setIsExpanded(!isExpanded);
   };
 
   const description = wisataDetail?.description || "";
 
-  // Cek jika deskripsi ada lebih dari 30 kata
   const isLongDescription = description.split(" ").length > 60;
 
   const handleButtonClick = () => {
@@ -76,7 +104,7 @@ const WisataDetail = () => {
         );
         setWishlist(updatedWishlist);
         localStorage.setItem("wishlist", JSON.stringify(updatedWishlist));
-        showSnackbar("Wishlist berhasil dihapus", "success");
+        showSnackbar("Wisata dihapus dari favorit", "success");
       } else {
         // Tambahkan ke wishlist
         await instance.post("/add/wishlist", { agrotourism_id: agrotourismId });
@@ -86,7 +114,7 @@ const WisataDetail = () => {
         ];
         setWishlist(updatedWishlist);
         localStorage.setItem("wishlist", JSON.stringify(updatedWishlist));
-        showSnackbar("Wishlist berhasil ditambahkan", "success");
+        showSnackbar("Wisata ditambahkan ke favorit", "success");
       }
     } catch (error) {
       console.error("Error toggling wishlist:", error);
@@ -94,7 +122,6 @@ const WisataDetail = () => {
   };
 
   useEffect(() => {
-    // Memuat wishlist dari localStorage saat komponen dimuat
     const savedWishlist = JSON.parse(localStorage.getItem("wishlist"));
     if (savedWishlist) {
       setWishlist(savedWishlist);
@@ -108,7 +135,7 @@ const WisataDetail = () => {
   }, [quantity, wisataDetail]);
   const handleNextStep = (date) => {
     setSelectedDate(date);
-    setModalStep(2); // Pindah ke langkah Konfirmasi
+    setModalStep(2);
   };
   useEffect(() => {
     const fetchData = async () => {
@@ -116,13 +143,11 @@ const WisataDetail = () => {
         const wisataResponse = await instance.get(`/agrotourism/${wisataId}`);
         setWisataDetail(wisataResponse.data.data[0]);
 
-        // Fetch review data
         const reviewResponse = await instance.get(
           `/review/agrotourism/${wisataId}`
         );
 
-        setReviews(reviewResponse.data); // Coba ini jika tidak ada .data di dalam data
-        // Menyimpan data review ke state
+        setReviews(reviewResponse.data);
       } catch (err) {
         console.error("Error fetching data:", err);
         setError("Gagal memuat data wisata atau review.");
@@ -132,7 +157,7 @@ const WisataDetail = () => {
     fetchData();
   }, [wisataId]);
 
-  useEffect(() => {}, [reviews]); // Ini akan terpicu setiap kali `reviews` diperbarui
+  useEffect(() => {}, [reviews]);
 
   useEffect(() => {}, [wisataDetail]);
 
@@ -170,7 +195,6 @@ const WisataDetail = () => {
     return reviews.filter((review) => review.rating === rating).length;
   });
 
-  // Menghitung persentase setiap rating
   const ratingPercentage = ratingCount.map(
     (count) => (count / totalReviews) * 100
   );
@@ -183,21 +207,43 @@ const WisataDetail = () => {
           src={wisataDetail.url_image}
           alt=""
         />
+
         <div className="absolute top-12 right-2 p-2">
-          <IconButton onClick={() => toggleWishlist(wisataDetail.id)}>
-            {isInWishlist(wisataDetail.id) ? (
-              <FavoriteIcon
-                className="text-red-500"
-                sx={{ width: 35, height: 35 }}
-              />
-            ) : (
-              <FavoriteIcon sx={{ width: 28, height: 28 }} />
-            )}
-          </IconButton>
+          <div className="flex items-center gap-2">
+            {/* Tombol Bagikan */}
+            <div className="bg-white/80 rounded-full p-2 flex justify-center items-center shadow-md">
+              <IconButton sx={{ width: 25, height: 25 }} onClick={handleClick}>
+                <ShareIcon
+                  sx={{ width: 25, height: 25 }}
+                  className="text-gray-700"
+                />
+              </IconButton>
+            </div>
+
+            {/* Tombol Wishlist */}
+            <div className="bg-white/80 rounded-full p-2 shadow-md">
+              <IconButton
+                sx={{ width: 25, height: 25 }}
+                onClick={() => toggleWishlist(wisataDetail.id)}
+              >
+                {isInWishlist(wisataDetail.id) ? (
+                  <FavoriteIcon
+                    sx={{ width: 25, height: 25 }}
+                    className="text-red-500"
+                  />
+                ) : (
+                  <FavoriteIcon
+                    sx={{ width: 25, height: 25 }}
+                    className="text-gray-700"
+                  />
+                )}
+              </IconButton>
+            </div>
+          </div>
         </div>
       </div>
 
-      <section className="text-hitam2 sm:mt-0 mx-7 md:mt-20 md:mx-6 lg:mx-14 lg:mt-24 md:pt-0 flex flex-col md:flex-row ">
+      <section className="text-hitam2 sm:mt-0 mx-7 md:mt-20 md:mx-6 lg:mx-14 2xl:mx-32 lg:mt-24 md:pt-0 flex flex-col md:flex-row ">
         <div className="flex-1 ">
           <h1 className="text-2xl sm:text-3xl hidden md:block font-extrabold md:text-3xl text-hitam2">
             {wisataDetail.name}
@@ -215,7 +261,7 @@ const WisataDetail = () => {
                     reviewRef.current.scrollIntoView({ behavior: "smooth" })
                   }
                 >
-                  Review
+                  Ulasan
                 </p>
                 <p className="mx-2">-</p>
               </>
@@ -232,9 +278,9 @@ const WisataDetail = () => {
             </div>
           </div>
 
-          <div className="hidden md:block">
+          <div className="hidden md:block lg:h-[500px] ">
             <img
-              className="mt-5 max-w-3xl rounded-xl w-full"
+              className="mt-5 max-w-3xl h-full object-cover rounded-xl w-full 2xl:max-w-4xl"
               src={wisataDetail.url_image}
               alt=""
             />
@@ -256,7 +302,7 @@ const WisataDetail = () => {
                     reviewRef.current.scrollIntoView({ behavior: "smooth" })
                   }
                 >
-                  Review
+                  Ulasan
                 </p>
                 <p className="mx-2">-</p>
               </>
@@ -275,20 +321,19 @@ const WisataDetail = () => {
           <div className="mt-7">
             <h2 className="text-2xl font-extrabold">Highlight</h2>
           </div>
-          <p className="mt-2 text-md sm:text-base lg:text-base text-hitam lg:max-w-3xl">
+          <p className="mt-2 text-md sm:text-base lg:text-base text-hitam lg:max-w-3xl 2xl:max-w-4xl">
             {isExpanded || !isLongDescription
               ? wisataDetail.description
               : wisataDetail.description.split(" ").slice(0, 60).join(" ") +
                 "..."}
           </p>
 
-          {/* Tampilkan tombol jika deskripsi panjang */}
           {isLongDescription && (
             <button
               onClick={toggleExpanded}
               className="mt-3 text-hitam2 text-sm hover:text-blue-500 underline"
             >
-              {isExpanded ? "Show Less" : "Load More"}
+              {isExpanded ? "Lebih sedikit" : "Lebih banyak"}
             </button>
           )}
           <div className="flex-wrap justify-start mt-4 lg:mt-10 gap-4 flex">
@@ -313,57 +358,20 @@ const WisataDetail = () => {
             )}
           </div>
 
-          <button className="mt-7 text-hitam underline" onClick={handleOpen}>
-            All Images
+          <button
+            className="mt-7 text-sm text-hitam underline"
+            onClick={handleOpen}
+          >
+            Semua gambar
           </button>
 
-          {/* <div className="mt-7">
-            <h2 className="text-2xl font-extrabold">Facility</h2>
-          </div>
-
-          <div className="flex-wrap justify-start mt-4 gap-4 flex max-w-4xl">
-            {typeof wisataDetail.facility === "string" &&
-            wisataDetail.facility.length > 0 ? (
-              wisataDetail.facility.split(",").map((item, index) => (
-                <div
-                  key={index}
-                  className="rounded-lg lg:flex items-center lg:justify-center px-4 py-3 border border-black hidden md:flex"
-                >
-                  <div className="flex items-center text-xl">
-                    <span className="text-base">{item.trim()}</span>{" "}
-                  </div>
-                </div>
-              ))
-            ) : (
-              <p>No facilities available</p>
-            )}
-          </div>
-
-          <div className="mt-1 gap-2 flex max-w-full carousel carousel-center py-1 md:hidden">
-            {typeof wisataDetail.facility === "string" &&
-            wisataDetail.facility.length > 0 ? (
-              wisataDetail.facility.split(",").map((item, index) => (
-                <div
-                  key={index}
-                  className="carousel-item rounded-lg px-4 py-3 border border-black"
-                >
-                  <div className="flex items-center text-xl">
-                    <span className="text-base">{item.trim()}</span>{" "}
-                  </div>
-                </div>
-              ))
-            ) : (
-              <p>No facilities available</p>
-            )}
-          </div> */}
-
           <div className="mt-7">
-            <h2 className="text-2xl font-extrabold">What&apos;s included</h2>
+            <h2 className="text-2xl font-extrabold">Apa yang termasuk</h2>
           </div>
           <div className=" flex items-start gap-16 mt-2">
             <div className="grid justify-start mt-4 gap-4  max-w-4xl">
               <p className="font-semibold text-sm md:text-base text-hitam2">
-                INCLUDED
+                TERMASUK
               </p>
               {typeof wisataDetail.include === "string" &&
               wisataDetail.include.length > 0 ? (
@@ -386,7 +394,7 @@ const WisataDetail = () => {
 
             <div className="grid justify-start mt-4 gap-4  max-w-4xl">
               <p className="font-semibold text-sm md:text-base text-hitam2">
-                NOT INCLUDED
+                TIDAK TERMASUK
               </p>
               {typeof wisataDetail.exclude === "string" &&
               wisataDetail.exclude.length > 0 ? (
@@ -409,20 +417,25 @@ const WisataDetail = () => {
           </div>
 
           <div className="mt-7">
-            <h2 className="text-2xl font-extrabold">Address</h2>
+            <h2 className="text-2xl font-extrabold">Alamat</h2>
           </div>
           <p className="mt-5 md:mt-2 text-md sm:text-base lg:text-lg text-hitam lg:max-w-3xl">
             {wisataDetail.address}
           </p>
+          <Link
+            className="text-sm underline hover:text-blue-500 mt-2"
+            to={wisataDetail.url_gmaps}
+          >
+            Lihat di Google Maps
+          </Link>
           {reviews.length > 0 && (
             <div ref={reviewRef}>
               <div className="mt-7 ">
                 <h2 className="text-2xl text-hitam2 font-extrabold">
-                  Review Pengguna
+                  Ulasan Pengguna
                 </h2>
               </div>
               <div className="mt-3 md:flex items-start justify-between text-hitam2 lg:max-w-3xl ">
-                {/* Bagian Kiri - Total Review */}
                 <div className="flex items-end gap-3">
                   <h1 className="flex items-center text-3xl md:text-4xl font-extrabold text-hitam2">
                     <Rating
@@ -434,22 +447,19 @@ const WisataDetail = () => {
                     />{" "}
                     {averageRating ? averageRating.toFixed(1) : "0.0"}
                   </h1>
-                  <p>{reviews[0].total_reviews} verified reviews</p>
+                  <p>{reviews[0].total_reviews} ulasan terverifikasi</p>
                 </div>
 
-                {/* Progress Bar */}
                 <div className="">
                   {[5, 4, 3, 2, 1].map((number, index) => (
                     <div key={index} className="flex items-center gap-3">
-                      {/* Angka di Sebelah Kiri */}
                       <span className="text-sm font-semibold text-hitam2">
                         {number}
                       </span>
 
-                      {/* Progress Bar */}
                       <LinearProgress
                         variant="determinate"
-                        value={ratingPercentage[4 - index]} // Menyesuaikan dengan rating yang dibalik
+                        value={ratingPercentage[4 - index]}
                         color="inherit"
                         sx={{
                           width: "270px",
@@ -464,21 +474,22 @@ const WisataDetail = () => {
                 </div>
               </div>
 
-              {/* Daftar Review */}
               <div className="mt-5">
                 {reviews.map((review) => (
                   <div key={review.review_id} className="mb-4">
-                    {/* Rating Component */}
                     <Rating name="read-only" value={review.rating} readOnly />
 
-                    {/* Review details */}
                     <div className="lg:max-w-3xl">
                       <h1 className="text-xs font-semibold">
                         {review.user_name || "Anonymous"}
                       </h1>
-                      <p className="text-base border-b pb-5 mt-2">
+                      <div
+                        className="text-base w-full  border-b pb-5 mt-2 rounded-md 
+                        max-w-full md:max-w-2xl lg:max-w-3xl xl:max-w-4xl 
+                        break-words"
+                      >
                         {review.review_text || "No review text available."}
-                      </p>
+                      </div>
                     </div>
                   </div>
                 ))}
@@ -486,15 +497,14 @@ const WisataDetail = () => {
             </div>
           )}
 
-          {/* Jika Tidak Ada Review */}
           {reviews.length === 0 && <p></p>}
 
           {showNavbar && (
             <div className="fixed bottom-0 left-0 right-0 bg-white border-t shadow-md p-4 flex justify-between items-center z-10 lg:hidden md:hidden">
               <div className="text-sm">
-                Start From
+                Mulai dari
                 <div className="text-lg font-extrabold">
-                  IDR {wisataDetail.price}
+                  IDR {Number(wisataDetail.price).toLocaleString("id-ID")}
                 </div>
               </div>
               <button
@@ -522,7 +532,7 @@ const WisataDetail = () => {
               }}
             >
               <div className="flex items-center justify-between">
-                <h2 className="text-xl font-bold">All Images</h2>
+                <h2 className="text-xl font-bold">Semua gambar</h2>
                 <button onClick={handleClose} className="mt-4 text-3xl">
                   <IoClose />
                 </button>
@@ -563,11 +573,11 @@ const WisataDetail = () => {
 
         <div className=" ">
           <div className="md:flex flex-col hidden w-[270px]">
-            <div className="bg-hijau-opa font-medium w-[270px] lg:text-sm text-white flex items-center justify-center py-2 rounded-tr-lg rounded-tl-lg">
-              Best Price Guarantee
+            <div className="bg-hijau-opa font-medium w-[270px] lg:text-base text-white flex items-center justify-center py-2 rounded-tr-lg rounded-tl-lg">
+              Harga terbaik
             </div>
             <div className="px-5 items-center justify-center w-[270px] border shadow-sm">
-              <p className="text-[0.8rem] mt-5">Start from</p>
+              <p className="text-[0.8rem] mt-5">Mulai dari</p>
               <div className="flex justify-start text-2xl font-extrabold">
                 IDR {Number(wisataDetail.price).toLocaleString("id-ID")}
               </div>
@@ -575,7 +585,7 @@ const WisataDetail = () => {
                 onClick={handleButtonClick}
                 className="w-full py-3 mr-5 lg:mt-5 mb-10 bg-hitam rounded-md text-white font-bold flex justify-center hover:-translate-y-1 duration-300"
               >
-                Book now
+                Pesan sekarang
               </button>
               <ModalSignUp
                 open={isModalOpen}
@@ -585,7 +595,7 @@ const WisataDetail = () => {
                 open={isPopUpOpen}
                 onClose={() => {
                   setIsPopUpOpen(false);
-                  setModalStep(1); // Reset ke langkah pertama saat modal ditutup
+                  setModalStep(1);
                 }}
                 wisataName={wisataDetail?.name || ""}
                 onConfirm={handleNextStep}
@@ -600,9 +610,59 @@ const WisataDetail = () => {
             </div>
 
             <div className="px-5 border text-sm font-medium max-w-72 text-hitam flex items-center justify-between py-5 rounded-br-lg rounded-bl-lg">
-              <button className="flex items-center text-base font-bold gap-2">
+              <button
+                onClick={handleClick}
+                className="flex items-center text-base font-bold gap-2"
+              >
                 <IoShareSocial className="text-2xl " /> Bagikan
               </button>
+              <Menu
+                anchorEl={anchorEl}
+                open={openModalShare}
+                onClose={handleCloseModalShare}
+              >
+                <MenuItem
+                  onClick={() =>
+                    window.open(
+                      `https://wa.me/?text=${encodeURIComponent(shareUrl)}`,
+                      "_blank"
+                    )
+                  }
+                >
+                  <FaWhatsapp className="mr-2 text-green-500" />{" "}
+                  <span className="text-sm">WhatsApp</span>
+                </MenuItem>
+                <MenuItem
+                  onClick={() =>
+                    window.open(
+                      `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+                        shareUrl
+                      )}`,
+                      "_blank"
+                    )
+                  }
+                >
+                  <FaFacebook className="mr-2 text-blue-600" />{" "}
+                  <span className="text-sm">Facebook</span>
+                </MenuItem>
+                <MenuItem
+                  onClick={() =>
+                    window.open(
+                      `https://twitter.com/intent/tweet?url=${encodeURIComponent(
+                        shareUrl
+                      )}`,
+                      "_blank"
+                    )
+                  }
+                >
+                  <FaTwitter className="mr-2 text-blue-400" />{" "}
+                  <span className="text-sm">Twitter</span>
+                </MenuItem>
+                <MenuItem onClick={handleCopyLink}>
+                  <FiCopy className="mr-2 text-gray-600" />{" "}
+                  <span className="text-sm">Salin Link</span>
+                </MenuItem>
+              </Menu>
               <div>
                 <IconButton
                   onClick={() => toggleWishlist(wisataDetail.id)}
@@ -623,19 +683,19 @@ const WisataDetail = () => {
             <h1 className="font-semibold text-lg">Mengapa Cultivo?</h1>
             <div className="space-y-3 mt-5">
               <p className="flex items-center gap-2">
-                <FaCheck /> Unique Travel Experience
+                <FaCheck /> Pengalaman yang unik
               </p>
               <p className="flex items-center gap-2">
-                <FaCheck /> Education & Recreation
+                <FaCheck /> Edukasi & Rekreasi
               </p>
               <p className="flex items-center gap-2">
-                <FaCheck /> Easy & Affordable Tickets
+                <FaCheck /> Tiket Mudah & Terjangkau
               </p>
               <p className="flex items-center gap-2">
-                <FaCheck /> Support Local MSMEs
+                <FaCheck /> Dukung UMKM Lokal
               </p>
               <p className="flex items-center gap-2">
-                <FaCheck /> Eco-Friendly Agrotourism
+                <FaCheck /> Agrowisata Ramah Lingkungan
               </p>
             </div>
           </div>

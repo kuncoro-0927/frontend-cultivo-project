@@ -27,7 +27,7 @@ const TambahWisata = () => {
     name: "",
     city_id: "",
     activities_id: "",
-    facility: "",
+
     include: "",
     exclude: "",
     description: "",
@@ -88,7 +88,7 @@ const TambahWisata = () => {
     data.append("name", formData.name);
     data.append("city_id", formData.city_id);
     data.append("activities_id", formData.activities_id);
-    data.append("facility", formData.facility);
+
     data.append("include", formData.include);
     data.append("exclude", formData.exclude);
     data.append("description", formData.description);
@@ -222,22 +222,7 @@ const TambahWisata = () => {
                   </RadioGroup>
                 </FormControl>
               </div>
-              <div className="mt-4">
-                <TextField
-                  label="Fasilitas"
-                  variant="outlined"
-                  type="text"
-                  multiline
-                  rows={3}
-                  fullWidth
-                  helperText="Pisahkan dengan koma. Contoh: Wifi, Air, listrik"
-                  name="facility"
-                  value={formData.facility}
-                  onChange={handleInputChange}
-                  size="small"
-                  required
-                />
-              </div>
+
               <div className="mt-4">
                 <TextField
                   label="Include"

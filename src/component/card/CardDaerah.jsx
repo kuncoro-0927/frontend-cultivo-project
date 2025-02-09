@@ -5,9 +5,9 @@ import { FaLocationDot } from "react-icons/fa6";
 export default function CardDaerah({ title, img }) {
   return (
     <>
-      <div className="border  border-gray-300 rounded-lg w-full h-full max-w-[175px]  md:max-w-[200px] lg:max-w-[270px] lg:max-h-[380px]  relative overflow-hidden hover:-translate-y-2 duration-200 flex flex-col">
+      <div className="border  border-gray-300 rounded-lg h-full w-[175px]  md:w-[200px] lg:w-[220px] lg:max-h-[300px]  relative overflow-hidden hover:-translate-y-2 duration-200 flex flex-col">
         <img
-          className="lg:h-full  w-full h-full max-w-[175px] md:max-w-[200px] lg:max-w-[270px] object-cover rounded-t-lg "
+          className="lg:h-full h-full w-[175px] md:w-[200px] lg:w-[220px]  object-cover rounded-t-lg "
           src={img}
           alt="Image"
         />

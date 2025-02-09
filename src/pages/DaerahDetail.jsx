@@ -56,7 +56,7 @@ const DaerahDetail = () => {
         );
         setWishlist(updatedWishlist);
         localStorage.setItem("wishlist", JSON.stringify(updatedWishlist));
-        showSnackbar("Wishlist berhasil dihapus", "success");
+        showSnackbar("Berhasil dihapus dari favorit", "success");
       } else {
         // Tambahkan ke wishlist
         await instance.post("/add/wishlist", { agrotourism_id: agrotourismId });
@@ -66,7 +66,7 @@ const DaerahDetail = () => {
         ];
         setWishlist(updatedWishlist);
         localStorage.setItem("wishlist", JSON.stringify(updatedWishlist));
-        showSnackbar("Wishlist berhasil ditambahkan", "success");
+        showSnackbar("Berhasil ditambahkan ke favorit", "success");
       }
     } catch (error) {
       console.error("Error toggling wishlist:", error);
@@ -162,19 +162,23 @@ const DaerahDetail = () => {
   return (
     <>
       <section
-        className="relative mt-[63px] sm:mt-[80px] lg:mt-[75px] px-7 lg:h-[200px] xl:h-[400px] h-[250px] bg-cover bg-bottom flex flex-col items-center justify-center lg:px-12"
+        className="relative mt-[63px] sm:mt-[63px] lg:mt-[65px] px-7 lg:h-[200px] xl:h-[400px] h-[250px] bg-cover bg-center flex flex-col items-center justify-center lg:px-12"
         style={{
           backgroundImage: `url('${cityImage}')`,
         }}
       >
         {/* Overlay Gradasi */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-        {/* Text */}
-        <h1 className="relative text-white font-bold text-base text-left mr-auto mt-10 md:mt-0 md:mr-0 md:text-4xl md:text-center">
-          Pesan kegiatan Agrowisata di kota <br />{" "}
-          <span className="text-3xl">{cityName}</span>
+
+        {/* Skeleton untuk Teks */}
+
+        <h1 className="relative text-white font-bold text-xl text-left mr-auto mt-10 md:mt-0 md:mr-0 md:text-4xl md:text-center">
+          Pesan kegiatan Agrowisata <br />
+          <span className="ml-2 md:text-4xl text-xl">{cityName}</span>
         </h1>
-        <div className="absolute mt-5 bottom-5 w-full px-7">
+
+        {/* Skeleton untuk Tombol dan Icon */}
+        <div className="absolute mt-5 md:mt-10 bottom-5 md:relative md:max-w-2xl w-full px-7">
           <span className="ml-0 bg-hitam2 h-full w-16 flex items-center justify-center rounded-full sm:ml-0 absolute right-7 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none">
             <FiSearch className="md:text-lg text-white font-extrabold" />
           </span>
@@ -195,7 +199,7 @@ const DaerahDetail = () => {
         </div>
       </section>
 
-      <section className="mt-10 sm:mt-20 mx-4 md:mt-20 md:mx-6 lg:mx-10 lg:mt-24">
+      <section className="mt-10 sm:mt-20 mx-4 md:mt-20 md:mx-6 2xl:mx-32 lg:mx-10 lg:mt-24">
         <div>
           <h1 className="text-2xl sm:text-3xl font-extrabold md:text-4xl text-hitam">
             Daerah Wisata {cityName}
@@ -215,7 +219,7 @@ const DaerahDetail = () => {
                       85
                     )}
                     image={wisata.url_image}
-                    price={wisata.price}
+                    price={Number(wisata.price).toLocaleString("id-ID")}
                     average_rating={wisata.average_rating.toFixed(1)}
                   />
                 </Link>
@@ -243,20 +247,6 @@ const DaerahDetail = () => {
           </div>
         </div>
 
-        {/* <div className="carousel carousel-center max-w-full py-2 px-2 lg:hidden">
-        <div className="carousel-item gap-3">
-          {wisataList.map((wisata) => (
-            <Link key={wisata.id} to={`/wisata/detail/${wisata.id}`}>
-              <CardAktivitas
-                title={wisata.name}
-                description={wisata.description}
-                image={wisata.url_image}
-                price={wisata.price}
-              />
-            </Link>
-          ))}
-        </div>
-      </div> */}
         <div className="lg:hidden md:carousel md:carousel-center md:space-x-3 md:px-8 md:py-3  md:max-w-full ">
           <div className="md:carousel-item justify-between grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 gap-3">
             {wisataList.map((wisata) => (
@@ -266,7 +256,7 @@ const DaerahDetail = () => {
                     title={wisata.name}
                     description={wisata.description}
                     image={wisata.url_image}
-                    price={wisata.price}
+                    price={Number(wisata.price).toLocaleString("id-ID")}
                     average_rating={wisata.average_rating.toFixed(1)}
                   />
                 </Link>
@@ -297,7 +287,7 @@ const DaerahDetail = () => {
         <ModalSignUp open={isModalOpen} handleClose={handleCloseModal} />
       </section>
 
-      <section className="mt-10 sm:mt-14 mx-4 md:mt-10 md:mx-6 lg:mx-10 lg:mt-20 ">
+      <section className="mt-10 sm:mt-14 mx-4 md:mt-10 2xl:mx-32 md:mx-6 lg:mx-10 lg:mt-20 ">
         <h1 className="text-2xl sm:text-3xl font-extrabold md:text-4xl text-hitam">
           Mungkin Anda suka
         </h1>
@@ -319,7 +309,9 @@ const DaerahDetail = () => {
                           70
                         )}
                         image={agrotourismItem.url_image}
-                        price={agrotourismItem.price}
+                        price={Number(agrotourismItem.price).toLocaleString(
+                          "id-ID"
+                        )}
                         average_rating={
                           agrotourismItem.average_rating
                             ? parseFloat(
@@ -371,7 +363,9 @@ const DaerahDetail = () => {
                           70
                         )}
                         image={agrotourismItem.url_image}
-                        price={agrotourismItem.price}
+                        price={Number(agrotourismItem.price).toLocaleString(
+                          "id-ID"
+                        )}
                         average_rating={
                           agrotourismItem.average_rating
                             ? parseFloat(

@@ -28,7 +28,6 @@ export default function CreateAgrotourismModal({ open, handleClose }) {
     name: "",
     city_id: "",
     activities_id: "",
-    facility: "",
     description: "",
     price: "",
     address: "",
@@ -62,10 +61,10 @@ export default function CreateAgrotourismModal({ open, handleClose }) {
     });
 
     try {
-      const response = await instance.post("/agrotourism", data, {
+      await instance.post("/agrotourism", data, {
         headers: { "Content-Type": "multipart/form-data" },
       });
-      console.log(response.data);
+
       alert("Agrotourism berhasil ditambahkan!");
       handleClose();
     } catch (error) {
@@ -102,14 +101,6 @@ export default function CreateAgrotourismModal({ open, handleClose }) {
             label="Activities ID"
             name="activities_id"
             value={formData.activities_id}
-            onChange={handleChange}
-            margin="normal"
-          />
-          <TextField
-            fullWidth
-            label="Fasilitas"
-            name="facility"
-            value={formData.facility}
             onChange={handleChange}
             margin="normal"
           />

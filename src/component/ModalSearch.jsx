@@ -63,6 +63,11 @@ export default function ModalSearch({ isOpen, handleClose, onSelect }) {
     navigate(`/wisata/detail/${item.id}`); // Navigate to the detail page
     handleClose(); // Close the modal after selection
   };
+  const handleCity = (region) => {
+    onSelect(region); // Call the onSelect callback
+    navigate(`/wisata/daerah/${region.id}`); // Navigate to the detail page
+    handleClose(); // Close the modal after selection
+  };
 
   return (
     <Modal open={isOpen} onClose={handleClose}>
@@ -87,7 +92,7 @@ export default function ModalSearch({ isOpen, handleClose, onSelect }) {
             <div className="w-full">
               <TextField
                 fullWidth
-                label="Cari Agrotourism"
+                label="Cari kegiatan wisata"
                 variant="outlined"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
@@ -115,23 +120,17 @@ export default function ModalSearch({ isOpen, handleClose, onSelect }) {
             </button>
           </div>
 
-          {/* Tampilkan daftar daerah sebelum pencarian */}
-          {/* Tampilkan daftar daerah hanya jika searchTerm kosong */}
           {searchTerm === "" && !loading ? (
             <>
               <p className="font-bold mb-4 col-span-2">
-                {" "}
-                {/* col-span-2 untuk membuat teks lebar sesuai dengan kolom grid */}
-                Temukan destinasi agrowisata anda di:
+                Temukan destinasi agrowisata Anda di:
               </p>
               <ul className="max-h-[320px] text-hitam2 grid md:grid-cols-2 overflow-y-auto">
                 {regions.map((region) => (
                   <li
-                    key={region.id} // Pastikan key menggunakan id unik dari region
+                    key={region.id}
                     className="p-2 items-center gap-2 hover:bg-gray-100 cursor-pointer"
-                    onClick={() => {
-                      // handle region selection if needed
-                    }}
+                    onClick={() => handleCity(region)}
                   >
                     <div className="flex items-center gap-3">
                       <img
@@ -152,7 +151,6 @@ export default function ModalSearch({ isOpen, handleClose, onSelect }) {
               </ul>
             </>
           ) : (
-            // Tampilkan agrotourism hasil pencarian
             <>
               {loading ? (
                 <div className="flex justify-center">
@@ -163,9 +161,9 @@ export default function ModalSearch({ isOpen, handleClose, onSelect }) {
                   <p className="font-bold mb-4 col-span-2">
                     {" "}
                     {/* col-span-2 untuk membuat teks lebar sesuai dengan kolom grid */}
-                    Pilih tujuan destinasi Agrowisata Anda
+                    Pilih tujuan destinasi agrowisata Anda
                   </p>
-                  <ul className="max-h-[450px] md:max-h-[350px] text-hitam2 overflow-y-auto">
+                  <ul className="max-h-[300px] md:max-h-[350px] text-hitam2 overflow-y-auto">
                     {filteredAgrotourism.map((item) => (
                       <li
                         key={item.id}

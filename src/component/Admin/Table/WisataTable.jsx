@@ -42,7 +42,6 @@ const WisataTable = () => {
     { field: "city_name", headerName: "Kota", width: 130 },
     { field: "activities_name", headerName: "Nama Aktivitas", width: 180 },
     { field: "price", headerName: "Harga", width: 100 },
-    { field: "facility", headerName: "Fasilitas", width: 100 },
     { field: "address", headerName: "Alamat", width: 250 },
     {
       field: "actions",
@@ -111,16 +110,9 @@ const WisataTable = () => {
         onClose={handleMenuClose}
         disablePortal
       >
-        <MenuItem
-          onClick={() => console.log("Detail untuk ID:", selectedRowId)}
-        >
-          Detail
-        </MenuItem>
+        <MenuItem onClick={() => selectedRowId}>Detail</MenuItem>
         <MenuItem onClick={handleEdit}>Edit</MenuItem>
-        <MenuItem
-          onClick={() => console.log("Hapus untuk ID:", selectedRowId)}
-          sx={{ color: "red" }}
-        >
+        <MenuItem onClick={() => selectedRowId} sx={{ color: "red" }}>
           Hapus
         </MenuItem>
       </Menu>
