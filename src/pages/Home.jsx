@@ -258,7 +258,7 @@ const Home = () => {
             {Array.isArray(agrotourism) &&
               agrotourism
                 .filter((agrotourismItem) =>
-                  [6, 16, 2, 20].includes(agrotourismItem.id)
+                  [34, 16, 2, 20].includes(agrotourismItem.id)
                 )
                 .map((agrotourismItem) => (
                   <div key={agrotourismItem.id} className="relative">
@@ -313,7 +313,7 @@ const Home = () => {
             {Array.isArray(agrotourism) &&
               agrotourism
                 .filter((agrotourismItem) =>
-                  [6, 16, 2, 20].includes(agrotourismItem.id)
+                  [34, 16, 2, 20].includes(agrotourismItem.id)
                 )
                 .map((agrotourismItem) => (
                   <div key={agrotourismItem.id} className="relative">
