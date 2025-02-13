@@ -174,7 +174,7 @@ const DaerahDetail = () => {
 
         <h1 className="relative text-white font-bold text-xl text-left mr-auto mt-10 md:mt-0 md:mr-0 md:text-4xl md:text-center">
           Pesan kegiatan Agrowisata <br />
-          <span className="ml-2 md:text-4xl text-xl">{cityName}</span>
+          <span className=" md:text-4xl text-xl">{cityName}</span>
         </h1>
 
         {/* Skeleton untuk Tombol dan Icon */}
