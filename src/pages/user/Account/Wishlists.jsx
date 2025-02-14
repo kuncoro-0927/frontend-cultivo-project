@@ -97,7 +97,7 @@ const Wishlist = () => {
             <IoMdArrowBack className="text-lg" />
             Kembali ke Profil
           </Link>
-          <h1 className="font-extrabold text-3xl mt-5 mb-5">
+          <h1 className="font-extrabold text-2xl md:text-3xl mt-5 mb-5">
             Favorit wisata Anda
           </h1>
 

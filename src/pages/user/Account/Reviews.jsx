@@ -56,7 +56,9 @@ const Review = () => {
   const hasReviewedTicket = (ticket) => {
     return reviews.some((review) => review.ticket_code === ticket.ticket_code);
   };
-
+  const truncateTitle = (text, maxLength) => {
+    return text.length > maxLength ? text.slice(0, maxLength) + "..." : text;
+  };
   return (
     <>
       <ModalReview
@@ -69,7 +71,7 @@ const Review = () => {
           <SidebarAccount />
         </div>
         <div className="mt-20 md:p-8 mx-4 w-full text-hitam">
-          <h1 className="font-extrabold text-3xl mb-5">Ulasan</h1>
+          <h1 className="font-extrabold text-2xl md:text-3xl mb-5">Ulasan</h1>
           <div className="flex">
             <button
               onClick={() => setActiveTab("tickets")}
@@ -114,18 +116,18 @@ const Review = () => {
               tickets.map((ticket) => (
                 <div
                   key={ticket.id}
-                  className="ticket-card max-w-[800px] mb-4 mt-10 border flex border-gray-200 w-full rounded-lg shadow-sm"
+                  className="ticket-card  max-w-[800px] md:h-[200px] h-[150px]  mb-4 mt-10 border flex border-gray-200 w-full rounded-lg shadow-sm"
                 >
-                  <div className="md:h-[200px] h-[120px] w-[120px] md:w-[200px] flex items-center justify-center rounded-l-lg overflow-hidden">
+                  <div className=" w-[180px] md:w-[200px] flex items-center justify-center rounded-l-lg overflow-hidden">
                     <img
                       src={ticket.agrotourism_url_image}
                       alt="Agrotourism"
                       className="w-full h-full object-cover"
                     />
                   </div>
-                  <div className="p-4 md:p-4 flex flex-col justify-between">
-                    <h1 className="font-bold text-lg">
-                      {ticket.agrotourism_name}
+                  <div className="p-4  w-full md:p-4 flex flex-col justify-between">
+                    <h1 className="font-bold text-basae">
+                      {truncateTitle(ticket.agrotourism_name, 35)}
                     </h1>
                     <p className="mt-2 text-xs md:text-sm flex items-center text-hitam2 font-semibold ">
                       {formatDate(ticket.selected_date)}
@@ -137,7 +139,7 @@ const Review = () => {
                         hasReviewedTicket(ticket)
                           ? "bg-gray-100 cursor-not-allowed"
                           : "bg-hover"
-                      } px-4 py-2 rounded-md text-gray-300 text-xs md:text-sm`}
+                      } px-4 py-2 mt-2 rounded-md text-gray-300 text-xs md:text-sm`}
                     >
                       {hasReviewedTicket(ticket) ? "Selesai" : "Beri Ulasan"}
                     </button>
@@ -157,16 +159,16 @@ const Review = () => {
                 {/* Bagian utama ulasan */}
                 <div
                   key={`review-content-${review.id}`}
-                  className="ticket-card max-w-[800px] mt-10 border flex border-gray-200 w-full rounded-t-lg shadow-sm"
+                  className="ticket-card max-w-[800px] md:h-[200px] h-[120px] mt-10 border flex border-gray-200 w-full rounded-t-lg shadow-sm"
                 >
-                  <div className="md:h-[200px] h-[120px] w-[120px] md:w-[200px] flex items-center justify-center rounded-tl-lg overflow-hidden">
+                  <div className=" w-[150px] md:w-[200px] flex items-center justify-center rounded-tl-lg overflow-hidden">
                     <img
                       src={review.image}
                       alt="Agrotourism"
                       className="w-full h-full object-cover"
                     />
                   </div>
-                  <div className="p-4 md:p-4 flex flex-col justify-between">
+                  <div className="p-4 md:p-4 w-full flex flex-col justify-between">
                     <h1 className="font-bold text-sm md:text-lg">
                       {review.agrotourism_name}
                     </h1>

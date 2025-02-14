@@ -201,7 +201,7 @@ const WisataDetail = () => {
 
   return (
     <>
-      <div className="md:hidden bg-red-300 h-[300px] relative">
+      <div className="md:hidden h-[300px] relative">
         <img
           className="mt-5 max-w-3xl h-full object-cover w-full "
           src={wisataDetail.url_image}
