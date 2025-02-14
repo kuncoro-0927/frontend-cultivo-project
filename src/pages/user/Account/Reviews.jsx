@@ -153,12 +153,9 @@ const Review = () => {
             </p>
           ) : (
             reviews.map((review) => (
-              <div key={`review-${review.id}`}>
-                {" "}
-                {/* Parent div tetap diberi key */}
-                {/* Bagian utama ulasan */}
+              <div key={`review-${review.review_id}`}>
                 <div
-                  key={`review-content-${review.id}`}
+                  key={`review-content-${review.review_id}`}
                   className="ticket-card max-w-[800px] md:h-[200px] h-[120px] mt-10 border flex border-gray-200 w-full rounded-t-lg shadow-sm"
                 >
                   <div className=" w-[150px] md:w-[200px] flex items-center justify-center rounded-tl-lg overflow-hidden">
