@@ -18,7 +18,7 @@ const RecommendationSection = ({
         Mungkin Anda suka
       </h1>
       <div className="mt-7 md:mt-14 lg:mt-14 grid grid-cols-2 md:flex lg:justify-between lg:p-1 xl:mt-14 ">
-        <div className="hidden md:hidden lg:flex lg:justify-between lg:w-full lg:gap-3">
+        <div className="hidden md:hidden lg:grid lg:grid-cols-4 lg:gap-3 lg:w-full">
           {list.map((item) => (
             <AgrotourismCard
               key={item.id}
@@ -32,8 +32,8 @@ const RecommendationSection = ({
         </div>
       </div>
 
-      <div className="lg:hidden md:carousel md:carousel-center md:space-x-3 md:px-8 md:py-3  md:max-w-full ">
-        <div className="md:carousel-item justify-between grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 gap-3">
+      <div className="lg:hidden md:py-3">
+        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3">
           {list.map((item) => (
             <AgrotourismCard
               key={item.id}

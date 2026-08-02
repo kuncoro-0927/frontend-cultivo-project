@@ -56,7 +56,7 @@ function UserRoutes() {
         <Route
           path="/account/profile"
           element={
-            <PrivateRoute>
+            <PrivateRoute requiredRole="user">
               <Profile />
             </PrivateRoute>
           }
@@ -64,7 +64,7 @@ function UserRoutes() {
         <Route
           path="/account/bookings"
           element={
-            <PrivateRoute>
+            <PrivateRoute requiredRole="user">
               <Bookings />
             </PrivateRoute>
           }
@@ -72,7 +72,7 @@ function UserRoutes() {
         <Route
           path="/account/wishlist"
           element={
-            <PrivateRoute>
+            <PrivateRoute requiredRole="user">
               <Wishlist />
             </PrivateRoute>
           }
@@ -80,7 +80,7 @@ function UserRoutes() {
         <Route
           path="/account/review"
           element={
-            <PrivateRoute>
+            <PrivateRoute requiredRole="user">
               <Reviews />
             </PrivateRoute>
           }

@@ -2,10 +2,9 @@
 /* eslint-disable react-refresh/only-export-components */
 import { createContext, useState, useEffect, useContext } from "react";
 import Cookies from "js-cookie";
-import axios from "axios";
 import { instance } from "../utils/axios";
 import { useNavigate } from "react-router-dom";
-import { getUserData } from "../services/UserServices";
+
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
@@ -29,14 +28,19 @@ export const AuthProvider = ({ children }) => {
         }
       } catch (error) {
         setIsLoggedIn(false);
+        setUser(null);
+      } finally {
+        setIsLoading(false);
       }
     };
     checkAuth();
   }, []);
+
   const login = (userData) => {
     setUser(userData);
     setIsLoggedIn(true);
   };
+
   const logout = async () => {
     try {
       Cookies.remove("token");
@@ -56,17 +60,19 @@ export const AuthProvider = ({ children }) => {
     } catch (error) {
       console.error(
         "Error saat logout:",
-        error.message || error.response?.data?.message
+        error.message || error.response?.data?.message,
       );
     }
   };
 
+  // Merge, bukan replace — biar field yang gak dikirim ulang (misal role)
+  // gak ketiban undefined kalau data barunya cuma partial (misal dari form update profile)
   const updateUser = (newUserData) => {
-    // Update di sessionStorage
-    sessionStorage.setItem("user", JSON.stringify(newUserData));
-
-    // Update di AuthContext
-    setUser(newUserData);
+    setUser((prevUser) => {
+      const merged = { ...prevUser, ...newUserData };
+      sessionStorage.setItem("user", JSON.stringify(merged));
+      return merged;
+    });
   };
 
   const openSnackbar = (message) => {
@@ -78,22 +84,6 @@ export const AuthProvider = ({ children }) => {
     setSnackbarOpen(false);
   };
 
-  useEffect(() => {
-    // Cek apakah sudah ada token di cookie atau localStorage
-    const fetchUserData = async () => {
-      try {
-        // Anggap getUserData mengambil data pengguna dari API
-        const data = await getUserData();
-        setUser(data); // Simpan data user ke state
-      } catch (error) {
-        console.error("Gagal mengambil data pengguna", error);
-      } finally {
-        setIsLoading(false); // Setelah selesai memuat, set isLoading ke false
-      }
-    };
-
-    fetchUserData();
-  }, []);
   return (
     <AuthContext.Provider
       value={{

@@ -15,7 +15,7 @@ export default function CardRekomendasi({
     return text.length > maxLength ? text.slice(0, maxLength) + "..." : text;
   };
   return (
-    <div className="border border-gray-300 rounded-lg h-full max-h-[280px] md:w-[250px] lg:w-[270px] 2xl:w-[300px] lg:max-h-[380px] md:max-h-[300px] relative overflow-hidden group flex flex-col">
+    <div className="border border-gray-300 rounded-lg h-full max-h-[280px] w-full lg:max-h-[380px] md:max-h-[300px] relative overflow-hidden group flex flex-col">
       {/* Bagian Gambar */}
       <div className="relative w-full overflow-hidden flex-shrink-0">
         {/* Skeleton untuk Gambar */}

@@ -2,11 +2,11 @@ import { useState } from "react";
 import { LuMountain } from "react-icons/lu";
 import { CiMapPin, CiCamera } from "react-icons/ci";
 
-import useWisataData from "./hooks/useWisataData";
+import useWisataData from "./hooks/useDestinationData";
 import StatCard from "../../../../component/StatCard";
 import PaginationControls from "../../../../component/PaginationControls";
 import ActionBar from "./components/ActionBar";
-import WisataTable from "./components/WisataTable";
+import WisataTable from "./components/DestinationTable";
 
 const Wisata = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);

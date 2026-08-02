@@ -11,7 +11,7 @@ const HeroSection = ({
 }) => {
   return (
     <>
-      <section className="mt-[80px] sm:mt-[80px] 2xl:mx-32 grid lg:mt-[75px] 2xl:mt-[100px] mx-4 md:mx-6 md:flex items-center space-x-0 md:space-x-4">
+      <section className="mt-[80px] sm:mt-[80px] 2xl:mx-32 grid lg:mt-[75px] 2xl:mt-[100px] mx-4 lg:mx-6 lg:flex items-center space-x-0 lg:space-x-4">
         <div className="relative">
           <span className="ml-0 bg-white p-1.5 rounded-full sm:ml-2 absolute left-2 md:left-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none">
             <FiSearch className="md:text-lg font-extrabold" />
@@ -30,7 +30,7 @@ const HeroSection = ({
             onSelect={handleSelectAgrotourism}
           />
         </div>{" "}
-        <div className="flex-row flex mt-3 md:mt-0 space-x-3 ">
+        <div className="flex-row flex mt-3 md:mt-3 space-x-3 ">
           <Link
             to="/aktivitas/edukasi"
             className="p-2 flex text-xs md:text-sm items-center gap-x-2 bg-gray-100 rounded-full hover:bg-hover hover:text-white group duration-200"
@@ -57,7 +57,7 @@ const HeroSection = ({
       </section>
 
       <section
-        className="mx-4 md:mx-6 px-7  lg:h-[600px] xl:h-screen 2xl:h-[700px] h-[550px] bg-cover bg-center lg:mx-10 rounded-2xl md:rounded-3xl flex items-center justify-center lg:px-12 mt-[20px] sm:mt-[20px] lg:mt-[30px] relative"
+        className="mx-4 md:mx-6 lg:mx-10 2xl:mx-32 px-7  lg:h-[600px] xl:h-[650px] 2xl:h-[700px] h-[550px] bg-cover bg-center rounded-2xl md:rounded-3xl flex items-center justify-center lg:px-12 mt-[20px] sm:mt-[20px] lg:mt-[30px] relative"
         style={{ backgroundImage: "url('images/bg-home-kids.jpg')" }}
       >
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent rounded-2xl md:rounded-3xl"></div>

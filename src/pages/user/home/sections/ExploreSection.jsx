@@ -19,12 +19,22 @@ const ExploreSection = ({ city, isLoading, handleOpenModalSearch }) => {
         </div>
       </div>
 
-      <div className="mt-7 md:mx-0  gap-3 flex flex-wrap lg:gap-10 lg:p-1 lg:mt-16">
-        <DaerahList city={city} isLoading={isLoading} variant="desktop" limit={5} />
+      <div className="mt-7 md:mx-0 lg:p-1 lg:mt-16">
+        <DaerahList
+          city={city}
+          isLoading={isLoading}
+          variant="desktop"
+          limit={5}
+        />
       </div>
 
       <div className="carousel carousel-center max-w-full lg:hidden pt-2 ">
-        <DaerahList city={city} isLoading={isLoading} variant="mobile" limit={5} />
+        <DaerahList
+          city={city}
+          isLoading={isLoading}
+          variant="mobile"
+          limit={5}
+        />
       </div>
 
       <div className="mt-5 lg:mt-14 transition-transform duration-200 ease-in-out transform hover:-translate-y-0.5 md:hidden">

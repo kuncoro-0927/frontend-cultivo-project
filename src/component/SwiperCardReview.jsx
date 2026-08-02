@@ -3,7 +3,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
 import { FreeMode, Pagination } from "swiper/modules";
-import { ServiceData } from "../data_sementara/Testimoni";
+import { ServiceData } from "../data/Testimoni";
 import "../assets/styleswiper.css";
 
 export default function SwiperCardReview() {

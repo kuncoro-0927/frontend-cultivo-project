@@ -1,6 +1,6 @@
 import AgrotourismCard from "../../../../component/AgrotourismCard";
 const DESKTOP_IDS = [33, 16, 2, 20];
-const MOBILE_IDS = [34, 16, 2, 20];
+const MOBILE_IDS = [33, 16, 2, 20];
 
 const PopularSection = ({
   agrotourism,
@@ -31,8 +31,8 @@ const PopularSection = ({
         </div>
       </div>
 
-      <div className="mt-7 md:mt-14 lg:mt-14 grid grid-cols-2 md:flex lg:justify-between lg:p-1 xl:mt-14 ">
-        <div className="hidden md:hidden lg:flex lg:justify-between lg:w-full lg:gap-3">
+      <div className="mt-7 md:mt-14 lg:mt-14 grid grid-cols-2 md:flex lg:justify-between lg:p-1 xl:mt-14">
+        <div className="hidden md:hidden lg:grid lg:grid-cols-4 lg:gap-3 lg:w-full">
           {list
             .filter((item) => DESKTOP_IDS.includes(item.id))
             .map((item) => (
@@ -50,7 +50,7 @@ const PopularSection = ({
       </div>
 
       <div className="lg:hidden md:carousel md:carousel-center md:space-x-3 md:px-8 md:py-3  md:max-w-full ">
-        <div className="md:carousel-item justify-between grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 gap-3">
+        <div className="md:carousel-item justify-between grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-3">
           {list
             .filter((item) => MOBILE_IDS.includes(item.id))
             .map((item) => (

@@ -1,18 +1,19 @@
-import useSalesData from "../../Sales";
-import useTodaySalesData from "../../TodaySales";
+import useSalesData from "../Sales";
+import useTodaySalesData from "../TodaySales";
 import { IoCartOutline, IoPricetagsOutline } from "react-icons/io5";
 import { GrTransaction } from "react-icons/gr";
 
-import useDaerahData from "./hooks/useCityData";
-import { formatNumber } from "./utils/formatNumber";
-import StatCard from "../../../../component/StatCard";
+import useOrderData from "./hooks/useOrderData";
+import { formatNumber } from "../../../utils/formatNumber";
+import StatCard from "../../../component/StatCard";
+import PaginationControls from "../../../component/PaginationControls";
 import ActionBar from "./components/ActionBar";
 import OrdersTable from "./components/OrdersTable";
-import PaginationControls from "../../../../component/PaginationControls";
 
-const Daerah = () => {
+const Order = () => {
   const { totalSales, totalOrders, totalSuccess } = useSalesData();
-  const { totalTodaySales, totalTotalOrders, totalTodaySuccess } = useTodaySalesData();
+  const { totalTodaySales, totalTotalOrders, totalTodaySuccess } =
+    useTodaySalesData();
 
   const {
     search,
@@ -21,7 +22,7 @@ const Daerah = () => {
     currentPage,
     totalPages,
     handlePageChange,
-  } = useDaerahData();
+  } = useOrderData();
 
   return (
     <>
@@ -53,11 +54,12 @@ const Daerah = () => {
           todayLabel={`+ ${totalTodaySuccess} hari ini`}
           todayColor="text-blue-600"
         />
+
         <ActionBar search={search} setSearch={setSearch} />
       </section>
 
       <section className="mx-7 mt-10">
-        <div className="w-[900px] mx-auto text-sm mb-20 overflow-x-auto rounded-lg">
+        <div className="text-sm mb-20 overflow-x-auto rounded-lg">
           <div className="rounded-lg min-w-max table-auto text-left">
             <OrdersTable orders={currentOrders} />
           </div>
@@ -72,4 +74,4 @@ const Daerah = () => {
   );
 };
 
-export default Daerah;
+export default Order;

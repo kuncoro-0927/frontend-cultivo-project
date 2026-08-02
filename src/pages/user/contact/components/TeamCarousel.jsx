@@ -1,5 +1,5 @@
 import CardTeam from "../../../../component/card/CardTeam";
-import { TeamData } from "../../../../data_sementara/Team";
+import { TeamData } from "../../../../data/Team";
 const TeamCarousel = () => {
   const teamMembers = Array.isArray(TeamData) ? TeamData.slice(0, 6) : [];
 

@@ -1,5 +1,5 @@
-import TambahWisata from "../../../../component/Admin/Modal/TambahWisata";
-import EditWisata from "../../../../component/Admin/Modal/EditWisata";
+import TambahWisata from "../../../../../component/Admin/Modal/TambahWisata";
+import EditWisata from "../../../../../component/Admin/Modal/EditWisata";
 
 const ActionBar = ({ search, setSearch, isModalOpen, handleCloseModal, selectedWisata }) => {
   return (
