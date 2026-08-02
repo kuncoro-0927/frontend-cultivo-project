@@ -1,5 +1,4 @@
-import AgrotourismCard from "../components/AgrotourismCard";
-
+import AgrotourismCard from "../../../../component/AgrotourismCard";
 const RECOMMENDATION_IDS = [1, 2, 9, 10];
 
 const RecommendationSection = ({

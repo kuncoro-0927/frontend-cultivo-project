@@ -4,7 +4,6 @@ import UserRoutes from "./routes/UserRoutes";
 import AdminRoutes from "./routes/AdminRoutes";
 import { useEffect } from "react";
 import { CustomSnackbar } from "./component/CustomSnackbar";
-import AttendantRoutes from "./routes/AttendantRoutes";
 
 function App() {
   useEffect(() => {
@@ -28,8 +27,7 @@ function App() {
       </div>
       <Routes>
         <Route path="/*" element={<UserRoutes />} />
-        <Route path="/attendant/*" element={<AttendantRoutes />} />
-
+    
         <Route
           path="/admin/*"
           element={

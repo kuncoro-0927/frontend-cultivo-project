@@ -7,7 +7,7 @@ import Order from "../pages/admin/Order/Order";
 import DataTicket from "../pages/admin/Ticket/DataTicket";
 import Wisata from "../pages/admin/DataAtraksi/Wisata";
 import Daerah from "../pages/admin/DataAtraksi/Daerah";
-import Aktivitas from "../pages/admin/DataAtraksi/Aktivitas";
+import Aktivitas from "../pages/admin/";
 import DataUsers from "../pages/admin/Users/DataUsers";
 
 function AdminRoutes() {

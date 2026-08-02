@@ -4,7 +4,6 @@ import { instance } from "../utils/axios";
 
 const WishlistContext = createContext();
 
-// eslint-disable-next-line react/prop-types
 export const WishlistProvider = ({ children }) => {
   const [wishlist, setWishlist] = useState([]);
   const [loading, setLoading] = useState(true);
