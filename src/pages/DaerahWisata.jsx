@@ -190,33 +190,6 @@ const DaerahWisata = () => {
               ))}
           </div>
         </div>
-
-        {/* DATA DUMMY BUAT EXHIBITION */}
-        {/* <div className="mt-7 md:mx-0 gap-3 flex flex-wrap lg:gap-10 lg:p-1 lg:mt-16">
-          <div className="hidden md:hidden lg:grid lg:justify-between lg:grid-cols-4 lg:w-full lg:gap-3 lg:gap-y-10">
-            {Array.isArray(daerahList) &&
-              daerahList.map((daerahItem) => (
-                <CardDaerah
-                  key={daerahItem.id}
-                  title={daerahItem.title}
-                  img={daerahItem.image}
-                />
-              ))}
-          </div>
-        </div>
-
-        <div className="carousel carousel-center max-w-full space-x-3 py-3 lg:hidden">
-          <div className="carousel-item gap-3 px-1">
-            {Array.isArray(daerahList) &&
-              daerahList.map((daerahItem) => (
-                <CardDaerah
-                  key={daerahItem.id}
-                  title={daerahItem.title}
-                  img={daerahItem.image}
-                />
-              ))}
-          </div>
-        </div> */}
       </section>
 
       <section className="mt-10 sm:mt-14 mx-4 md:mt-10 2xl:mx-32 md:mx-6 lg:mx-10 lg:mt-20 ">

@@ -1,12 +1,11 @@
 import { Routes, Route, useLocation } from "react-router-dom";
 import NavBar from "../component/NavBar";
 import Footer from "../component/Footer";
-import Home from "../pages/Home";
+import Home from "../pages/user/home";
 import Profile from "../pages/user/Profile";
 import About from "../pages/About";
-import Aktivitas from "../pages/Aktivitas";
 import Kontak from "../pages/Kontak";
-import DaerahWisata from "../pages/DaerahWisata";
+import DaerahWisata from "../pages/user/daerah-wisata";
 import DaerahDetail from "../pages/DaerahDetail";
 import WisataDetail from "../pages/WisataDetail";
 import Review from "../component/Review";
@@ -82,7 +81,6 @@ function UserRoutes() {
         />
         <Route path="/tentang" element={<About />} />
         <Route path="/sales" element={<Sales />} />
-        <Route path="/aktivitas" element={<Aktivitas />} />
         <Route path="/aktivitas/edukasi" element={<Edukasi />} />
         <Route path="/aktivitas/perkebunan" element={<Perkebunan />} />
         <Route path="/aktivitas/alam" element={<Alam />} />

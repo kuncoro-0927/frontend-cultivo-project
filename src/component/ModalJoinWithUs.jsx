@@ -31,7 +31,7 @@ const ModalJoinWithUs = () => {
       >
         <GoPeople className="text-base mr-2 lg:hidden" />
 
-        <span className="flex-1 text-left text-sm lg:relative lg:hover:shadow-[0_1px_0_0px_black] lg:hover:shadow-b-[2px] lg:hover:shadow-hitam">
+        <span className="flex-1 text-left text-sm lg:text-base 2xl:text-lg lg:relative lg:hover:shadow-[0_1px_0_0px_black] lg:hover:shadow-b-[2px] lg:hover:shadow-hitam">
           Bergabung
         </span>
 
